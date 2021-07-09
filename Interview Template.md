@@ -10,8 +10,6 @@ Pre-interview screening questions:
 
 Live interview questions:
 
--What is your education level?
-
 -What do you do for work?
 
 -What resources do you currently use to find those papers?
@@ -22,9 +20,12 @@ Live interview questions:
 
 -How do you spend that time, in terms of different activities?
 
+-Are any of those activities ones you feel could be significantly shortened or eliminated completely?
+
 -Tell me about a time you were researching a topic and how you discovered further readings.
 
 -Where do you feel that you lose time in your research?
 
 -How do you currently engage with other academics in reference to these readings?
 
+-Is there anything I should have asked you but I didn't?
