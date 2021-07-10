@@ -1,4 +1,5 @@
-CONTRIBUTORS
+# Contributors
 
+* Jonathan Boal
+* Jadon Fowler
 
-Jonathan Boal
