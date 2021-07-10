@@ -1,4 +1,4 @@
-#Pre-interview screening questions:
+# Pre-interview screening questions:
 
 1. What is your education level?
 
@@ -8,7 +8,7 @@
 
 4. How often do you engage in searching for and reading scientific research paper?
 
-#Live interview:
+# Live interview:
 
 ## Introduce thesis
 
