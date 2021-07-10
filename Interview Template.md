@@ -1,4 +1,4 @@
-Pre-interview screening questions:
+#Pre-interview screening questions:
 
 1. What is your education level?
 
@@ -6,26 +6,30 @@ Pre-interview screening questions:
 
 3. What are your areas of study?
 
- 4. How often do you engage in searching for and reading scientific research papers?
+4. How often do you engage in searching for and reading scientific research papers?
 
-Live interview questions:
+#Live interview questions:
 
--What do you do for work?
+- What do you do for work?
 
--What resources do you currently use to find those papers?
+- What areas do you research most often?
 
--What areas do you research most often?
+- What resources do you currently use in order to find those papers?
 
--How often do you spend time reading research papers, either for personal interest or professionally?
+- How often do you spend time reading research papers, either for personal interest or professionally?
 
--How do you spend that time, in terms of different activities?
+- How do you currently organize and keep track of the papers you're using?
 
--Are any of those activities ones you feel could be significantly shortened or eliminated completely?
+- How do you track what information you needed from each paper?
 
--Tell me about a time you were researching a topic and how you discovered further readings.
+- How do you spend that time, in terms of different activities?
 
--Where do you feel that you lose time in your research?
+- Are any of those activities ones you feel could be significantly shortened or eliminated completely?
 
--How do you currently engage with other academics in reference to these readings?
+- Tell me about a time you were researching a topic and how you discovered further readings.
 
--Is there anything I should have asked you but I didn't?
+- Where do you feel that you lose time in your literature research?
+
+- How do you currently engage with other individuals in research in reference to these readings?
+
+- Is there anything I should have asked you but I didn't?
