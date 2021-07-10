@@ -1,2 +1,0 @@
-edu/nau/cs386/MainVerticle.java
- edu.nau.cs386.MainVerticle
