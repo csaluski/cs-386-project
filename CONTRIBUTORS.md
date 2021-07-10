@@ -1,4 +1,8 @@
 # Contributors
 
-Charles Saluski
+* Jonathan Boal
+* Jadon Fowler
+* Christopher Murphy
+* Charles Saluski
+
 
