@@ -8,13 +8,12 @@
 
 4. How often do you engage in searching for and reading scientific research paper?
 
-5. How could your research experience be improved?
 
 
 
 #Live interview questions:
 
-- What do you do for work?
+- What do you do for your research work?
 
 - What areas do you research most often?
 
@@ -37,5 +36,7 @@
 - How do you currently engage with other individuals in research in reference to these readings?
 
 - What problems do you have with the current research based community interactions?
+
+- How could your research experience be improved?
 
 - Is there anything I should have asked you but I didn't?
