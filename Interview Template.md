@@ -8,40 +8,51 @@
 
 4. How often do you engage in searching for and reading scientific research paper?
 
-#Live interview questions:
+#Live interview:
+
+## Introduce thesis
+
+We're working on a tool designed to enable more effective coordination and collaboration of paper discovery and
+organization among your peers.
+
+## Questions
 
 - What do you do for your research work?
 
-- What areas do you research most often?
+- What areas do your academic readings take you too most often?
 
 - Any specific niche areas where your team focuses?
 
-- Do you have success finding papers on those specific subjects?
+- Do you have success finding papers on those specific niches?
 
 - How often do you spend time reading research papers, either for personal interest or professionally?
 
-- What resources do you currently use in order to find those papers?
+- Tell me about the overall process of how you go about literary research, including how much time you spend on each component.
 
-- Is following citation trees a big part of that?
+- What are some ways you feel like you could be more effective in your literature research?
+
+- Tell me about a time you were researching a topic and how you discovered further readings.
+
+    - Questions to ask if previous question did not provide sufficient explanation.
+
+        - What resources do you currently use in order to find those papers?
+
+        - Is following citation trees a big part of that?
 
 - How do you currently organize and keep track of the papers you're using?
 
 - How do you track what information you needed from each paper?
 
-- How do you spend that time, in terms of different activities?
+- Describe the overall process of communication with your peers when you're in a stage of heavy literary research
 
-- Are any of those activities ones you feel could be significantly shortened or eliminated completely?
+    - Questions to ask if previous question did not provide sufficient explanation.
 
-- Tell me about a time you were researching a topic and how you discovered further readings.
+        - How many people are you in communication with regularly for your research?
 
-- Where do you feel that you lose time in your literature research?
+        - How do you currently communicate with those people?
 
-- How many people are you in communication with regularly for your research?
+- When communicating with your peers and collaborating on literary research, what are the biggest issues you encounter?
 
-- How do you currently communicate with those people? 
-
-- When communicating with your peers, what issues do you have in literature research?
-  
 - How could your research experience be improved?
 
 - Is there anything I should have asked you but I didn't?
