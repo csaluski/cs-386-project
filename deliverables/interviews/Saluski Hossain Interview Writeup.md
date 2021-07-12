@@ -16,7 +16,15 @@ Quotes:
 - "The biggest issue is that I'm doing everything in different places, Google Scholar, Mendeley, saving the papers, a Google sheet."
 - "Finding the relevant email thread when your inbox is full is really challenging"
 
-Assessment: Nice to have
+Assessment:
+- Citation graph (Nice to have)
+- Keyword search features (Must have)
+- Saving papers (Must have)
+- Organization Features (Must have)
+- Annotation feature (Nice to have)
+- Unit conversions (Don't care)
+- In team communication (Don't care)
+- Larger scope communication (Don't care)
 
 # Notes
 

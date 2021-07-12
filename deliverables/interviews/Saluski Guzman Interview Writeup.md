@@ -20,7 +20,14 @@ Quotes:
 - "It would be good to have every paper you've ever reviewed in one place."
 
 Assessment:
-Nice to have
+- Citation graph (Must have)
+- Keyword search features (Nice to have)
+- Saving papers (Must have)
+- Organization Features (Must have)
+- Annotation feature (Nice to have)
+- Unit conversions (Don't care)
+- In team communication (Don't care)
+- Larger scope communication (Don't care)
 
 
 # Notes:
