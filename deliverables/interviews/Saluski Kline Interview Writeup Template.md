@@ -17,8 +17,15 @@ Quotes:
 "Something like Google Drive where multiple people can collaborate, with designated meeting times"
 "A sidebar that pops up as you're scrolling through, it'll show information on this paper"
 
-Assessment: Must-have
-
+Assessment:
+- Citation graph (Nice to have)
+- Keyword search features (Must have)
+- Saving papers (Must have)
+- Organization Features (Must have)
+- Annotation feature (Must have)
+- Unit conversions (Don't care)
+- In team communication (Don't care)
+- Larger scope communication (Don't care)
 
 Notes:
 Neuroscience research, cognitive research. Empathy and EEG.
