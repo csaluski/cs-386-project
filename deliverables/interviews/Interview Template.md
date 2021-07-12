@@ -19,9 +19,9 @@ organization among your peers.
 
 - What do you do for your research work?
 
-- What areas do your academic readings take you too most often?
-
 - Any specific niche areas where your team focuses?
+
+- What areas do your academic readings take you too most often?
 
 - Do you have success finding papers on those specific niches?
 
@@ -54,5 +54,7 @@ organization among your peers.
 - When communicating with your peers and collaborating on literary research, what are the biggest issues you encounter?
 
 - How could your research experience be improved?
+
+- Out of the three main areas we talked about, paper discovery, collaborative organizing features, and improving communication, what do you see as the most valuable?
 
 - Is there anything I should have asked you but I didn't?
