@@ -11,6 +11,12 @@ Date: 2021-07-14
 ### 1.3. Value proposition and customer segment
 
 ## 2. Stakeholders
+- **Users**:
+    * PhD students - Read many papers for comprehensive review.
+
+- **Competitors**:
+    * Google Scholar - Paper searching
+    * Mendeley - Paper organization
 
 ## 3. Functional requirements
 
