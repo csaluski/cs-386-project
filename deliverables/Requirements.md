@@ -11,7 +11,9 @@ Date: 2021-07-14
 ### 1.3. Value proposition and customer segment
 
 ## 2. Stakeholders
-
+	Professional Researchers 
+	Students
+	Lab Assitants 
 ## 3. Functional requirements
 
 ## 4. Non-functional requirements
