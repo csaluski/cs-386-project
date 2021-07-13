@@ -11,9 +11,15 @@ Date: 2021-07-14
 ### 1.3. Value proposition and customer segment
 
 ## 2. Stakeholders
-	Professional Researchers 
-	Students
-	Lab Assitants 
+- **Users**:
+    * PhD students - Read many papers for comprehensive review.
+    * Professional Researchers - Help organize research
+    * Students - Help organize school work
+    * Lab Assistants - Organize the papers for their lab
+- **Competitors**:
+    * Google Scholar - Paper searching
+    * Mendeley - Paper organization
+
 ## 3. Functional requirements
 
 ## 4. Non-functional requirements
