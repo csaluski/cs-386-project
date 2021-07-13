@@ -13,7 +13,9 @@ Date: 2021-07-14
 ## 2. Stakeholders
 - **Users**:
     * PhD students - Read many papers for comprehensive review.
-
+    * Professional Researchers - Help organize research
+    * Students - Help organize school work
+    * Lab Assistants - Organize the papers for their lab
 - **Competitors**:
     * Google Scholar - Paper searching
     * Mendeley - Paper organization
