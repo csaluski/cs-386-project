@@ -31,4 +31,4 @@
 7. The system saves tag as a related description to the paper in the professors personal tags so that the professor can
    use their personal search term to find the paper later.
 
-![Sketch of interface for use case](fileName.png)
+![Sketch of interface for use case](addTagUseCaseLarreau.png)
