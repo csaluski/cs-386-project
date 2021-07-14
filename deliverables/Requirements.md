@@ -12,11 +12,20 @@ Date: 2021-07-14
 
 ## 2. Stakeholders
 - **Users**:
-    * PhD students - Read many papers for comprehensive review.
+  * PhD students - Read many papers for comprehensive review.
 
 - **Competitors**:
-    * Google Scholar - Paper searching
-    * Mendeley - Paper organization
+  * Google Scholar - Paper searching
+  * Mendeley - Paper organization
+
+- **Developers**:
+  * Jonathan Boal
+  * Jadon Fowler
+  * Mina Mimy Naguib Hemaia
+  * Christopher Murphy
+  * Hannah Larreau
+  * Charles Saluski
+  * Gemiana
 
 ## 3. Functional requirements
 
