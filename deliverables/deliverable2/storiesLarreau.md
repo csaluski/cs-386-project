@@ -9,7 +9,7 @@ Priority:
 Story 2
 
 As an assistant professor,
-I want to share the papers I have referenced,
+I want to save the papers I have referenced,
 so that I can share them with my research team.
 
 Priority:
