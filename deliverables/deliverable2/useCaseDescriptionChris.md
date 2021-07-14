@@ -1,15 +1,22 @@
 Chris Murphy
 
-Use Case: Create Annotation
+Use Case: Create Account
+
 Actor: Researcher
 
-Description: Our user who is using our website for research creates a highlight, note, or comment on a section of the paper.
+Description: A user comes to our web site with the objective of creating an account
 
-Preconditions: They have a computer.
+Preconditions: The user is on the website.
 
-Postcondions: They have come to the website and setup an account.
+Postcondions: The user has setup an account.
 
 Main Flow:
-1) The user logs into their account, open a pdf on the site, and selects an annotation
-2) The software will then create the selected annotation where the cursor is.
-   No alternative flow.
+1. The user is on our main page
+2. The user clicks the create account page
+3. The user enters their display name, email, and password
+4. The user clicks submit and is sent a confirmation email
+5. The user is allowed to use the site before confirming their email, but with limited access
+
+Alternate Flow: From 4
+1. The user goes to their email and clicks the verification link
+2. The user is on the web site and has a fully functional account
