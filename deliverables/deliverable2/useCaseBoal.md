@@ -1,9 +1,10 @@
 **Use case**:
-Jon Boal
+Creating and revising notes
+
 **Actor**:
 Researcher
 **Description**: 
-Researcher finalizes notes to group
+A researcher finalizes and reviews their notes before meeting with their group
 
 **Preconditions**: 
 Researcher is logged into website and the group also has accounts
