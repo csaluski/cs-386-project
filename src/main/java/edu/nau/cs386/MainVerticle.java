@@ -8,6 +8,12 @@ import io.vertx.ext.web.common.template.TemplateEngine;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
+import io.vertx.pgclient.PgConnectOptions;
+import io.vertx.pgclient.PgPool;
+import io.vertx.sqlclient.PoolOptions;
+import io.vertx.sqlclient.Row;
+import io.vertx.sqlclient.RowSet;
+import io.vertx.sqlclient.SqlClient;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -24,6 +30,37 @@ public class MainVerticle extends AbstractVerticle {
         // configure the router
         router.route("/static/*").handler(StaticHandler.create("static"));
         router.route("/").handler(templateHandler);
+
+
+        PgConnectOptions connectOptions = new PgConnectOptions()
+            .setPort(5432)
+            .setHost("postgres")
+            .setDatabase("dvdrental")
+            .setUser("postgres")
+            .setPassword("mysecretpassword");
+
+        // Pool options
+        PoolOptions poolOptions = new PoolOptions()
+            .setMaxSize(5);
+
+        // Create the client pool
+        SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
+
+        // A simple query
+        client
+            .query("SELECT * FROM public.customer")
+            .execute(ar -> {
+                if (ar.succeeded()) {
+                    RowSet<Row> result = ar.result();
+                    System.out.println("Got " + result.size() + " rows ");
+                } else {
+                    System.out.println("Failure: " + ar.cause().getMessage());
+                }
+
+                // Now close the pool
+                client.close();
+            });
+
 
         // start the http server
         server.requestHandler(router)
