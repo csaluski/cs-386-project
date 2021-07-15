@@ -5,6 +5,7 @@ Date: 2021-07-14
 
 ## 1. Postitioning
 
+
 #1.1. Problem Statement
    The Problem of organizing research papers affects academics, the impact of which is it taking longer to sort ideas, citations, and the data necessary for performing research and writing papers
 
@@ -64,7 +65,7 @@ Date: 2021-07-14
 
 ## 6. Use cases
 ### 6.1. Use case diagram
-![Use case diagram](deliverable2/useCaseUML.PNG)
+![Use case diagram](deliverable2/useCaseUML.png)
 
 ### 6.2. Use case descriptions and interface sketches
 
