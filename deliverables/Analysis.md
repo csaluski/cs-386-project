@@ -7,9 +7,7 @@ Date: 2021-07-12
 
 ## 1. System Description
 
-The **user** _creates_ and **account**. The system _imports_ **Mendeley citation lists**, **Google Scholar Pages**, **public research databases**, and **arXiv**. A **user** is able to _view_ the **citations** of a **paper** in a **graph**
-
-.
+The **user** _creates_ and **account**. The system _imports_ **Mendeley citation lists**, **Google Scholar Pages**, **public research databases**, and **arXiv**. A **user** is able to _view_ the **citations** of a **paper** in a **graph**.
 **Users** _save_ **papers** with **tag** based organization.
 **Users** may _comment_ on **papers** in **threads**.
 **Users** may _annotation_ **papers** and _highlight_ them.
