@@ -1,0 +1,52 @@
+@startuml
+class User {
+
+}
+
+class UserGroup {
+
+}
+
+class Folder {
+
+}
+
+class Paper {
+
+}
+
+class Tag {
+
+}
+
+class Citation {
+
+}
+
+class CitationGraph {
+
+}
+
+class Thread {
+
+}
+
+class Comment {
+
+}
+
+User *-- "0..*" Folder
+Folder o-- "0..*" Paper
+Tag o- "0..*" Paper
+User  *-- "0..*" Tag
+UserGroup *-- "0..*" Folder
+UserGroup "1..*" *-o "0..*" User
+UserGroup *- "1..*" Tag
+Citation "1..*" --* CitationGraph
+Citation "0..*" -o Paper
+Comment --o User
+Comment "1..*" -* Thread
+Annotation *-- "0..*" Paper
+User "0..*" --* Annotation
+@enduml
+
