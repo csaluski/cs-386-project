@@ -1,0 +1,82 @@
+@startuml
+class User {
++name: String
++email: String
++id: UUID
++bio: String
++profilePicture: File
++profession: String
+' Not in MVP
+rank: Rank
+
++ createPaper(): Paper
++ createComment(): Comment
++ createTag(): Tag
++ createUserGroup(): UserGroup
++ createFolder(): Folder
+}
+
+class UserGroup {
+members: List<UUID>
+id: UUID
+name: String
+}
+
+class Folder {
+id: UUID
+name: String
+}
+
+class Paper {
+title: String
+authors: List<String>
+abstract: String
+doi: String
+file: File
+owner: List<UUID>
+}
+
+class Author {
+
+}
+
+class Tag {
+id: UUID
+name: String
+parents: List<UUID>
+children: List<UUID>
+owner: List<UUID>
+
+
+}
+
+class Citation {
+
+}
+
+class CitationGraph {
+
+}
+
+class Comment {
+id: UUID
+user: UUID
+
+message: String
+children: List<UUID>
+}
+
+User *-- "0..*" Folder
+Folder o-- "0..*" Paper
+Tag o- "0..*" Paper
+User  *-- "0..*" Tag
+UserGroup *-- "0..*" Folder
+UserGroup "0..*" *-o "0..*" User
+UserGroup *- "1..*" Tag
+Citation "1..*" --* CitationGraph
+Citation "0..*" -o Paper
+Comment --o User
+Annotation *-- "0..*" Paper
+User "0..*" --* Annotation
+@enduml
+
