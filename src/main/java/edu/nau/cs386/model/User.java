@@ -17,6 +17,10 @@ public class User {
         this.uuid = UUID.randomUUID();
     }
 
+    public User(String name, String email) {
+        this(name, email, "");
+    }
+
     public String getBio() {
         return bio;
     }

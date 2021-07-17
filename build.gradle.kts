@@ -39,6 +39,8 @@ dependencies {
     implementation("io.vertx:vertx-auth-jdbc")
     testImplementation("io.vertx:vertx-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
+    implementation("com.thedeanda:lorem:2.1")
+
 }
 
 java {
