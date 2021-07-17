@@ -13,6 +13,7 @@ public class MainVerticle extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
+        Pulp pulp = new Pulp();
         // create the template engine
         TemplateEngine engine = HandlebarsTemplateEngine.create(vertx);
         TemplateHandler templateHandler = TemplateHandler.create(engine);
