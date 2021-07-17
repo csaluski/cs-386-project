@@ -79,7 +79,7 @@ tasks {
     }
 
     task<Exec>("buildDocker") {
-        dependsOn("jar")
+        dependsOn("shadowJar")
         commandLine("docker", "build", "-t", "vertx-app", ".")
     }
 
