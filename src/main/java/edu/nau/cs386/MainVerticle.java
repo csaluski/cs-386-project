@@ -1,5 +1,7 @@
 package edu.nau.cs386;
 
+import edu.nau.cs386.manager.UserManager;
+import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
@@ -71,8 +73,15 @@ public class MainVerticle extends AbstractVerticle {
 
             JsonObject data = new JsonObject();
             data.put("name", name);
+            String email = ctx.request().getFormAttribute("email");
+            System.out.println(email);
 
-            engine.render(data, "templates/createUser.hbs", res -> {
+           // JsonObject data = new JsonObject();
+            data.put("email", email);
+            User user1 = pulp.userManager.createUser(name,email);
+            System.out.println(pulp.userManager.getUser(user1.getUuid()));
+
+            engine.render(data, "templates/postHandlerUser.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
