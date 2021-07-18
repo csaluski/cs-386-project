@@ -3,11 +3,19 @@ package edu.nau.cs386;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.common.template.TemplateEngine;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
+import io.vertx.pgclient.PgConnectOptions;
+import io.vertx.pgclient.PgPool;
+import io.vertx.sqlclient.PoolOptions;
+import io.vertx.sqlclient.Row;
+import io.vertx.sqlclient.RowSet;
+import io.vertx.sqlclient.SqlClient;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -23,8 +31,87 @@ public class MainVerticle extends AbstractVerticle {
         Router router = Router.router(vertx);
 
         // configure the router
+        router.route().handler(BodyHandler.create());
         router.route("/static/*").handler(StaticHandler.create("static"));
         router.route("/").handler(templateHandler);
+        router.get("/helloName").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            String name = ctx.request().getParam("name");
+
+            System.out.println(name);
+
+            name = (name != null && !name.trim().isEmpty() ? name : "person");
+
+            data.put("name", name);
+
+            engine.render(data, "templates/helloName.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+
+        router.get("/hello").handler(ctx -> {
+            JsonObject data = new JsonObject();
+
+            engine.render(data, "templates/helloTemplateGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+
+        router.post("/hello").handler(ctx -> {
+            String name = ctx.request().getFormAttribute("name");
+            System.out.println(name);
+
+            JsonObject data = new JsonObject();
+            data.put("name", name);
+
+            engine.render(data, "templates/helloTemplatePost.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+
+
+        });
+
+        PgConnectOptions connectOptions = new PgConnectOptions()
+            .setPort(5432)
+            .setHost("postgres")
+            .setDatabase("dvdrental")
+            .setUser("postgres")
+            .setPassword("mysecretpassword");
+
+        // Pool options
+        PoolOptions poolOptions = new PoolOptions()
+            .setMaxSize(5);
+
+        // Create the client pool
+        SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
+
+        // A simple query
+        client
+            .query("SELECT * FROM public.customer")
+            .execute(ar -> {
+                if (ar.succeeded()) {
+                    RowSet<Row> result = ar.result();
+                    System.out.println("Got " + result.size() + " rows ");
+                } else {
+                    System.out.println("Failure: " + ar.cause().getMessage());
+                }
+
+                // Now close the pool
+                client.close();
+            });
+
 
         // start the http server
         server.requestHandler(router)
