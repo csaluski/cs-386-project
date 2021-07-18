@@ -34,7 +34,7 @@ public class MainVerticle extends AbstractVerticle {
         router.route().handler(BodyHandler.create());
         router.route("/static/*").handler(StaticHandler.create("static"));
         router.route("/").handler(templateHandler);
-        router.get("/helloName").handler(ctx -> {
+        router.get("/createUser.hbs").handler(ctx -> {
             JsonObject data = new JsonObject();
             String name = ctx.request().getParam("name");
 
@@ -44,7 +44,7 @@ public class MainVerticle extends AbstractVerticle {
 
             data.put("name", name);
 
-            engine.render(data, "templates/helloName.hbs", res -> {
+            engine.render(data, "templates/createUser.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
@@ -53,10 +53,10 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
 
-        router.get("/hello").handler(ctx -> {
+        router.get("/create").handler(ctx -> {
             JsonObject data = new JsonObject();
 
-            engine.render(data, "templates/helloTemplateGet.hbs", res -> {
+            engine.render(data, "templates/createUser.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
@@ -65,14 +65,14 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
 
-        router.post("/hello").handler(ctx -> {
+        router.post("/create").handler(ctx -> {
             String name = ctx.request().getFormAttribute("name");
             System.out.println(name);
 
             JsonObject data = new JsonObject();
             data.put("name", name);
 
-            engine.render(data, "templates/helloTemplatePost.hbs", res -> {
+            engine.render(data, "templates/createUser.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
