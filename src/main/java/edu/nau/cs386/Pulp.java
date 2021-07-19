@@ -7,8 +7,8 @@ import edu.nau.cs386.model.User;
 
 public class Pulp {
 
-    private UserManager userManager;
-    private PaperManager paperManager;
+    public UserManager userManager;
+    public PaperManager paperManager;
 
     public Pulp() {
         this.userManager = new UserManager();

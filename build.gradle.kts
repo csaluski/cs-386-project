@@ -1,10 +1,13 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+import com.palantir.gradle.docker.*
 
 plugins {
     java
     application
     id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("com.palantir.docker") version "0.26.0"
+    id("com.palantir.docker-compose") version "0.26.0"
 }
 
 group = "edu.nau.cs386"
@@ -40,6 +43,9 @@ dependencies {
     testImplementation("io.vertx:vertx-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     implementation("com.thedeanda:lorem:2.1")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("commons-io:commons-io:2.11.0")
+
 
 }
 
@@ -48,21 +54,51 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-tasks.withType<ShadowJar> {
-    archiveClassifier.set("fat")
-    manifest {
-        attributes(mapOf("Main-Verticle" to mainVerticleName))
+tasks {
+    withType<ShadowJar> {
+        archiveClassifier.set("fat")
+        manifest {
+            attributes(mapOf("Main-Verticle" to mainVerticleName))
+        }
+        mergeServiceFiles()
     }
-    mergeServiceFiles()
+
+    withType<ShadowJar> {
+        archiveClassifier.set("fat")
+        manifest {
+            attributes(mapOf("Main-Verticle" to mainVerticleName))
+        }
+        mergeServiceFiles()
+    }
+
+    withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            events = setOf(PASSED, SKIPPED, FAILED)
+        }
+    }
+
+    withType<JavaExec> {
+        args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
+    }
+
+    task<Exec>("buildDocker") {
+        dependsOn("shadowJar")
+        commandLine("docker", "build", "-t", "vertx-app", ".")
+    }
+
+    withType<DockerComposeUp> {
+        dependsOn("buildDocker")
+    }
+
+    task<Exec>("execDockerComposeDown") {
+        dependsOn("buildDocker")
+        commandLine("docker-compose", "down")
+    }
+
+    task<Exec>("execDockerComposeUp") {
+        dependsOn("execDockerComposeDown")
+        commandLine("docker-compose", "up", "--build")
+    }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging {
-        events = setOf(PASSED, SKIPPED, FAILED)
-    }
-}
-
-tasks.withType<JavaExec> {
-    args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
-}
