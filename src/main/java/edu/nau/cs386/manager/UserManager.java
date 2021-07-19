@@ -2,9 +2,11 @@ package edu.nau.cs386.manager;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
+import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class UserManager {
@@ -32,6 +34,18 @@ public class UserManager {
         wkgUser.setBio(newBio);
 
         return wkgUser;
+    }
+
+
+    public User getUserByEmail(String email) {
+        ArrayList<User> users = new ArrayList<>(activeUsers.values());
+        User foundUser = null;
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                foundUser = user;
+            }
+        }
+        return foundUser;
     }
 
     public User getUser(UUID uuid) {

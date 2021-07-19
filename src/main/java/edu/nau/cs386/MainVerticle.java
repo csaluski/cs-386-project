@@ -18,7 +18,9 @@ import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlClient;
 
+
 import java.util.UUID;
+
 
 
 public class MainVerticle extends AbstractVerticle {
@@ -186,6 +188,37 @@ public class MainVerticle extends AbstractVerticle {
 
 
         });
+
+        PgConnectOptions connectOptions = new PgConnectOptions()
+            .setPort(5432)
+            .setHost("postgres")
+            .setDatabase("dvdrental")
+            .setUser("postgres")
+            .setPassword("mysecretpassword");
+
+        // Pool options
+        PoolOptions poolOptions = new PoolOptions()
+            .setMaxSize(5);
+
+        // Create the client pool
+        SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
+
+        // A simple query
+        client
+            .query("SELECT * FROM public.customer")
+            .execute(ar -> {
+                if (ar.succeeded()) {
+                    RowSet<Row> result = ar.result();
+                    System.out.println("Got " + result.size() + " rows ");
+                } else {
+                    System.out.println("Failure: " + ar.cause().getMessage());
+                }
+
+                // Now close the pool
+                client.close();
+            });
+
+
 
         PgConnectOptions connectOptions = new PgConnectOptions()
             .setPort(5432)
