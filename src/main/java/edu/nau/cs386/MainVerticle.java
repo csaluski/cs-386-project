@@ -58,7 +58,6 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
-// redundent but will get the job done for now
         router.get("/login").handler(ctx -> {
             JsonObject data = new JsonObject();
 
@@ -82,6 +81,28 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
         router.get("/profile").handler(ctx -> {
+            JsonObject data = new JsonObject();
+
+            engine.render(data, "templates/profileGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+        router.get("/viewPDF").handler(ctx -> {
+            JsonObject data = new JsonObject();
+
+            engine.render(data, "templates/profileGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+        router.get("/uploadPDF").handler(ctx -> {
             JsonObject data = new JsonObject();
 
             engine.render(data, "templates/profileGet.hbs", res -> {
