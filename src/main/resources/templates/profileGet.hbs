@@ -6,9 +6,13 @@
     <link rel="stylesheet" href="/static/css/mainStyle.css">
 </head>
 <body>
+<form method="POST">
 <p>Hello {{name}}!</p>
 <p> at {{email}}!</p>
-<p>about you {{bio}}!</p>
-<-input id="button" onclick = "editbio" value ="edit"->
+<p>about you {{bio}}</p>
+<input type="text" id = "bio" name="bio"><br><br>
+<input type="submit" value="Edit">
+
+</form>
 </body>
 </html>

@@ -130,7 +130,7 @@ public class MainVerticle extends AbstractVerticle {
 //            String email = ctx.request().getFormAttribute("email");
 //            System.out.println(email);
 //
-            User user = pulp.userManager.getUser(email);
+            User user = pulp.userManager.getUserByEmail(email);
             JsonObject data = new JsonObject();
             data.put("email", user.getEmail());
             data.put("name", user.getName());
@@ -166,16 +166,18 @@ public class MainVerticle extends AbstractVerticle {
 
             // JsonObject data = new JsonObject();
             data.put("email", email);
-            User user1 = new User(name, email);
-            if ( pulp.userManager.loginChecker(user1) )
-            {
-                user1 = pulp.userManager.getUser(pulp.userManager.getID(user1));
-                System.out.println("Name: " + user1.getName() + "email: " + user1.getEmail() + "bio: " + user1.getBio() + "UUID: " + user1.getUuid());
-                router.post("/profile");
-            } else{
-                router.post("/login");
-                //return page not found
-            }
+            String bio = null;
+            data.put("bio", bio);
+            User user1 = new User(name, email, bio);
+//            if ( pulp.userManager.loginChecker(user1) )
+//            {
+//                user1 = pulp.userManager.getUser(pulp.userManager.getID(user1));
+//                System.out.println("Name: " + user1.getName() + "email: " + user1.getEmail() + "bio: " + user1.getBio() + "UUID: " + user1.getUuid());
+//                router.post("/profile");
+//            } else{
+//                router.post("/login");
+//                //return page not found
+//            }
 
             engine.render(data, "templates/profileGet.hbs", res -> {
                 if (res.succeeded()) {
@@ -217,38 +219,6 @@ public class MainVerticle extends AbstractVerticle {
                 // Now close the pool
                 client.close();
             });
-
-
-
-        PgConnectOptions connectOptions = new PgConnectOptions()
-            .setPort(5432)
-            .setHost("postgres")
-            .setDatabase("dvdrental")
-            .setUser("postgres")
-            .setPassword("mysecretpassword");
-
-        // Pool options
-        PoolOptions poolOptions = new PoolOptions()
-            .setMaxSize(5);
-
-        // Create the client pool
-        SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
-
-        // A simple query
-        client
-            .query("SELECT * FROM public.customer")
-            .execute(ar -> {
-                if (ar.succeeded()) {
-                    RowSet<Row> result = ar.result();
-                    System.out.println("Got " + result.size() + " rows ");
-                } else {
-                    System.out.println("Failure: " + ar.cause().getMessage());
-                }
-
-                // Now close the pool
-                client.close();
-            });
-
 
         // start the http server
         server.requestHandler(router)
