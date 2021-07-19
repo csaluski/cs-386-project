@@ -1,6 +1,5 @@
 package edu.nau.cs386;
 
-import edu.nau.cs386.manager.UserManager;
 import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -18,6 +17,9 @@ import io.vertx.sqlclient.PoolOptions;
 import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlClient;
+
+import java.util.UUID;
+
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -54,11 +56,33 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+// redundent but will get the job done for now
+        router.get("/login").handler(ctx -> {
+            JsonObject data = new JsonObject();
 
+            engine.render(data, "templates/login.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
         router.get("/create").handler(ctx -> {
             JsonObject data = new JsonObject();
 
             engine.render(data, "templates/createUser.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+        router.get("/profile").handler(ctx -> {
+            JsonObject data = new JsonObject();
+
+            engine.render(data, "templates/profileGet.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
@@ -80,6 +104,9 @@ public class MainVerticle extends AbstractVerticle {
             data.put("email", email);
             User user1 = pulp.userManager.createUser(name,email);
             System.out.println(pulp.userManager.getUser(user1.getUuid()));
+            UUID userUuid = user1.getUuid();
+
+            data.put("uuid", userUuid);
 
             engine.render(data, "templates/postHandlerUser.hbs", res -> {
                 if (res.succeeded()) {
@@ -88,6 +115,74 @@ public class MainVerticle extends AbstractVerticle {
                     ctx.fail(res.cause());
                 }
             });
+
+
+        });
+        router.post("/login").handler(ctx -> {
+
+              String email = ctx.request().getFormAttribute("email");
+//            String name = ctx.request().getFormAttribute("name");
+//            System.out.println(name);
+//
+//            JsonObject data = new JsonObject();
+//            String email = ctx.request().getFormAttribute("email");
+//            System.out.println(email);
+//
+            User user = pulp.userManager.getUser(email);
+            JsonObject data = new JsonObject();
+            data.put("email", user.getEmail());
+            data.put("name", user.getName());
+            data.put("bio", user.getBio());
+            if ( user != null )
+            {
+                System.out.println("Name: " + user.getName() + "email: " + user.getEmail() + "bio: " + user.getBio() + "UUID: " + user.getUuid());
+                router.post("/profile");
+            }
+            else{
+                router.post("/login");
+            }
+
+            engine.render(data, "templates/profileGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+
+
+
+        });
+        router.post("/profile").handler(ctx -> {
+            String name = ctx.request().getFormAttribute("name");
+            System.out.println(name);
+
+            JsonObject data = new JsonObject();
+            data.put("name", name);
+            String email = ctx.request().getFormAttribute("email");
+            System.out.println(email);
+
+            // JsonObject data = new JsonObject();
+            data.put("email", email);
+            User user1 = new User(name, email);
+            if ( pulp.userManager.loginChecker(user1) )
+            {
+                user1 = pulp.userManager.getUser(pulp.userManager.getID(user1));
+                System.out.println("Name: " + user1.getName() + "email: " + user1.getEmail() + "bio: " + user1.getBio() + "UUID: " + user1.getUuid());
+                router.post("/profile");
+            } else{
+                router.post("/login");
+                //return page not found
+            }
+
+            engine.render(data, "templates/profileGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+
 
 
         });
