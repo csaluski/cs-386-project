@@ -2,12 +2,11 @@ package edu.nau.cs386;
 
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.Route;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
@@ -32,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+
 public class MainVerticle extends AbstractVerticle {
 
     @Override
@@ -46,10 +46,41 @@ public class MainVerticle extends AbstractVerticle {
         Router router = Router.router(vertx);
 
         // configure the router
+        router.route().handler(BodyHandler.create());
         router.route("/static/*").handler(StaticHandler.create("static"));
-        router.route("/").handler(templateHandler);
+        router.route("/").handler( ctx -> {
+            List<Paper> papers = pulp.paperManager.getAllPapers();
+            JsonObject data = new JsonObject();
+            JsonObject wkgObject;
+            JsonArray papersArray = new JsonArray();
 
-        router.get("/view/paper/:paperUuid").handler(ctx -> {
+            for (Paper paper : papers) {
+                wkgObject = new JsonObject();
+                StringBuilder authorsString = new StringBuilder();
+
+                wkgObject.put("uuid", paper.getUuid());
+                wkgObject.put("title", paper.getTitle());
+                for (String author : paper.getAuthors()) {
+                    authorsString.append(author);
+                    authorsString.append(' ');
+                }
+                wkgObject.put("authors", authorsString.toString());
+
+                papersArray.add(wkgObject);
+            }
+
+            data.put("papers", papersArray);
+
+            engine.render(data, "templates/index.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+
+        router.route("/view/paper/:paperUuid").handler(ctx -> {
 
             UUID uuid = UUID.fromString(ctx.pathParam("paperUuid"));
 
@@ -92,7 +123,7 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
 
-        router.get("/upload").handler(ctx -> {
+        router.get("/uploadPDF").handler(ctx -> {
             JsonObject data = new JsonObject();
 
             engine.render(data, "templates/paperCreate.hbs", res -> {
@@ -104,7 +135,8 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
 
-        router.post("/upload").handler(ctx -> {
+        router.post("/uploadPDF").handler(ctx -> {
+            System.out.println("Reached the upload post handler");
             String title = ctx.request().getFormAttribute("title");
             String doi = ctx.request().getFormAttribute("doi");
             // TODO: parse this as comma delimited list of authors
@@ -119,6 +151,8 @@ public class MainVerticle extends AbstractVerticle {
             createdPaper.setDoi(doi);
             createdPaper.setPaperAbstract(paperAbstract);
 
+            System.out.println("Reached the reroute");
+            System.out.println(createdPaper.getUuid());
             ctx.reroute("/view/paper/" + createdPaper.getUuid());
         });
 
