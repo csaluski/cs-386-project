@@ -103,5 +103,9 @@ tasks {
         commandLine("docker-compose", "up", "--build")
     }
 
+    create("stage") {
+        dependsOn("shadowJar")
+    }
+
 }
 
