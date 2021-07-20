@@ -1,6 +1,7 @@
 ## Deliverable 4.1: Introduction
 
-needs a paragraph and these links:
+Pulp is a collaboration platform that enables academics to be more effective in their literary research by enabling more effective searching and collaborative annotations. The current system allows you to login, edit your account, and  view papers. Future systems will allow you more customizable options on profile settings, uploading and saving papers to your user account, and a search engine to help you filter through papers. Future goals also include an annotation, and a group environment setting to help your research team communicate information more efficiently.
+
 https://github.com/Csaluski/cs-386-project
 https://github.com/Csaluski/cs-386-project/projects/1
 
