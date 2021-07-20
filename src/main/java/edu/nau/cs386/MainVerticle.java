@@ -1,9 +1,11 @@
 package edu.nau.cs386;
 
+import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.common.template.TemplateEngine;
@@ -19,6 +21,7 @@ import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlClient;
 
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -39,7 +42,38 @@ public class MainVerticle extends AbstractVerticle {
         // configure the router
         router.route().handler(BodyHandler.create());
         router.route("/static/*").handler(StaticHandler.create("static"));
-        router.route("/").handler(templateHandler);
+        router.route("/").handler( ctx -> {
+            List<Paper> papers = pulp.paperManager.getAllPapers();
+            JsonObject data = new JsonObject();
+            JsonObject wkgObject;
+            JsonArray papersArray = new JsonArray();
+
+
+            for (Paper paper : papers) {
+                wkgObject = new JsonObject();
+                StringBuilder authorsString = new StringBuilder();
+
+                wkgObject.put("uuid", paper.getUuid());
+                wkgObject.put("title", paper.getTitle());
+                for (String author : paper.getAuthors()) {
+                    authorsString.append(author);
+                    authorsString.append(' ');
+                }
+                wkgObject.put("authors", authorsString.toString());
+
+                papersArray.add(wkgObject);
+            }
+
+            data.put("papers", papersArray);
+
+            engine.render(data, "templates/index.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
         router.get("/createUser.hbs").handler(ctx -> {
             JsonObject data = new JsonObject();
             String name = ctx.request().getParam("name");
