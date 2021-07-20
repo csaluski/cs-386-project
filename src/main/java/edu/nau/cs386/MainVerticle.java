@@ -1,8 +1,14 @@
 package edu.nau.cs386;
 
+import edu.nau.cs386.model.Paper;
+import edu.nau.cs386.model.User;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.common.template.TemplateEngine;
 import io.vertx.ext.web.handler.StaticHandler;
@@ -14,8 +20,17 @@ import io.vertx.sqlclient.PoolOptions;
 import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlClient;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 public class MainVerticle extends AbstractVerticle {
+
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
@@ -31,7 +46,6 @@ public class MainVerticle extends AbstractVerticle {
         // configure the router
         router.route("/static/*").handler(StaticHandler.create("static"));
         router.route("/").handler(templateHandler);
-
 
         PgConnectOptions connectOptions = new PgConnectOptions()
             .setPort(5432)
@@ -62,13 +76,11 @@ public class MainVerticle extends AbstractVerticle {
                 client.close();
             });
 
-
-        // start the http server
-        server.requestHandler(router)
-            .listen(8888, http -> {
+        server.requestHandler(router).listen(config().getInteger("port", 8888),
+            http -> {
                 if (http.succeeded()) {
                     startPromise.complete();
-                    System.out.println("HTTP server started on port 8888");
+                    System.out.println("HTTP server started on port "+ config().getInteger("port", 8888));
                 } else {
                     startPromise.fail(http.cause());
                 }
