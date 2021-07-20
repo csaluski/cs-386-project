@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+    postgres:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: mysecretpassword
+            PGDATA: /data/postgres
+
+        volumes:
+            - postgres:/data/postgres
+        networks:
+            - postgres
+
+    pgadmin:
+        image: dpage/pgadmin4
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: mysecretpassword
+            PGADMIN_DEFAULT_EMAIL: "pgadmin4@pgadmin.org"
+            PGADMIN_DEFAULT_PASSWORD: "admin"
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+            PGADMIN_LISTEN_PORT: 5050
+        volumes:
+            - ./pgadmindata:/root/.pgadmin
+        ports:
+            - 5050:5050
+        networks:
+            - postgres
+
+    vertx-app:
+        image: vertx-app:latest
+        # build: ./build/libs/
+        # command: java -jar CS386-1.0.0-SNAPSHOT-fat.jar
+        ports:
+            - 8888:8888
+        networks:
+            - postgres
+networks:
+    postgres:
+        driver: bridge
+
+volumes:
+    postgres:
+    pgadmindata:

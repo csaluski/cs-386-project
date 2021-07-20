@@ -8,8 +8,12 @@ import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.common.template.TemplateEngine;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
@@ -156,8 +160,8 @@ public class MainVerticle extends AbstractVerticle {
 
 
         // start the http server
-        server.requestHandler(router)
-            .listen(8888, http -> {
+        server.requestHandler(router).listen(config().getInteger("port", 8888),
+            http -> {
                 if (http.succeeded()) {
                     startPromise.complete();
                     System.out.println("HTTP server started on port 8888");
