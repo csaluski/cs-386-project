@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="/static/css/mainStyle.css">
 </head>
 <body>
-<form method="POST">
+<form method="POST" method="GET">
 <p>Hello {{name}}!</p>
 <p> at {{email}}!</p>
 <p>about you {{bio}}</p>
-<input type="text" id = "bio" name="bio"><br><br>
-<input type="submit" value="Edit">
-
+<!--input type="text" id = "bio" name="bio"><br><br>
+<input type="submit" value="Edit"-->
+    <p><a href="edit" >Edit Your Profile!</a></p>
 </form>
 </body>
 </html>
