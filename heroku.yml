@@ -1,6 +1,6 @@
 build:
     docker:
-        web: Dockerfile
+        web: heroku/Dockerfile
 
 run:
     web: java -jar build/libs/CS386-1.0.0-SNAPSHOT-fat.jar --conf='{"port":$PORT}'
