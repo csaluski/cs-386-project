@@ -21,6 +21,12 @@ public class User {
         this.bio = bio;
         this.uuid = UUID.randomUUID();
     }
+    public User(String name, String email, String bio, UUID uuid) {
+        this.name = name;
+        this.email = email;
+        this.bio = bio;
+        this.uuid = uuid;
+    }
 
     public User(String name, String email) {
         this(name, email, "");
@@ -53,6 +59,7 @@ public class User {
     public UUID getUuid() {
         return uuid;
     }
+    public void setUuid(UUID uuid ) {this.uuid = uuid;}
 
 
 

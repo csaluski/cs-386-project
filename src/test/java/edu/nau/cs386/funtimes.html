@@ -1,27 +1,19 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script>
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-        }
-    </script>
+    <meta charset="UTF-8">
+    <title>Hello Page</title>
+    <link rel="stylesheet" href="/static/css/mainStyle.css">
 </head>
 <body>
-
-<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-
-<p> id="drag1" src="ASX_CBA_1997.pdf" draggable="true" ondragstart="drag(event)" width="336" height="69">
-
+<form method="POST">
+    <p>Hello {{name}}</p>
+    <input type="text" id = "newName" name="New name:" value = {{name}}><br><br>
+    <p> at {{email}}</p>
+    <input type="text" id = "newEmail" name="New email" value= {{email}}><br><br>
+    <p>about you {{bio}}</p>
+    <input type="text" id = "newBio" name="New bio:" value = {{bio}}><br><br>
+    <input type="submit" value="Edit">
+</form>
 </body>
 </html>
