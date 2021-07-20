@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pulp: Edit Paper Page</title>
+
+        <link rel="stylesheet" href="/static/css/mainStyle.css">
+        <meta name="author" content="Hannah Larreau">
+        <meta name="description" content="The page where users can edit the data related to a previously uploaded PDF.">
+    </head>
+    <!--<nav>
+        <ul>
+            <li><a href="#">Index</a></li>
+            <li><a href="#">View Paper</a></li>
+            <li><a href="#">Log In</a></li>
+        </ul>
+    </nav>-->
+    <body>
+        <article>
+        <h1> Edit {{title}} </h1>
+            <h2>Edit {{title}} Details </h2>
+            <form action="" method="get">
+                <p><label for="title">Title:</label>
+                    <input type="text" id="title" name="title"></p>
+                    <input type="submit" value="Submit">
+            </form>
+
+            <form action="" action="get">
+                <p><label for="abstract">Abstract:</label>
+                    <input type="text" id="abstract" name="abstract"></p>
+                <input type="submit" value="Submit">
+            </form>
+
+            <form action="" action="get">
+                <p><label for="doi">DOI:</label>
+                    <input type="text" id="doi" name="doi"></p>
+                <input type="submit" value="Submit">
+            </form>
+
+            <form action="" action="get">
+                <p><label for="addAuthor">Add Author:</label>
+                    <input type="text" id="addAuthor" name="addAuthor"></p>
+                    <input type="submit" value="Submit">
+            </form>
+
+        <!--    <form>
+                <p><label for="removeAuthor">Remove Author:</label>
+                Ordered list of current authors assigned to Paper, each with a check box
+                <ol> <li>item in list</li> </ol> </p>
+                <input type="submit" value="Submit">
+            </form> -->
+
+            <h2>Edit Owners </h2>
+            <form action="" action="get">
+                <label for="addOwner">Add Owner:</label>
+                <input type="submit" value="Submit">
+            </form>
+
+        <!--    <form>
+                <label for="removeOwner">Remove Owner:</label>
+                    Unordered list of current authors assigned to Paper, each with a check box
+                    <ul> <li>item in list</li> </ul>
+                <input type="submit" value="Submit">
+            </form> -->
+
+            <section class="delete-paper">
+                <h2> Remove Paper</h2>
+                <button onclick="<!--delete-->" class="Paper">
+                    Delete Paper</button>
+            </section>
+
+        <button onclick="<!--return to view paper-->" class="<!--PaperView Class-->">
+            Return to View Paper</button>
+        </article>
+    </body>
+    <!--<footer>
+
+    </footer> -->
+</html>
