@@ -86,6 +86,7 @@ tasks {
     task<Exec>("buildDocker") {
         dependsOn("shadowJar")
         commandLine("docker", "build", "-t", "vertx-app", ".")
+
     }
 
     withType<DockerComposeUp> {
@@ -101,7 +102,6 @@ tasks {
         dependsOn("execDockerComposeDown")
         commandLine("docker-compose", "up", "--build")
     }
-
 
 }
 
