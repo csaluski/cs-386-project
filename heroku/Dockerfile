@@ -1,4 +1,4 @@
-FROM openjdk:11-jre
+FROM gradle:7.1.1-jdk11
 
 
 ENV APP_HOME=/usr/app/
