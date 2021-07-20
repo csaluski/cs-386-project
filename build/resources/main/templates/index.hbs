@@ -1,17 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>CS386 Project</title>
-    <link rel="stylesheet" href="/static/css/mainStyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PULP</title>
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-<h1>Test Vert.x WebServer</h1>
-<p>Hello World!</p>
-<h2>Where To?</h2>
-<p><a href="create" >Create account</a></p>
-<p><a href="login" >Login</a></p>
-<p><a href="profile" >Profile</a></p>
-<p><a href="viewPDF" >View a Paper</a></p>
-<p><a href="uploadPDF" >Upload a Paper</a></p>
+<header id="mainHeader">
+    <div class="container">
+        <h1>PULP</h1>
+    </div>
+</header>
+
+<nav id="mainNav">
+    <div class="container">
+        <ul>
+            <li><a href="login">Log in</a></li>
+            <li><a href="create">Create Account</a></li>
+            <li><a href="profile">Profile</a></li>
+            <li><a href="uploadPDF">Upload PDF</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section id="jumbo">
+    <div class="container">
+        <h1> A collaboration platform that enables academics to be more effective in their literary research by enabling more effective searching and collaborative annotations.</h1>
+    </div>
+</section>
+<div id="fixed">FAQs</div>
+
+
+<div id="recentPapers">
+    <h2>Recently posted papers:</h2>
+<ul>
+{{#each papers}}
+    <li>
+        <h2><a href="view/paper/{{uuid}}">{{title}}</a></h2>
+        <p>By: {{authors}}</p>
+    </li>
+{{/each}}
+    </ul>
+    </div>
+
+<footer id="mainFooter">
+    <p>Copyright &copy; 2021 PULP</p>
+</footer>
 </body>
 </html>
