@@ -1,12 +1,9 @@
 package edu.nau.cs386.manager;
 
-import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
-import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class UserManager {
