@@ -2,6 +2,7 @@ package edu.nau.cs386;
 
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Promise;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class MainVerticle extends AbstractVerticle {
+
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
@@ -154,13 +156,11 @@ public class MainVerticle extends AbstractVerticle {
                 client.close();
             });
 
-
-        // start the http server
-        server.requestHandler(router)
-            .listen(8888, http -> {
+        server.requestHandler(router).listen(config().getInteger("port", 8888),
+            http -> {
                 if (http.succeeded()) {
                     startPromise.complete();
-                    System.out.println("HTTP server started on port 8888");
+                    System.out.println("HTTP server started on port "+ config().getInteger("port", 8888));
                 } else {
                     startPromise.fail(http.cause());
                 }

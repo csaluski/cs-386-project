@@ -40,6 +40,7 @@ dependencies {
     implementation("io.vertx:vertx-json-schema")
     implementation("io.vertx:vertx-auth-sql-client")
     implementation("io.vertx:vertx-auth-jdbc")
+    implementation("io.vertx:vertx-config:4.1.1")
     testImplementation("io.vertx:vertx-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     implementation("com.thedeanda:lorem:2.1")
@@ -100,5 +101,7 @@ tasks {
         dependsOn("execDockerComposeDown")
         commandLine("docker-compose", "up", "--build")
     }
+
+
 }
 
