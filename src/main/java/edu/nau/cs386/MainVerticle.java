@@ -217,14 +217,7 @@ public class MainVerticle extends AbstractVerticle {
 
         router.post("/login").handler(ctx -> {
 
-              String email = ctx.request().getFormAttribute("email");
-//            String name = ctx.request().getFormAttribute("name");
-//            System.out.println(name);
-//
-//            JsonObject data = new JsonObject();
-//            String email = ctx.request().getFormAttribute("email");
-//            System.out.println(email);
-//
+            String email = ctx.request().getFormAttribute("email");
             User user = pulp.userManager.getUserByEmail(email);
             Cookie cookie = Cookie.cookie("user", user.getUuid().toString());
             ctx.addCookie(cookie);
@@ -301,15 +294,6 @@ public class MainVerticle extends AbstractVerticle {
             String bio = "";
             data.put("bio", bio);
             User user1 = new User(name, email, bio);
-//            if ( pulp.userManager.loginChecker(user1) )
-//            {
-//                user1 = pulp.userManager.getUser(pulp.userManager.getID(user1));
-//                System.out.println("Name: " + user1.getName() + "email: " + user1.getEmail() + "bio: " + user1.getBio() + "UUID: " + user1.getUuid());
-//                router.post("/profile");
-//            } else{
-//                router.post("/login");
-//                //return page not found
-//            }
 
             engine.render(data, "templates/profileGet.hbs", res -> {
                 if (res.succeeded()) {
