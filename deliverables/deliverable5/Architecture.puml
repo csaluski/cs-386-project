@@ -1,0 +1,56 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+package "Pulp Server" {
+    package "Web" {
+        package Router {
+            component Handlers
+        }
+        component Authorization
+        component SessionExceptions
+        component Logging
+        component Sessions
+    }
+
+    package Logic {
+        package Managers {
+            component UserManager
+            component PaperManager
+            component TagManager
+            component CitationManager
+            component GroupManager
+            component AnnotationManager
+        }
+        component LogicExceptions
+    }
+
+    package Data {
+        component User
+        component Paper
+        component Tag
+        component Citation
+        component Group
+        component Annotation
+    }
+
+    package DatabaseDriver {
+        component DBExceptions
+        package DatabaseVerticle {
+            component DatabaseConnection
+        }
+    }
+}
+
+Router ---> Managers
+Managers ---> Data
+Managers -right-> DatabaseVerticle
+DatabaseVerticle <--> PostgreSQL
+DatabaseVerticle --> Data
+
+database "PostgreSQL" {
+    component "Pulp Data"
+}
+
+
+@enduml
