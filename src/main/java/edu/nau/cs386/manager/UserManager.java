@@ -8,8 +8,16 @@ import java.util.UUID;
 
 public class UserManager {
 
+    private static final UserManager INSTANCE = new UserManager();
     private final HashMap<UUID, User> activeUsers = new HashMap<>();
     public UUID testUserUUID;
+
+    private UserManager() {
+    };
+
+    public static UserManager getInstance() {
+        return INSTANCE;
+    }
 
     public User createUser(String name, String email) {
         User wkgUser = new User(name, email);
