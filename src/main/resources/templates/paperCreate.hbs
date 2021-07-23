@@ -5,13 +5,14 @@
     <title>Pulp: Edit Paper Page</title>
 
     <link rel="stylesheet" href="/static/css/mainStyle.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <meta name="author" content="Hannah Larreau">
     <meta name="description" content="The page where users upload PDF and set paper details.">
 </head>
 
 <body>
 
-<form action="uploadPDF" method="POST">
+<form action="uploadPDF" enctype="multipart/form-data" method="POST">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title">
     <label for="doi">DOI:</label>
