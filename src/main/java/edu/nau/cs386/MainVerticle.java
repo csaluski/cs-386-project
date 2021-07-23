@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.common.template.TemplateEngine;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
@@ -18,6 +19,7 @@ import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
 import org.apache.commons.io.FileUtils;
 
+import javax.naming.ldap.PagedResultsResponseControl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -27,10 +29,20 @@ import java.util.*;
 
 public class MainVerticle extends AbstractVerticle {
 
+    private Pulp pulp = new Pulp();
 
+    public User getUserfromCookie(RoutingContext ctx, JsonObject data){
+        Cookie crumb = ctx.getCookie("user");
+        String uuidString = crumb.getValue();
+        UUID userUUID = UUID.fromString(uuidString);
+        User user = pulp.userManager.getUser(userUUID);
+        data.put("name", user.getName());
+        data.put("email", user.getEmail());
+        data.put("bio", user.getBio());
+        return user;
+    }
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
-        Pulp pulp = new Pulp();
         // create the template engine
         TemplateEngine engine = HandlebarsTemplateEngine.create(vertx);
         TemplateHandler templateHandler = TemplateHandler.create(engine);
@@ -75,6 +87,8 @@ public class MainVerticle extends AbstractVerticle {
                     ctx.fail(res.cause());
                 }
             });
+
+
         });
 
         router.get("/createUser.hbs").handler(ctx -> {
@@ -107,7 +121,18 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+        router.get("/edit").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            User user = getUserfromCookie(ctx, data);
 
+            engine.render(data, "templates/editUser.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
         router.get("/create").handler(ctx -> {
             JsonObject data = new JsonObject();
 
@@ -121,14 +146,8 @@ public class MainVerticle extends AbstractVerticle {
         });
 
         router.get("/profile").handler(ctx -> {
-            Cookie crumb = ctx.getCookie("user");
-            String uuidString = crumb.getValue();
-            UUID userUUID = UUID.fromString(uuidString);
-            User user = pulp.userManager.getUser(userUUID);
             JsonObject data = new JsonObject();
-            data.put("name", user.getName());
-            data.put("email", user.getEmail());
-            data.put("bio", user.getBio());
+            User user = getUserfromCookie(ctx, data);
 
             engine.render(data, "templates/profileGet.hbs", res -> {
                 if (res.succeeded()) {
@@ -245,6 +264,16 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+        router.get("/editPDF").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            engine.render(data, "templates/paperEditPost.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
 
         router.post("/uploadPDF").handler(ctx -> {
             System.out.println("Reached the upload post handler");
@@ -288,23 +317,8 @@ public class MainVerticle extends AbstractVerticle {
         });
 
         router.post("/profile").handler(ctx -> {
-            Cookie crumb = ctx.getCookie("user");
-            String uuidString = crumb.getValue();
-            UUID userUUID = UUID.fromString(uuidString);
-
-            String name = ctx.request().getFormAttribute("name");
-            System.out.println(name);
-
             JsonObject data = new JsonObject();
-            data.put("name", name);
-            String email = ctx.request().getFormAttribute("email");
-            System.out.println(email);
-
-            // JsonObject data = new JsonObject();
-            data.put("email", email);
-            String bio = "";
-            data.put("bio", bio);
-            User user1 = new User(name, email, bio);
+            User user = getUserfromCookie(ctx, data);
 
             engine.render(data, "templates/profileGet.hbs", res -> {
                 if (res.succeeded()) {
@@ -316,27 +330,17 @@ public class MainVerticle extends AbstractVerticle {
         });
 
         router.post("/edit").handler(ctx -> {
-            Cookie crumb = ctx.getCookie("user");
-            String uuidString = crumb.getValue();
-            UUID userUUID = UUID.fromString(uuidString);
-            //saving the email so we can get the user
-            String name = ctx.request().getFormAttribute("name");
-            System.out.println(name);
-            //creating the json object to temporarily store html variable newName
             JsonObject data = new JsonObject();
-            data.put("name", name);
-            //Getting the email into update variable
+            User original = getUserfromCookie(ctx, data);
+            String name = ctx.request().getFormAttribute("name");
             String email = ctx.request().getFormAttribute("email");
-            System.out.println(email);
-            data.put("email", email);
-            //Getting the bio into update variable
-            String bio = ctx.request().getFormAttribute("bio");
-            System.out.println(bio);
-            data.put("bio", bio);
-            User original = pulp.userManager.getUser(userUUID);
+            String bio = ctx.request().getFormAttribute("bio");;
             original.setName(name);
             original.setEmail(email);
             original.setBio(bio);
+            data.put("name",name);
+            data.put("email",email);
+            data.put("bio", bio);
             engine.render(data, "templates/editUser.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
@@ -358,3 +362,4 @@ public class MainVerticle extends AbstractVerticle {
             });
     }
 }
+
