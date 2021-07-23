@@ -273,6 +273,16 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+        router.get("/editPDF").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            engine.render(data, "templates/paperEditPost.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
 
 
         router.post("/uploadPDF").handler(ctx -> {
