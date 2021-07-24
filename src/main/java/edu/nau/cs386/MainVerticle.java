@@ -30,7 +30,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-
 public class MainVerticle extends AbstractVerticle {
 
     private Pulp pulp = Pulp.getInstance();
