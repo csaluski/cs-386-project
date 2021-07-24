@@ -47,7 +47,6 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("commons-io:commons-io:2.11.0")
 
-
 }
 
 java {
@@ -81,6 +80,7 @@ tasks {
 
     withType<JavaExec> {
         args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
+
     }
 
     task<Exec>("buildDocker") {

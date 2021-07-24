@@ -1,0 +1,15 @@
+@startuml
+title Request Account Creation
+
+user -> "web router": Request page
+"web router" -> user: Send account creation page
+...
+user -> "web router": Sends filled out account creation information
+"web router" -> "account verifier": Send data to verify valid format
+"account verifier" -> "database driver": Send verified account details
+"database driver" -> database: Add account to database
+database -> "web router": Sends back success or failure and reason
+"web router" -> "template renderer": Request template
+"template renderer" -> "web router": send rendered web page to router
+"web router" -> user: send account created page
+@enduml

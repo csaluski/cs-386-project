@@ -1,0 +1,105 @@
+@startuml
+class User {
++name: String
++email: String
++id: UUID
++bio: String
++profilePicture: File
++profession: String
+' Not in MVP
+rank: Rank
+
++ createPaper(): Paper
++ createComment(): Comment
++ createTag(): Tag
++ createUserGroup(): UserGroup
++ createFolder(): Folder
+}
+
+class UserGroup {
+members: List<UUID>
+id: UUID
+name: String
+}
+
+class Folder {
+id: UUID
+name: String
+}
+
+class Paper {
+title: String
+authors: List<String>
+abstract: String
+doi: String
+file: File
+owner: List<UUID>
+
+getOwners(): List<Owner>
+}
+
+'/ class Author { }
+
+class Tag {
+id: UUID
+name: String
+parents: List<UUID>
+children: List<UUID>
+owner: List<UUID>
+}
+
+
+class Comment {
+id: UUID
+user: UUID
+message: String
+children: List<UUID>
+}
+
+class Pulp
+
+class UserManager {
+createUser(): User
+getUser(UUID): User
+}
+
+class PostManager
+
+class FileManager
+
+class Router
+
+Pulp --* FileManager
+Pulp --* PostManager
+Pulp --* UserManager
+Pulp --* Router
+
+
+/'
+class Citation {
+
+}
+
+class CitationGraph {
+
+}
+'/
+
+User *-- "0..*" Folder
+Folder o-- "0..*" Paper
+Tag o- "0..*" Paper
+User  *-- "0..*" Tag
+UserGroup *-- "0..*" Folder
+UserGroup "0..*" *-o "0..*" User
+UserGroup *- "1..*" Tag
+
+Comment -lefto User
+Annotation *-- "0..*" Paper
+User "0..*" --* Annotation
+
+/'
+Citation "1..*" -left* CitationGraph
+Citation "0..*" -o Paper
+'/
+@enduml
+

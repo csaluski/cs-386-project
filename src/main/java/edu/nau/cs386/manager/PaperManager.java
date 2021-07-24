@@ -13,7 +13,6 @@ import java.util.UUID;
 public class PaperManager {
 
     private static final PaperManager INSTANCE = new PaperManager();
-
     private final HashMap<UUID, Paper> activePapers = new HashMap<>();
     private DatabaseDriver databaseDriver;
     public UUID testPaperUUID;
@@ -21,6 +20,12 @@ public class PaperManager {
     private PaperManager() {
 
     }
+
+    public static PaperManager getInstance() {
+        return INSTANCE;
+    }
+
+    private PaperManager(){};
 
     public static PaperManager getInstance() {
         return INSTANCE;

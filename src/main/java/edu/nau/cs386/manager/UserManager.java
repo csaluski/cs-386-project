@@ -7,6 +7,7 @@ import edu.nau.cs386.model.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.*;
 
 public class UserManager {
 
@@ -32,6 +33,13 @@ public class UserManager {
         this.databaseDriver = databaseDriver;
     }
 
+
+    private UserManager() {
+    };
+
+    public static UserManager getInstance() {
+        return INSTANCE;
+    }
 
     public User createUser(String name, String email) {
         databaseDriver.insertUser(name, email);
