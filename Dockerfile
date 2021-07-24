@@ -13,6 +13,7 @@ EXPOSE 8888
 
 # Copy your fat jar to the container
 COPY build/libs/$VERTICLE_FILE /$VERTICLE_HOME
+COPY src/main/psql/tables.psql /usr/psql/tables.psql
 
 # Launch the verticle
 WORKDIR $VERTICLE_HOME
