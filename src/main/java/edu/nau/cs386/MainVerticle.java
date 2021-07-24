@@ -1,28 +1,20 @@
 package edu.nau.cs386;
 
+import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
-import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Context;
 import io.vertx.core.Promise;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.common.template.TemplateEngine;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
-import io.vertx.pgclient.PgConnectOptions;
-import io.vertx.pgclient.PgPool;
-import io.vertx.sqlclient.PoolOptions;
-import io.vertx.sqlclient.Row;
-import io.vertx.sqlclient.RowSet;
-import io.vertx.sqlclient.SqlClient;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -33,15 +25,12 @@ import java.util.List;
 import java.util.UUID;
 
 
-
-
-
 public class MainVerticle extends AbstractVerticle {
 
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
-        Pulp pulp = new Pulp();
+        Pulp pulp = Pulp.getInstance();
         // create the template engine
         TemplateEngine engine = HandlebarsTemplateEngine.create(vertx);
         TemplateHandler templateHandler = TemplateHandler.create(engine);
@@ -54,7 +43,7 @@ public class MainVerticle extends AbstractVerticle {
         router.route().handler(BodyHandler.create());
         router.route("/static/*").handler(StaticHandler.create("static"));
         router.route("/").handler(ctx -> {
-            List<Paper> papers = pulp.paperManager.getAllPapers();
+            List<Paper> papers = pulp.getPaperManager().getAllPapers();
             JsonObject data = new JsonObject();
             JsonObject wkgObject;
             JsonArray papersArray = new JsonArray();
@@ -130,7 +119,7 @@ public class MainVerticle extends AbstractVerticle {
             Cookie crumb = ctx.getCookie("user");
             String uuidString = crumb.getValue();
             UUID userUUID = UUID.fromString(uuidString);
-            User user = pulp.userManager.getUser(userUUID);
+            User user = pulp.getUserManager().getUser(userUUID);
             JsonObject data = new JsonObject();
             data.put("name", user.getName());
             data.put("email", user.getEmail());
@@ -149,7 +138,7 @@ public class MainVerticle extends AbstractVerticle {
 
             UUID uuid = UUID.fromString(ctx.pathParam("paperUuid"));
 
-            Paper paper = pulp.paperManager.getPaper(uuid);
+            Paper paper = pulp.getPaperManager().getPaper(uuid);
 
             JsonObject paperJson = new JsonObject();
 
@@ -160,7 +149,7 @@ public class MainVerticle extends AbstractVerticle {
             StringBuilder paperOwners = new StringBuilder();
             List<UUID> owners = paper.getOwners();
             owners.forEach(ownerUuid ->
-                paperOwners.append(pulp.userManager.getUser(ownerUuid).getName()));
+                paperOwners.append(pulp.getUserManager().getUser(ownerUuid).getName()));
 
             byte[] fileBytes = new byte[0];
             try {
@@ -196,10 +185,10 @@ public class MainVerticle extends AbstractVerticle {
             String email = ctx.request().getFormAttribute("email");
             System.out.println(email);
 
-           // JsonObject data = new JsonObject();
+            // JsonObject data = new JsonObject();
             data.put("email", email);
-            User user1 = pulp.userManager.createUser(name,email);
-            System.out.println(pulp.userManager.getUser(user1.getUuid()));
+            User user1 = pulp.getUserManager().createUser(name, email);
+            System.out.println(pulp.getUserManager().getUser(user1.getUuid()));
             UUID userUuid = user1.getUuid();
 
             data.put("uuid", userUuid);
@@ -225,7 +214,7 @@ public class MainVerticle extends AbstractVerticle {
 //            String email = ctx.request().getFormAttribute("email");
 //            System.out.println(email);
 //
-            User user = pulp.userManager.getUserByEmail(email);
+            User user = pulp.getUserManager().getUserByEmail(email);
             Cookie cookie = Cookie.cookie("user", user.getUuid().toString());
             ctx.addCookie(cookie);
             JsonObject data = new JsonObject();
@@ -272,9 +261,9 @@ public class MainVerticle extends AbstractVerticle {
             String uploader = ctx.request().getFormAttribute("email");
             File pdfFile = new File(ctx.request().getFormAttribute("paper"));
 
-            User paperUploader = pulp.userManager.getUserByEmail(uploader);
+            User paperUploader = pulp.getUserManager().getUserByEmail(uploader);
 
-            Paper createdPaper = pulp.paperManager.createPaper(title, pdfFile, authors, paperUploader.getUuid());
+            Paper createdPaper = pulp.getPaperManager().createPaper(title, pdfFile, authors, paperUploader.getUuid());
             createdPaper.setDoi(doi);
             createdPaper.setPaperAbstract(paperAbstract);
 
@@ -338,7 +327,7 @@ public class MainVerticle extends AbstractVerticle {
             String bio = ctx.request().getFormAttribute("bio");
             System.out.println(bio);
             data.put("bio", bio);
-            User original = pulp.userManager.getUser(userUUID);
+            User original = pulp.getUserManager().getUser(userUUID);
             original.setName(name);
             original.setEmail(email);
             original.setBio(bio);
@@ -351,34 +340,9 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
 
-        PgConnectOptions connectOptions = new PgConnectOptions()
-            .setPort(5432)
-            .setHost("postgres")
-            .setDatabase("dvdrental")
-            .setUser("postgres")
-            .setPassword("mysecretpassword");
+        DatabaseDriver databaseDriver = new DatabaseDriver();
 
-        // Pool options
-        PoolOptions poolOptions = new PoolOptions()
-            .setMaxSize(5);
-
-        // Create the client pool
-        SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
-
-        // A simple query
-        client
-            .query("SELECT * FROM public.customer")
-            .execute(ar -> {
-                if (ar.succeeded()) {
-                    RowSet<Row> result = ar.result();
-                    System.out.println("Got " + result.size() + " rows ");
-                } else {
-                    System.out.println("Failure: " + ar.cause().getMessage());
-                }
-
-                // Now close the pool
-                client.close();
-            });
+        pulp.setDatabaseDriver(databaseDriver);
 
         server.requestHandler(router).listen(config().getInteger("port", 8888),
             http -> {
