@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Page</title>
+    <link rel="stylesheet" href="/static/css/mainStyle.css">
+</head>
+<body>
+<form method="POST">
+    <div>
+    <p>Hello {{name}}</p>
+    <input type="text" id = "name" name="name" ><br><br>
+    <p> at {{email}}</p>
+    <input type="text" id = "email" name="email" ><br><br>
+    <p>about you {{bio}}</p>
+    <input type="text" id = "bio" name="bio" ><br><br>
+    <input type="submit" value="Submit">
+    <!--p><a href="hand" >check</a></p>
+    <button  type="button"onclick="submit;location.href='hand';">Edit </button-->
+    <p><a href="profile" >back to profile</a></p>
+    </div>
+</form>
+</body>
+</html>

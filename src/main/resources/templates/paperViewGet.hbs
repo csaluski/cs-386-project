@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: View Paper</title>
+
+    <link rel="stylesheet" href="/static/css/mainStyle.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="The page where users can view the PDF of an uploaded paper.">
+</head>
+<!--<nav>
+    <ul>
+        <li><a href="#">Index</a></li>
+        <li><a href="#">Edit Paper</a></li>
+        <li><a href="#">Log In</a></li>
+    </ul>
+</nav>-->
+<body>
+<h1> View {{title}} </h1>
+
+<div class="paper"> <!-- style paper in css or change class-->
+    <article>
+        <h2>Abstract:</h2>
+        <p>
+            {{abstract}}
+        </p>
+    </article>
+
+    <iframe src="data:application/pdf;base64,{{paperFile}}" title="" width="" height="" allowfullscreen="true" loading="eager"></iframe>
+    <input type="button" id="fullscreen" name="fullscreen" onclick="requestFullscreen()">
+
+</div>
+
+<div class="sidebar"> <!-- style sidebar in css or change class-->
+    <article>
+        <ul>
+            <li>Title: {{title}}</li>
+            <li>Doi: {{doi}}</li>
+            <li>Authors: {{authors}}</li>
+            <li>Owners: {{owners}}</li>
+        </ul>
+    </article>
+    <input type="button" id="redirect" name="goToEditPage"> <!-- onclick="go to Edit Paper Page" -->
+    <p><a href="/" >Back to Home</a></p>
+    <p><a href="profile" >Open Profile</a></p>
+    <p><a href="uploadPDF" >Upload a Paper</a></p>
+    <p><a href="editPDF" >Edit a paper</a></p>
+</div>
+</body>
+</html>

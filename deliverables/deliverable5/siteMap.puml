@@ -1,0 +1,14 @@
+@startmindmap
+'https://plantuml.com/mindmap-diagram
+
+caption figure 1
+title Pulp Site Map
+
+* index
+** login/create user
+** viewProfile
+*** edit
+** viewPaper
+*** edit
+** createPaper
+@endmindmap

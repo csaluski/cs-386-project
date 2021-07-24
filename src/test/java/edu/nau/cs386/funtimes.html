@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Page</title>
+    <link rel="stylesheet" href="/static/css/mainStyle.css">
+</head>
+<body>
+<form method="POST">
+    <p>Hello {{name}}</p>
+    <input type="text" id = "newName" name="New name:" value = {{name}}><br><br>
+    <p> at {{email}}</p>
+    <input type="text" id = "newEmail" name="New email" value= {{email}}><br><br>
+    <p>about you {{bio}}</p>
+    <input type="text" id = "newBio" name="New bio:" value = {{bio}}><br><br>
+    <input type="submit" value="Edit">
+</form>
+</body>
+</html>
