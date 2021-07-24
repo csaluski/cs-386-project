@@ -39,11 +39,17 @@ public class MainVerticle extends AbstractVerticle {
         Cookie crumb = ctx.getCookie("user");
         String uuidString = crumb.getValue();
         UUID userUUID = UUID.fromString(uuidString);
-        User user = pulp.userManager.getUser(userUUID);
+        User user = pulp.getUserManager().getUser(userUUID);
         data.put("name", user.getName());
         data.put("email", user.getEmail());
         data.put("bio", user.getBio());
         return user;
+    }
+    public void logout(RoutingContext ctx, JsonObject data){
+        data.remove("name");
+        data.remove("email");
+        data.remove("bio");
+        ctx.removeCookie("user", true);
     }
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
@@ -125,6 +131,19 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+        router.get("/logout").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            User user = getUserfromCookie(ctx, data);
+            data.put("name", user.getName());
+
+            engine.render(data, "templates/logout.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
         router.get("/edit").handler(ctx -> {
             JsonObject data = new JsonObject();
             User user = getUserfromCookie(ctx, data);
@@ -150,10 +169,6 @@ public class MainVerticle extends AbstractVerticle {
         });
 
         router.get("/profile").handler(ctx -> {
-            Cookie crumb = ctx.getCookie("user");
-            String uuidString = crumb.getValue();
-            UUID userUUID = UUID.fromString(uuidString);
-            User user = pulp.getUserManager().getUser(userUUID);
             JsonObject data = new JsonObject();
             User user = getUserfromCookie(ctx, data);
 
@@ -248,12 +263,34 @@ public class MainVerticle extends AbstractVerticle {
             data.put("bio", user.getBio());
             if (user != null) {
                 System.out.println("Name: " + user.getName() + "email: " + user.getEmail() + "bio: " + user.getBio() + "UUID: " + user.getUuid());
-                router.post("/profile");
+                ctx.reroute("/profile");
             } else {
-                router.post("/login");
+                ctx.reroute("/login");
             }
 
             engine.render(data, "templates/profileGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+        router.post("/logout").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            User user = getUserfromCookie(ctx, data);
+            String logStatus = ctx.request().getFormAttribute("log");
+           // logStatus = logStatus.toLowerCase(Locale.ROOT);
+            if( logStatus.equalsIgnoreCase("Yes") )
+            {
+                logout(ctx, data);
+                ctx.reroute("/");
+            }
+            else{
+                ctx.reroute("/profile");
+            }
+
+            engine.render(data, "templates/logout.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
@@ -348,7 +385,7 @@ public class MainVerticle extends AbstractVerticle {
             String bio = ctx.request().getFormAttribute("bio");
             System.out.println(bio);
             data.put("bio", bio);
-            User original = pulp.getUserManager().getUser(userUUID);
+           // User original = pulp.getUserManager().getUser(userUUID);
             original.setName(name);
             original.setEmail(email);
             original.setBio(bio);
