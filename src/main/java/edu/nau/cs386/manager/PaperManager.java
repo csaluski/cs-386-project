@@ -1,18 +1,29 @@
 package edu.nau.cs386.manager;
 
 import com.thedeanda.lorem.LoremIpsum;
+import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.model.Paper;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class PaperManager {
 
     private static final PaperManager INSTANCE = new PaperManager();
     private final HashMap<UUID, Paper> activePapers = new HashMap<>();
+    private DatabaseDriver databaseDriver;
     public UUID testPaperUUID;
 
+    private PaperManager() {
+
+    }
+
+    public static PaperManager getInstance() {
+        return INSTANCE;
+    }
 
     private PaperManager(){};
 
@@ -76,4 +87,7 @@ public class PaperManager {
         return wkgPaper;
     }
 
+    public void setDatabaseDriver(DatabaseDriver databaseDriver) {
+        this.databaseDriver = databaseDriver;
+    }
 }

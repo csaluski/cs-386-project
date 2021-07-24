@@ -1,7 +1,9 @@
 package edu.nau.cs386.manager;
 
 import com.thedeanda.lorem.LoremIpsum;
+import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.model.User;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -12,6 +14,25 @@ public class UserManager {
     private static final UserManager INSTANCE = new UserManager();
     private final HashMap<UUID, User> activeUsers = new HashMap<>();
     public UUID testUserUUID;
+    private DatabaseDriver databaseDriver;
+
+    private UserManager() {
+
+    }
+
+
+    public static UserManager getInstance() {
+        return INSTANCE;
+    }
+
+    public DatabaseDriver getDatabaseDriver() {
+        return databaseDriver;
+    }
+
+    public void setDatabaseDriver(DatabaseDriver databaseDriver) {
+        this.databaseDriver = databaseDriver;
+    }
+
 
     private UserManager() {
     };
@@ -21,6 +42,7 @@ public class UserManager {
     }
 
     public User createUser(String name, String email) {
+        databaseDriver.insertUser(name, email);
         User wkgUser = new User(name, email);
         activeUsers.put(wkgUser.getUuid(), wkgUser);
         return wkgUser;

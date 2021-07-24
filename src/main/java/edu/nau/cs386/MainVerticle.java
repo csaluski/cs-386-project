@@ -1,5 +1,6 @@
 package edu.nau.cs386;
 
+import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
@@ -218,7 +219,7 @@ public class MainVerticle extends AbstractVerticle {
 
             // JsonObject data = new JsonObject();
             data.put("email", email);
-            User user1 = pulp.getUserManager().createUser(name,email);
+            User user1 = pulp.getUserManager().createUser(name, email);
             System.out.println(pulp.getUserManager().getUser(user1.getUuid()));
             UUID userUuid = user1.getUuid();
 
@@ -238,7 +239,7 @@ public class MainVerticle extends AbstractVerticle {
         router.post("/login").handler(ctx -> {
 
             String email = ctx.request().getFormAttribute("email");
-            User user = pulp.userManager.getUserByEmail(email);
+            User user = pulp.getUserManager().getUserByEmail(email);
             Cookie cookie = Cookie.cookie("user", user.getUuid().toString());
             ctx.addCookie(cookie);
             JsonObject data = new JsonObject();
@@ -362,6 +363,10 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+
+        DatabaseDriver databaseDriver = new DatabaseDriver();
+
+        pulp.setDatabaseDriver(databaseDriver);
 
         server.requestHandler(router).listen(config().getInteger("port", 8888),
             http -> {

@@ -1,5 +1,6 @@
 package edu.nau.cs386;
 
+import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.manager.PaperManager;
 import edu.nau.cs386.manager.UserManager;
 import edu.nau.cs386.model.Paper;
@@ -9,8 +10,9 @@ public class Pulp {
     private static final Pulp INSTANCE = new Pulp();
 
 
-    private UserManager userManager;
-    private PaperManager paperManager;
+    private final UserManager userManager;
+    private final PaperManager paperManager;
+    private DatabaseDriver databaseDriver;
 
     private Pulp() {
         this.userManager = UserManager.getInstance();
@@ -24,7 +26,7 @@ public class Pulp {
         return INSTANCE;
     }
 
-        public UserManager getUserManager() {
+    public UserManager getUserManager() {
         return userManager;
     }
 
@@ -39,5 +41,17 @@ public class Pulp {
     public Paper getTestPaper() {
         return paperManager.getPaper(paperManager.testPaperUUID);
     }
+
+    public DatabaseDriver getDatabaseDriver() {
+        return databaseDriver;
+    }
+
+    public void setDatabaseDriver(DatabaseDriver databaseDriver) {
+        this.databaseDriver = databaseDriver;
+
+        userManager.setDatabaseDriver(databaseDriver);
+        paperManager.setDatabaseDriver(databaseDriver);
+    }
+
 
 }
