@@ -385,7 +385,6 @@ public class MainVerticle extends AbstractVerticle {
             String bio = ctx.request().getFormAttribute("bio");
             System.out.println(bio);
             data.put("bio", bio);
-           // User original = pulp.getUserManager().getUser(userUUID);
             original.setName(name);
             original.setEmail(email);
             original.setBio(bio);
