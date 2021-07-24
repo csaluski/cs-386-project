@@ -22,6 +22,10 @@ import org.apache.commons.io.FileUtils;
 import javax.naming.ldap.PagedResultsResponseControl;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -29,7 +33,7 @@ import java.util.*;
 
 public class MainVerticle extends AbstractVerticle {
 
-    private Pulp pulp = new Pulp();
+    private Pulp pulp = Pulp.getInstance();
 
     public User getUserfromCookie(RoutingContext ctx, JsonObject data){
         Cookie crumb = ctx.getCookie("user");
@@ -57,7 +61,7 @@ public class MainVerticle extends AbstractVerticle {
         router.route("/static/*").handler(StaticHandler.create("static"));
 
         router.route("/").handler(ctx -> {
-            List<Paper> papers = pulp.paperManager.getAllPapers();
+            List<Paper> papers = pulp.getPaperManager().getAllPapers();
             JsonObject data = new JsonObject();
             JsonObject wkgObject;
             JsonArray papersArray = new JsonArray();
@@ -146,6 +150,10 @@ public class MainVerticle extends AbstractVerticle {
         });
 
         router.get("/profile").handler(ctx -> {
+            Cookie crumb = ctx.getCookie("user");
+            String uuidString = crumb.getValue();
+            UUID userUUID = UUID.fromString(uuidString);
+            User user = pulp.getUserManager().getUser(userUUID);
             JsonObject data = new JsonObject();
             User user = getUserfromCookie(ctx, data);
 
@@ -162,7 +170,7 @@ public class MainVerticle extends AbstractVerticle {
 
             UUID uuid = UUID.fromString(ctx.pathParam("paperUuid"));
 
-            Paper paper = pulp.paperManager.getPaper(uuid);
+            Paper paper = pulp.getPaperManager().getPaper(uuid);
 
             JsonObject paperJson = new JsonObject();
 
@@ -173,7 +181,7 @@ public class MainVerticle extends AbstractVerticle {
             StringBuilder paperOwners = new StringBuilder();
             List<UUID> owners = paper.getOwners();
             owners.forEach(ownerUuid ->
-                paperOwners.append(pulp.userManager.getUser(ownerUuid).getName()));
+                paperOwners.append(pulp.getUserManager().getUser(ownerUuid).getName()));
 
             byte[] fileBytes = new byte[0];
             try {
@@ -211,8 +219,8 @@ public class MainVerticle extends AbstractVerticle {
 
             // JsonObject data = new JsonObject();
             data.put("email", email);
-            User user1 = pulp.userManager.createUser(name, email);
-            System.out.println(pulp.userManager.getUser(user1.getUuid()));
+            User user1 = pulp.getUserManager().createUser(name,email);
+            System.out.println(pulp.getUserManager().getUser(user1.getUuid()));
             UUID userUuid = user1.getUuid();
 
             data.put("uuid", userUuid);
@@ -305,9 +313,9 @@ public class MainVerticle extends AbstractVerticle {
 
 
 
-            User paperUploader = pulp.userManager.getUserByEmail(uploader);
+            User paperUploader = pulp.getUserManager().getUserByEmail(uploader);
 
-            Paper createdPaper = pulp.paperManager.createPaper(title, pdfFile, authors, paperUploader.getUuid());
+            Paper createdPaper = pulp.getPaperManager().createPaper(title, pdfFile, authors, paperUploader.getUuid());
             createdPaper.setDoi(doi);
             createdPaper.setPaperAbstract(paperAbstract);
 
@@ -334,7 +342,13 @@ public class MainVerticle extends AbstractVerticle {
             User original = getUserfromCookie(ctx, data);
             String name = ctx.request().getFormAttribute("name");
             String email = ctx.request().getFormAttribute("email");
-            String bio = ctx.request().getFormAttribute("bio");;
+            System.out.println(email);
+            data.put("email", email);
+            //Getting the bio into update variable
+            String bio = ctx.request().getFormAttribute("bio");
+            System.out.println(bio);
+            data.put("bio", bio);
+            User original = pulp.getUserManager().getUser(userUUID);
             original.setName(name);
             original.setEmail(email);
             original.setBio(bio);
@@ -349,7 +363,6 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
-
 
         server.requestHandler(router).listen(config().getInteger("port", 8888),
             http -> {

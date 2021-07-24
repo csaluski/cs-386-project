@@ -9,9 +9,16 @@ import java.util.*;
 
 public class PaperManager {
 
+    private static final PaperManager INSTANCE = new PaperManager();
     private final HashMap<UUID, Paper> activePapers = new HashMap<>();
     public UUID testPaperUUID;
 
+
+    private PaperManager(){};
+
+    public static PaperManager getInstance() {
+        return INSTANCE;
+    }
 
     public Paper createPaper(String title, File file, List<String> authors, UUID owner) {
         Paper wkgPaper = new Paper(title, file, authors, owner);

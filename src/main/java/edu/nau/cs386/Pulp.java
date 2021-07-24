@@ -6,19 +6,25 @@ import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
 
 public class Pulp {
+    private static final Pulp INSTANCE = new Pulp();
 
-    public UserManager userManager;
-    public PaperManager paperManager;
 
-    public Pulp() {
-        this.userManager = new UserManager();
-        this.paperManager = new PaperManager();
+    private UserManager userManager;
+    private PaperManager paperManager;
+
+    private Pulp() {
+        this.userManager = UserManager.getInstance();
+        this.paperManager = PaperManager.getInstance();
 
         User testUser = userManager.createTestUser();
         Paper testPaper = paperManager.createTestPaper(testUser.getUuid());
     }
 
-    public UserManager getUserManager() {
+    public static Pulp getInstance() {
+        return INSTANCE;
+    }
+
+        public UserManager getUserManager() {
         return userManager;
     }
 
