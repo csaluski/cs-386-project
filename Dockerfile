@@ -1,8 +1,16 @@
-FROM openjdk:11-jre
+FROM gradle:7.1.1-jdk11
 
-ENV VERTICLE_FILE target/hello-verticle-1.0-SNAPSHOT.jar
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY build.gradle.kts settings.gradle.kts $APP_HOME
 
-#
+COPY gradle $APP_HOME/gradle
+COPY --chown=gradle:gradle . /home/gradle/src
+USER root
+RUN chown -R gradle /home/gradle/src
+
+RUN gradle shadowJar
+
 ENV VERTICLE_NAME edu.nau.cs386.MainVerticle
 ENV VERTICLE_FILE CS386-1.0.0-SNAPSHOT-fat.jar
 
