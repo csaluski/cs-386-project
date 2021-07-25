@@ -2,7 +2,7 @@ FROM gradle:7.1.1-jdk11
 
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
-COPY build.gradle.kts settings.gradle.kts $APP_HOME
+COPY *.gradle.kts gradlew* system.properties src gradle $APP_HOME
 
 COPY gradle $APP_HOME/gradle
 COPY --chown=gradle:gradle . /home/gradle/src
