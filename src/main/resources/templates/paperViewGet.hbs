@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Pulp: View Paper</title>
-
-    <link rel="stylesheet" href="/static/css/mainStyle.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <meta name="author" content="Hannah Larreau">
     <meta name="description" content="The page where users can view the PDF of an uploaded paper.">
 </head>
@@ -18,7 +17,7 @@
 <body>
 <h1> View {{title}} </h1>
 
-<div class="paper"> <!-- style paper in css or change class-->
+<div class="container">
     <article>
         <h2>Abstract:</h2>
         <p>
@@ -31,13 +30,14 @@
 
 </div>
 
-<div class="sidebar"> <!-- style sidebar in css or change class-->
+<div class="sidebar">
     <article>
         <ul>
             <li>Title: {{title}}</li>
             <li>Doi: {{doi}}</li>
             <li>Authors: {{authors}}</li>
             <li>Owners: {{owners}}</li>
+            <li>Tags: {{tags}}</li>
         </ul>
     </article>
     <input type="button" id="redirect" name="goToEditPage"> <!-- onclick="go to Edit Paper Page" -->
