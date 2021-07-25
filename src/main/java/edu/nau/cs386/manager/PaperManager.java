@@ -25,11 +25,6 @@ public class PaperManager {
         return INSTANCE;
     }
 
-    private PaperManager(){};
-
-    public static PaperManager getInstance() {
-        return INSTANCE;
-    }
 
     public Paper createPaper(String title, File file, List<String> authors, UUID owner) {
         Paper wkgPaper = new Paper(title, file, authors, owner);

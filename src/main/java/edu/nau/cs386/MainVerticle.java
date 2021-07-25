@@ -45,6 +45,19 @@ public class MainVerticle extends AbstractVerticle {
         data.put("bio", user.getBio());
         return user;
     }
+    public Paper getPaperCookie(RoutingContext ctx, JsonObject data){
+        Cookie crumb = ctx.getCookie("paper");
+        String uuidString = crumb.getValue();
+        UUID paperUUID = UUID.fromString(uuidString);
+        Paper paper = pulp.getPaperManager().getPaper(paperUUID);
+        data.put("title", paper.getTitle());
+        data.put("pdf", paper.getPdf());
+        data.put("abstract", paper.getPaperAbstract());
+        data.put("doi", paper.getDoi());
+        data.put("authors", paper.getAuthors());
+        data.put("owners", paper.getOwners());
+        return paper;
+    }
     public void logout(RoutingContext ctx, JsonObject data){
         data.remove("name");
         data.remove("email");
@@ -160,6 +173,19 @@ public class MainVerticle extends AbstractVerticle {
             JsonObject data = new JsonObject();
 
             engine.render(data, "templates/createUser.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+        router.get("/tag").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            Paper paper = getPaperCookie(ctx, data);
+            User user = getUserfromCookie(ctx, data);
+
+            engine.render(data, "templates/getTag.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
@@ -298,19 +324,9 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
-
-        router.get("/uploadPDF").handler(ctx -> {
-            JsonObject data = new JsonObject();
-            engine.render(data, "templates/paperCreate", res -> {
-                if (res.succeeded()) {
-                    ctx.response().end(res.result());
-                } else {
-                    ctx.fail(res.cause());
-                }
-            });
-        });
         router.get("/editPDF").handler(ctx -> {
             JsonObject data = new JsonObject();
+            Paper paper = getPaperCookie(ctx, data);
             engine.render(data, "templates/paperEditPost.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
@@ -347,15 +363,12 @@ public class MainVerticle extends AbstractVerticle {
 
                 pdfFile = new File(fileName);
             }
-
-
-
             User paperUploader = pulp.getUserManager().getUserByEmail(uploader);
-
             Paper createdPaper = pulp.getPaperManager().createPaper(title, pdfFile, authors, paperUploader.getUuid());
             createdPaper.setDoi(doi);
             createdPaper.setPaperAbstract(paperAbstract);
-
+            Cookie paperCookie = Cookie.cookie("paper", createdPaper.getUuid().toString());
+            ctx.addCookie(paperCookie);
             System.out.println("Reached the reroute");
             System.out.println(createdPaper.getUuid());
             ctx.reroute("/view/paper/" + createdPaper.getUuid());
@@ -366,6 +379,19 @@ public class MainVerticle extends AbstractVerticle {
             User user = getUserfromCookie(ctx, data);
 
             engine.render(data, "templates/profileGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+        router.post("/tag").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            User user = getUserfromCookie(ctx, data);
+            String tag = ctx.request().getFormAttribute("tag");
+            ctx.redirect("/view/paper/:paperUuid");
+            engine.render(data, "templates/paperViewGet.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {

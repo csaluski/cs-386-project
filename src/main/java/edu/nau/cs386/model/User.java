@@ -1,11 +1,9 @@
 package edu.nau.cs386.model;
 
-import edu.nau.cs386.manager.UserManager;
 
 import java.util.Objects;
 import java.util.UUID;
 import java.util.Scanner;
-import edu.nau.cs386.manager.UserManager;
 import edu.nau.cs386.model.Paper;
 
 public class User {
