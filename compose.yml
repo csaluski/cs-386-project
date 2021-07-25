@@ -6,20 +6,23 @@ services:
         restart: always
         environment:
             POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: mysecretpassword
+            POSTGRES_PASSWORD: postgres
             PGDATA: /data/postgres
 
         volumes:
             - postgres:/data/postgres
+            - ./src/main/psql/:/docker-entrypoint-initdb.d/
         networks:
             - postgres
+        ports:
+            - 5432:5432
 
     pgadmin:
         image: dpage/pgadmin4
         restart: always
         environment:
             POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: mysecretpassword
+            POSTGRES_PASSWORD: postgres
             PGADMIN_DEFAULT_EMAIL: "pgadmin4@pgadmin.org"
             PGADMIN_DEFAULT_PASSWORD: "admin"
             PGADMIN_CONFIG_SERVER_MODE: 'False'

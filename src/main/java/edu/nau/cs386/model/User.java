@@ -15,6 +15,13 @@ public class User {
     private String email;
     private String bio;
 
+    public User(UUID uuid, String name, String email, String bio) {
+        this.name = name;
+        this.email = email;
+        this.bio = bio;
+        this.uuid = uuid;
+    }
+
     public User(String name, String email, String bio) {
         this.name = name;
         this.email = email;
