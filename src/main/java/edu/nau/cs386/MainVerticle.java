@@ -2,6 +2,7 @@ package edu.nau.cs386;
 
 import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.model.Paper;
+import edu.nau.cs386.model.Tag;
 import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -56,6 +57,7 @@ public class MainVerticle extends AbstractVerticle {
         data.put("doi", paper.getDoi());
         data.put("authors", paper.getAuthors());
         data.put("owners", paper.getOwners());
+        data.put("tags", paper.getTags());
         return paper;
     }
     public void logout(RoutingContext ctx, JsonObject data){
@@ -206,6 +208,16 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+        router.get("/uploadPDF").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            engine.render(data, "templates/paperCreate.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
 
         router.route("/view/paper/:paperUuid").handler(ctx -> {
 
@@ -218,6 +230,10 @@ public class MainVerticle extends AbstractVerticle {
             StringBuilder paperAuthors = new StringBuilder();
             List<String> authors = paper.getAuthors();
             authors.forEach(paperAuthors::append);
+
+            StringBuilder paperTags = new StringBuilder();
+            List<Tag> tags = paper.getTags();
+            tags.forEach(paperTags::append);
 
             StringBuilder paperOwners = new StringBuilder();
             List<UUID> owners = paper.getOwners();
@@ -232,6 +248,7 @@ public class MainVerticle extends AbstractVerticle {
             }
 
             String pdfBase64 = Base64.getEncoder().encodeToString(fileBytes);
+            String tagString = pulp.getTagManager().activeTagsToString(paper.getTags());
 
             paperJson.put("title", paper.getTitle());
             paperJson.put("paperAbstract", paper.getPaperAbstract());
@@ -239,6 +256,7 @@ public class MainVerticle extends AbstractVerticle {
             paperJson.put("authors", paperAuthors.toString());
             paperJson.put("owners", paperOwners.toString());
             paperJson.put("paperFile", pdfBase64);
+            paperJson.put("tags", tagString);
 
             engine.render(paperJson, "templates/paperViewGet.hbs", res -> {
                 if (res.succeeded()) {
@@ -388,9 +406,12 @@ public class MainVerticle extends AbstractVerticle {
         });
         router.post("/tag").handler(ctx -> {
             JsonObject data = new JsonObject();
-            User user = getUserfromCookie(ctx, data);
-            String tag = ctx.request().getFormAttribute("tag");
-            ctx.redirect("/view/paper/:paperUuid");
+            Paper paper = getPaperCookie(ctx, data);
+            String tagString = ctx.request().getFormAttribute("tags");
+            Tag tag = pulp.getTagManager().createTag( tagString );
+            paper.addTag(tag);
+            data.put("tags", tag);
+            ctx.reroute("/view/paper/" + paper.getUuid());
             engine.render(data, "templates/paperViewGet.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());

@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import edu.nau.cs386.model.Tag;
+import java.util.ArrayList;
 
 public class Paper {
 
@@ -15,9 +17,19 @@ public class Paper {
     private String doi;
     private List<String> authors;
     private List<UUID> owners;
-    private Tag tag;
+    private List<Tag> tags = new ArrayList<>();
 
 
+    public Paper(String title, File pdf, String paperAbstract, String doi, List<String> authors, List<UUID> owners, List<Tag> tag) {
+        this.title = title;
+        this.pdf = pdf;
+        this.paperAbstract = paperAbstract;
+        this.doi = doi;
+        this.authors = authors;
+        this.owners = owners;
+        this.uuid = UUID.randomUUID();
+        this.tags = tag;
+    }
     public Paper(String title, File pdf, String paperAbstract, String doi, List<String> authors, List<UUID> owners) {
         this.title = title;
         this.pdf = pdf;
@@ -91,6 +103,15 @@ public class Paper {
 
     public void addOwner(UUID owner) {
         this.owners.add(owner);
+    }
+
+    public void addTag( Tag tag ) {this.tags.add(tag);}
+    public List<Tag> getTags() {
+        if( this.tags == null)
+        {
+            return List.of(new Tag( "Pulp" ));
+        }
+        return this.tags;
     }
 
     @Override
