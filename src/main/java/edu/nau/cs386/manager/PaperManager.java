@@ -17,15 +17,8 @@ public class PaperManager {
     private DatabaseDriver databaseDriver;
     public UUID testPaperUUID;
 
-    private PaperManager() {
-
+    private PaperManager(){
     }
-
-    public static PaperManager getInstance() {
-        return INSTANCE;
-    }
-
-    private PaperManager(){};
 
     public static PaperManager getInstance() {
         return INSTANCE;

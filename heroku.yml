@@ -1,9 +1,13 @@
+#
+# Deployment configuration for Heroku
+#
+setup:
+    addons:
+        - plan: heroku-postgresql
+          as: DATABASE
 build:
     docker:
-        web: heroku/Dockerfile
-
-
+        web: Dockerfile
 run:
-    web: java -jar build/libs/CS386-1.0.0-SNAPSHOT-fat.jar --conf='{"port":$PORT}'
-
-
+    web:
+        image: web

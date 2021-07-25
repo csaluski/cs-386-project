@@ -17,9 +17,7 @@ public class UserManager {
     private DatabaseDriver databaseDriver;
 
     private UserManager() {
-
     }
-
 
     public static UserManager getInstance() {
         return INSTANCE;
@@ -31,14 +29,6 @@ public class UserManager {
 
     public void setDatabaseDriver(DatabaseDriver databaseDriver) {
         this.databaseDriver = databaseDriver;
-    }
-
-
-    private UserManager() {
-    };
-
-    public static UserManager getInstance() {
-        return INSTANCE;
     }
 
     public User createUser(String name, String email) {
