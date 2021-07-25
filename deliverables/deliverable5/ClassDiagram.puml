@@ -1,10 +1,24 @@
 @startuml
-class User {
 
+class User {
+-bio: String
+-name: String
+-email: String
+-uuid: UUID
+-groups: List<UserGroup>
+
++getName(): String
++getBio(): String
++getEmail(): String
++getUuid(): String
++getGroups(): List<UserGroup>
 }
 
 class UserGroup {
-
+members: List<User>
+uuid: UUID
+name: String
+admins: List<User>
 }
 
 class Folder {
@@ -23,17 +37,73 @@ class Citation {
 
 }
 
-class CitationGraph {
-
-}
-
-class Thread {
-
-}
-
 class Comment {
 
 }
+
+class MainVerticle{
++ pulp: Pulp
+}
+
+class Pulp {
+-userManager: UserManager
+-paperManager: PaperManager
+-tagManager: TagManager
+-annotationManager: AnnotationManager
+-userGroupManager: UserGroupManager
+-folderManager: FolderManager
+-citationManager: CitationManager
+
++getInstance(): Pulp
++getUserManager(): UserManager
++getPaperManager(): PaperManager
++getTagManager(): TagManager
++getAnnotationManager(): AnnotationManager
++getUserGroupManager(): UserGroupManager
++getFolderManager(): FolderManager
++getCitationManager(): CitationManager
+}
+
+class UserManager {
+-UserManager()
++createUser(String name, String email): User
++getUserByEmail(String email): User
+
+}
+
+class PaperManager
+
+class TagManager
+
+class AnnotationManager
+
+class UserGroupManager
+
+class FolderManager
+
+class CitationManager
+
+class DatabaseDriver
+
+MainVerticle "1"--* Pulp
+
+Pulp "1"--* UserManager
+Pulp "1"--* PaperManager
+Pulp "1"--* TagManager
+Pulp "1"--* AnnotationManager
+Pulp "1"--* UserGroupManager
+Pulp "1"--* FolderManager
+Pulp "1"--* CitationManager
+
+
+UserManager "1"--* DatabaseDriver
+PaperManager "1"--* DatabaseDriver
+TagManager "1"--* DatabaseDriver
+AnnotationManager "1"--* DatabaseDriver
+UserGroupManager "1"--* DatabaseDriver
+FolderManager "1"--* DatabaseDriver
+CitationManager "1"--* DatabaseDriver
+
 
 User *-- "0..*" Folder
 Folder o-- "0..*" Paper
@@ -42,10 +112,9 @@ User  *-- "0..*" Tag
 UserGroup *-- "0..*" Folder
 UserGroup "1..*" *-o "0..*" User
 UserGroup *- "1..*" Tag
-Citation "1..*" --* CitationGraph
 Citation "0..*" -o Paper
 Comment --o User
-Comment "1..*" -* Thread
+Comment "0..*" --o Comment
 Annotation *-- "0..*" Paper
 User "0..*" --* Annotation
 @enduml
