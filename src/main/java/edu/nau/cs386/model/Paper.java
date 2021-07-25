@@ -15,6 +15,7 @@ public class Paper {
     private String doi;
     private List<String> authors;
     private List<UUID> owners;
+    private Tag tag;
 
 
     public Paper(String title, File pdf, String paperAbstract, String doi, List<String> authors, List<UUID> owners) {
@@ -60,7 +61,6 @@ public class Paper {
         return uuid;
     }
 
-
     public String getPaperAbstract() {
         return paperAbstract;
     }
@@ -84,7 +84,6 @@ public class Paper {
     public void setOwners(List<UUID> owners) {
         this.owners = owners;
     }
-
 
     public void addAuthor(String author) {
         this.authors.add(author);
