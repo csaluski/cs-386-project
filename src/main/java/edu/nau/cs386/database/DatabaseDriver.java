@@ -38,18 +38,16 @@ public class DatabaseDriver extends AbstractVerticle {
     public void start(Promise<Void> startPromise) throws SQLException {
         pool = PgPool.pool(vertx, connectOptions, poolOptions);
 
-
         System.out.println("Starting to create database, reading file");
     }
 
-    private RowSet<Row> processRowFuture(Future<RowSet<Row>> future) throws RuntimeException {
+    private <T> RowSet<T> processRowFuture(Future<RowSet<T>> future) throws RuntimeException {
         if (future.succeeded()) {
             return future.result();
         } else {
             throw new RuntimeException(future.cause());
         }
     }
-
 
     private final RowMapper<User> ROW_USER_MAPPER = row -> {
         UUID uuid = row.getUUID("uuid");
@@ -73,7 +71,6 @@ public class DatabaseDriver extends AbstractVerticle {
 
 
     public User insertUser(String name, String email) throws RuntimeException {
-
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         parameters.put("email", email);
@@ -84,16 +81,10 @@ public class DatabaseDriver extends AbstractVerticle {
             .mapTo(ROW_USER_MAPPER)
             .execute(parameters);
 
-
-        if (results.succeeded()) {
-            return results.result().iterator().next();
-        } else {
-            throw new RuntimeException(results.cause());
-        }
+        return processRowFuture(results).iterator().next();
     }
 
     public User getUserByEmail(String email) throws RuntimeException {
-
         Map<String, Object> parameters = Collections.singletonMap("email", email);
 
         Future<RowSet<User>> results = SqlTemplate.forQuery(
@@ -102,12 +93,7 @@ public class DatabaseDriver extends AbstractVerticle {
             .mapTo(ROW_USER_MAPPER)
             .execute(parameters);
 
-
-        if (results.succeeded()) {
-            return results.result().iterator().next();
-        } else {
-            throw new RuntimeException(results.cause());
-        }
+        return processRowFuture(results).iterator().next();
     }
 
     public User updateUser(User user, String name, String email, String bio) throws RuntimeException {
@@ -120,11 +106,7 @@ public class DatabaseDriver extends AbstractVerticle {
             .mapTo(ROW_USER_MAPPER)
             .execute(updatedUser);
 
-        if (results.succeeded()) {
-            return results.result().iterator().next();
-        } else {
-            throw new RuntimeException(results.cause());
-        }
+        return processRowFuture(results).iterator().next();
     }
 
 }
