@@ -3,22 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello Page</title>
-    <link rel="stylesheet" href="/static/css/mainStyle.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
+
 <body>
-<form method="POST" method="GET" >
+
+<header id="mainHeader">
+    <h1>Pulp: Log Out </h1>
+</header>
+
+{{> navigation}}
+
+<form method="get" >
     <div>
         <p>Hello {{name}}, are you sure you would like to logout?</p>
+    </div>
+</form>
+
+<form method="post">
+    <div>
         <input type="radio" id="Yes" name="log" value="Yes">
         <label for="Yes">Yes</label><br>
         <input type="radio" id="No" name="log" value="No">
-        <label for="No">No</label><br>
-
-        <br>
-
-
+        <label for="No">No</label><br><br>
         <input type="submit" value="Submit">
     </div>
 </form>
+
+{{> footer}}
+
 </body>
+
 </html>

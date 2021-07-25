@@ -5,8 +5,22 @@
     <title>Hello Page</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
+
 <body>
-<p>Hello {{name}} At {{email}}, your UUID is {{uuid}}!</p>
-<p><a href="login" >Login</a></p>
+
+<header id="mainHeader">
+    <h1>Pulp</h1>
+</header>
+
+{{> navigation}}
+
+<article>
+    <p>Hello {{name}} At {{email}}, your UUID is {{uuid}}!</p>
+    <p><a href="login">Login</a></p>
+</article>
+
+{{> footer}}
+
 </body>
+
 </html>

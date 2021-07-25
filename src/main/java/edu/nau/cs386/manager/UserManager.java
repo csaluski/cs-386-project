@@ -34,15 +34,8 @@ public class UserManager {
     }
 
 
-    private UserManager() {
-    };
-
-    public static UserManager getInstance() {
-        return INSTANCE;
-    }
-
     public User createUser(String name, String email) {
-        databaseDriver.insertUser(name, email);
+        //databaseDriver.insertUser(name, email);
         User wkgUser = new User(name, email);
         activeUsers.put(wkgUser.getUuid(), wkgUser);
         return wkgUser;

@@ -1,30 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Pulp: Footer </title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <meta name="author" content="Hannah Larreau">
-    <meta name="description" content="Footer for all pages.">
-</head>
-<body>
+<article>
 <div class="mainFooter">
     <ul>
-    <li><a href="indexGet.hbs">Home</a></li>
-    <li><a href="paperBrowseGet.hbs">Papers</a></li>
-    <li><a href="tagBrowseGet.hbs">Tags</a></li>
-    <li>{{#if loggedIn}}
-        <a href="userEditPost.hbs">User Page</a>
+        <li><a href="/">Home</a></li>
+        <li><a href="{{browsePapers}}">Papers</a></li>
+        <li><a href="{{browseTags}}">Tags</a></li>
+        {{#if loggedIn}}
+        <li><a href="{{userPage}}">User Page</a></li>
         {{else}}
-        <a href="userLoginPost.hbs">Log In</a>
-        {{endif}}</li> <!-- (route to log in or user profile page, dependent on if logged in already) -->
+        <li><a href="{{login}}">Login</a></li>
+        {{/if}}
     </ul>
-    <article>
-        <p>Pulp is a collaboration platform that enables academics to be more effective in their literary research by
-            enabling more effective searching and collaborative annotations.</p>
-        <p> Open source at "https://github.com/Csaluski/cs-386-project" </p>
-        <p>Copyright © 2021 PULP</p>
-    </article>
+        <article>
+            <p>Pulp is a collaboration platform that enables academics to be more effective in their literary research by
+                enabling more effective searching and collaborative annotations.</p>
+            <p>Open source at "https://github.com/Csaluski/cs-386-project" </p>
+            <p>Copyright © 2021 PULP</p>
+        </article>
 </div>
-</body>
-</html>
+</article>
+

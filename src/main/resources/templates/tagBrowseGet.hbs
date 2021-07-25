@@ -7,18 +7,35 @@
     <meta name="author" content="Hannah Larreau">
     <meta name="description" content="A listing of all created tags.">
 </head>
-<!--<nav>
-    <ul>
-        <li><a href="#">Home</a></li> (route to index page)
-        <li><a href="#">Papers</a></li> (route to paperListGet page)
-        <li><a href="#">Tags</a></li> (route to tagListGet page)
-        <li><a href="#">Log In</a></li> (route to log in or user profile page, dependent on if logged in already)
-    </ul>
-</nav>-->
+
 <body>
 
-</body>
-<!--<footer>
+<header id="mainHeader">
+    <h1>Pulp: Browse Tags </h1>
+</header>
 
-</footer> -->
+{{> navigation}}
+
+<article>
+
+    <div id="allTags">
+        <h2>All Existing Tags</h2>
+        <ul>
+            <!-- ToDo: Ensure this list is in alphabetic order -->
+            {{#each tag}}
+                <li>
+                    <h2><a href="view/paper/{{taguuid}}">{{tagtitle}}</a></h2>
+                    <p>By: {{owners}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+</article>
+
+{{> footer}}
+
+</body>
+
+
 </html>

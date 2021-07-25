@@ -5,32 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <title>Hello Page</title>
 </head>
+
 <body>
+
 <header id="mainHeader">
-    <div class="container">
-        <h1>PULP</h1>
-    </div>
+    <h1>Pulp: Profile </h1>
 </header>
 
-<form method="POST" method="GET">
+{{> navigation}}
+
+<form method="get">
     <p>Hello {{name}}!</p>
     <p> at {{email}}!</p>
     <p>about you {{bio}}</p>
+</form>
+
+<form method="post">
     <!--input type="text" id = "bio" name="bio"><br><br>
     <input type="submit" value="Edit"-->
-    <p><a href="edit" >Edit Your Profile!</a></p>
-    <p><a href="/" >Back to Home</a></p>
-    <p><a href="uploadPDF" >Upload a Paper</a></p>
-    <p><a href="view/paper/:paperUuid" >View a Paper</a></p>
-    <p><a href="editPDF" >Edit a paper</a></p>
+    <p><a href="{{edit}}">Edit Your Profile!</a></p>
+    <p><a href="/">Back to Home</a></p>
+    <p><a href="{{uploadPDF}}">Upload a Paper</a></p>
+    <p><a href="{{view/paper/:paperUuid}}">View a Paper</a></p>
+    <p><a href="{{editPDF}}">Edit a paper</a></p>
 </form>
+
+{{> footer}}
 
 </body>
 
-<footer id="mainFooter">
-    <p>Copyright &copy; 2021 PULP</p>
-</footer>
 </html>

@@ -89,7 +89,7 @@ public class MainVerticle extends AbstractVerticle {
 
             data.put("papers", papersArray);
 
-            engine.render(data, "templates/index.hbs", res -> {
+            engine.render(data, "templates/indexGet.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
@@ -100,7 +100,7 @@ public class MainVerticle extends AbstractVerticle {
 
         });
 
-        router.get("/createUser.hbs").handler(this::getCreateUser);
+        router.get("/userCreatePost.hbs").handler(this::getCreateUser);
 
         router.get("/login").handler(this::getLogin);
         router.get("/logout").handler(this::getLogout);
@@ -165,7 +165,7 @@ public class MainVerticle extends AbstractVerticle {
     private void getCreate(RoutingContext ctx) {
         JsonObject data = new JsonObject();
 
-        engine.render(data, "templates/createUser.hbs", res -> {
+        engine.render(data, "templates/userCreatePost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -178,7 +178,7 @@ public class MainVerticle extends AbstractVerticle {
         JsonObject data = new JsonObject();
         User user = getUserfromCookie(ctx, data);
 
-        engine.render(data, "templates/editUser.hbs", res -> {
+        engine.render(data, "templates/userEditPost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -192,7 +192,7 @@ public class MainVerticle extends AbstractVerticle {
         User user = getUserfromCookie(ctx, data);
         data.put("name", user.getName());
 
-        engine.render(data, "templates/logout.hbs", res -> {
+        engine.render(data, "templates/userLogoutGet.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -204,7 +204,7 @@ public class MainVerticle extends AbstractVerticle {
     private void getLogin(RoutingContext ctx) {
         JsonObject data = new JsonObject();
 
-        engine.render(data, "templates/login.hbs", res -> {
+        engine.render(data, "templates/userLoginPost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -223,7 +223,7 @@ public class MainVerticle extends AbstractVerticle {
 
         data.put("name", name);
 
-        engine.render(data, "templates/createUser.hbs", res -> {
+        engine.render(data, "templates/userCreatePost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -272,7 +272,7 @@ public class MainVerticle extends AbstractVerticle {
             ctx.reroute("/profile");
         }
 
-        engine.render(data, "templates/logout.hbs", res -> {
+        engine.render(data, "templates/userLogoutGet.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -323,13 +323,17 @@ public class MainVerticle extends AbstractVerticle {
 
         data.put("uuid", userUuid);
 
-        engine.render(data, "templates/postHandlerUser.hbs", res -> {
+        engine.render(data, "templates/userHandlerPost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
                 ctx.fail(res.cause());
             }
         });
+    }
+
+    private void browsePaperRoute(RoutingContext ctx){
+
     }
 
     private void viewPaperRoute(RoutingContext ctx) {
@@ -430,7 +434,7 @@ public class MainVerticle extends AbstractVerticle {
         data.put("name",name);
         data.put("email",email);
         data.put("bio", bio);
-        engine.render(data, "templates/editUser.hbs", res -> {
+        engine.render(data, "templates/userEditPost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {

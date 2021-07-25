@@ -4,43 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PULP</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <title>Pulp: Home Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Jonathon Boal and Christopher Murphy">
+    <meta name="description" content="Home page of the Pulp website.">
+
 </head>
 
 <body>
 
-    <nav>
-        {{navigation}}
-    </nav>
+<header id="mainHeader">
+    <h1>Pulp: Home Page</h1>
+</header>
 
-    <header id="mainHeader">
-        <h1>Pulp Home Page</h1>
-    </header>
+{{> navigation}}
 
-    <section id="jumbo">
-        <div class="container">
-            <h1> A collaboration platform that enables academics to be more effective in their literary research by
-                enabling more effective searching and collaborative annotations.</h1>
-        </div>
-    </section>
-    <div id="fixed">FAQs</div>
+<section id="jumbo">
+    <div class="container">
+        <p> A collaboration platform that enables academics to be more effective in their literary research by
+            enabling more effective searching and collaborative annotations.</p>
+    </div>
+</section>
+
+<div id="fixed">FAQs</div>
 
 
-    <div id="recentPapers">
-        <h2>Recently posted papers:</h2>
+<div id="recentPapers">
+    <h2>Recently posted papers:</h2>
     <ul>
-    {{#each papers}}
-        <li>
-            <h2><a href="view/paper/{{uuid}}">{{title}}</a></h2>
-            <p>By: {{authors}}</p>
-        </li>
-    {{/each}}
-        </ul>
-        </div>
+        <!-- ToDo: Limit list to most recent (5?) created papers -->
+        {{#each papers}}
+            <li>
+                <h2><a href="view/paper/{{uuid}}">{{title}}</a></h2>
+                <p>By: {{authors}}</p>
+            </li>
+        {{/each}}
+    </ul>
+</div>
 
-    <footer>
-        <p>{{footer}}</p>
-    </footer>
+
+<article>
+
+    <div id="recentTags">
+        <h2>All Existing Tags</h2>
+        <ul>
+            <!-- ToDo: Limit list to most recent (5?) created tags -->
+            {{#each tag}}
+                <li>
+                    <h2><a href="view/paper/{{taguuid}}">{{tagtitle}}</a></h2>
+                    <p>By: {{owners}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+</article>
+{{> footer}}
+
 </body>
+
 </html>

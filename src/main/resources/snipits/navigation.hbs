@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Pulp: Navigation Bar</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <meta name="author" content="Hannah Larreau">
-    <meta name="description" content="Navigation bar for all pages.">
-</head>
-<body>
-    <div class="mainFooter">
-        <header>Pulp</header>
-        <li>
-            <li><a href="indexGet.hbs">Home</a></li>
-            <li><a href="paperBrowseGet.hbs">Papers</a></li>
-            <li><a href="tagBrowseGet.hbs">Tags</a></li>
-            <li>{% if <!--user logged in-->}
-                <a href="userEditPost.hbs">User Page</a>
-                {% else %}
-                <a href="userLoginPost.hbs">Log In</a>
-                {% endif %}</li> <!-- (route to log in or user profile page, dependent on if logged in already) -->
+<div class="mainNav">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{{browsePapers}}">Papers</a></li>
+        <li><a href="{{browseTags}}">Tags</a></li>
+        <li>{% if <!--user logged in-->}
+            <a href="{{profile}}">User Page</a>
+            {% else %}
+            <a href="{{login}}">Login</a>
+            {% endif %}
         </li>
-    </div>
-</body>
-</html>
+    </ul>
+</div>
+

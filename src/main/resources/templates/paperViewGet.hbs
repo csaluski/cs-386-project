@@ -7,15 +7,14 @@
     <meta name="author" content="Hannah Larreau">
     <meta name="description" content="The page where users can view the PDF of an uploaded paper.">
 </head>
-<!--<nav>
-    <ul>
-        <li><a href="#">Index</a></li>
-        <li><a href="#">Edit Paper</a></li>
-        <li><a href="#">Log In</a></li>
-    </ul>
-</nav>-->
+
 <body>
-<h1> View {{title}} </h1>
+
+<header id="mainHeader">
+    <h1>Pulp: View {{title}} </h1>
+</header>
+
+{{> navigation}}
 
 <div class="container">
     <article>
@@ -25,13 +24,16 @@
         </p>
     </article>
 
-    <iframe src="data:application/pdf;base64,{{paperFile}}" title="" width="" height="" allowfullscreen="true" loading="eager"></iframe>
+    <iframe src="data:application/pdf;base64,{{paperFile}}" title="" width="" height="" allowfullscreen loading="eager">
+
+    </iframe>
     <input type="button" id="fullscreen" name="fullscreen" onclick="requestFullscreen()">
 
 </div>
 
 <div class="sidebar">
-    <article>
+
+    <div class="container">
         <ul>
             <li>Title: {{title}}</li>
             <li>Doi: {{doi}}</li>
@@ -39,12 +41,28 @@
             <li>Owners: {{owners}}</li>
             <li>Tags: {{tags}}</li>
         </ul>
-    </article>
-    <input type="button" id="redirect" name="goToEditPage"> <!-- onclick="go to Edit Paper Page" -->
-    <p><a href="/" >Back to Home</a></p>
-    <p><a href="profile" >Open Profile</a></p>
-    <p><a href="uploadPDF" >Upload a Paper</a></p>
-    <p><a href="editPDF" >Edit a paper</a></p>
+    </div>
+
+    <div class="container">
+
+        <p><a href="editPDF">Edit This paper</a>
+        <input type="button" id="redirect" name="editPaper"></p>
+
+        <p><a href="/">Back to Home</a>
+        <input type="button" id="redirect" name="index"></p>
+
+        <p><a href="profile">Open User Profile</a>
+        <input type="button" id="redirect" name="getUser"></p>
+
+        <p><a href="uploadPDF">Upload New Paper</a>
+        <input type="button" id="redirect" name="createPaper"></p>
+
+    </div>
+
 </div>
+
+{{> footer}}
+
 </body>
+
 </html>

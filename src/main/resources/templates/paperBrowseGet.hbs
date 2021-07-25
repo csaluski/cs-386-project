@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: Browse Papers Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="A listing of all created tags.">
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: Browse Papers</h1>
+</header>
+
+{{> navigation}}
+
+<div id="allPapers">
+    <h2>All Posted Papers</h2>
+    <ul>
+        <!-- ToDo: Ensure this list is in alphabetic order -->
+
+        {{#each papers}}
+            <li>
+                <h2><a href="view/paper/{{uuid}}">{{title}}</a></h2>
+                <p>By: {{authors}}</p>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+{{> footer}}
+
+</body>
+
+
+</html>

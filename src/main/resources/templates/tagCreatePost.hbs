@@ -8,16 +8,37 @@
     <meta name="description" content="Create a tag and add it to database.">
 </head>
 
-<nav>
-    {{navigation}}
-</nav>
-
 <body>
 
-</body>
+<header id="mainHeader">
+    <h1>Pulp: Create Tag </h1>
+</header>
 
-<footer>
-    {{footer}}
-</footer>
+{{> navigation}}
+
+<form method="post">
+    <div class="container">
+
+        <h2>Create New Tag</h2><br><br>
+
+        <label for="paper">Attached Papers:</label>
+        <!-- ToDo: Prepopulate page that user was on before this page -->
+        <input type="text" id="paper" name="paper"><br><br>
+
+        <label for="owner">Tag Owners:</label>
+        <!-- ToDo: Prepopulate this user -->
+        <input type="text" id="owner" name="owner"><br><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <input type="submit" value="Submit">
+
+    </div>
+</form>
+
+{{> footer}}
+
+</body>
 
 </html>
