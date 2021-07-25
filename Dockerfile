@@ -1,6 +1,7 @@
 FROM gradle:7.1.1-jdk11
 
 ENV APP_HOME=/usr/app
+RUN mkdir $APP_HOME
 COPY ./*.gradle.kts ./gradlew* ./system.properties ./src ./gradle $APP_HOME
 
 COPY gradle $APP_HOME/gradle
@@ -17,6 +18,7 @@ ENV VERTICLE_FILE CS386-1.0.0-SNAPSHOT-fat.jar
 
 # Set the location of the verticles
 ENV VERTICLE_HOME /usr/verticles/
+RUN mkdir $VERTICLE_HOME
 
 EXPOSE 8888
 
