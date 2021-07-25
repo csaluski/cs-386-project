@@ -1,6 +1,6 @@
 FROM gradle:7.1.1-jdk11
 
-ENV APP_HOME=/usr/app
+ENV APP_HOME=/usr/app/
 RUN mkdir $APP_HOME
 COPY ./*.gradle.kts ./gradlew* ./system.properties ./src ./gradle $APP_HOME
 
