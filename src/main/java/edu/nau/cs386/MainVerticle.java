@@ -1,5 +1,6 @@
 package edu.nau.cs386;
 
+import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
@@ -19,6 +20,7 @@ import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
 import org.apache.commons.io.FileUtils;
 
+import javax.naming.ldap.PagedResultsResponseControl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
@@ -38,7 +40,7 @@ public class MainVerticle extends AbstractVerticle {
         Cookie crumb = ctx.getCookie("user");
         String uuidString = crumb.getValue();
         UUID userUUID = UUID.fromString(uuidString);
-        User user = pulp.getUserManager().getUser(userUUID);
+        User user = pulp.userManager.getUser(userUUID);
         data.put("name", user.getName());
         data.put("email", user.getEmail());
         data.put("bio", user.getBio());
@@ -53,7 +55,7 @@ public class MainVerticle extends AbstractVerticle {
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         // create the template engine
-        engine = HandlebarsTemplateEngine.create(vertx);
+        TemplateEngine engine = HandlebarsTemplateEngine.create(vertx);
         TemplateHandler templateHandler = TemplateHandler.create(engine);
 
         // create the http server and router

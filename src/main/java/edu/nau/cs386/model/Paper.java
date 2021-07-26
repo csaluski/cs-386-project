@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import edu.nau.cs386.model.Tag;
+import java.util.ArrayList;
 
 public class Paper {
 
@@ -15,8 +17,19 @@ public class Paper {
     private String doi;
     private List<String> authors;
     private List<UUID> owners;
+    private List<Tag> tags = new ArrayList<>();
 
 
+    public Paper(String title, File pdf, String paperAbstract, String doi, List<String> authors, List<UUID> owners, List<Tag> tag) {
+        this.title = title;
+        this.pdf = pdf;
+        this.paperAbstract = paperAbstract;
+        this.doi = doi;
+        this.authors = authors;
+        this.owners = owners;
+        this.uuid = UUID.randomUUID();
+        this.tags = tag;
+    }
     public Paper(String title, File pdf, String paperAbstract, String doi, List<String> authors, List<UUID> owners) {
         this.title = title;
         this.pdf = pdf;
@@ -60,7 +73,6 @@ public class Paper {
         return uuid;
     }
 
-
     public String getPaperAbstract() {
         return paperAbstract;
     }
@@ -85,13 +97,35 @@ public class Paper {
         this.owners = owners;
     }
 
-
     public void addAuthor(String author) {
         this.authors.add(author);
     }
 
     public void addOwner(UUID owner) {
         this.owners.add(owner);
+    }
+
+    public void addTag( Tag tag ) {this.tags.add(tag);}
+    public List<Tag> getTags() {
+        if( this.tags == null)
+        {
+            return List.of(new Tag( "Pulp" ));
+        }
+        return this.tags;
+    }
+    public void removeTag( List<Tag> tags, String tagName ) {
+        int loopIterator = 0;
+        if( tags.size() != 0 )
+        {
+        while (loopIterator < tags.size())
+          {
+            if (tags.get(loopIterator).getName().equals(tagName))
+            {
+                tags.remove(loopIterator);
+            }
+            loopIterator = loopIterator + 1;
+          }
+        }
     }
 
     @Override

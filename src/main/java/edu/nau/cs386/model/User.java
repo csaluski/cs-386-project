@@ -2,6 +2,8 @@ package edu.nau.cs386.model;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.Scanner;
+import edu.nau.cs386.model.Paper;
 
 public class User {
 
@@ -63,10 +65,7 @@ public class User {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
+    public void setUuid(UUID uuid ) {this.uuid = uuid;}
 
     @Override
     public boolean equals(Object o) {
