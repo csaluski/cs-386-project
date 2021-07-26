@@ -221,12 +221,13 @@ public class MainVerticle extends AbstractVerticle {
 
         router.route("/view/paper/:paperUuid").handler(ctx -> {
 
+
             UUID uuid = UUID.fromString(ctx.pathParam("paperUuid"));
 
             Paper paper = pulp.getPaperManager().getPaper(uuid);
 
             JsonObject paperJson = new JsonObject();
-
+            paper = getPaperCookie(ctx, paperJson);
             StringBuilder paperAuthors = new StringBuilder();
             List<String> authors = paper.getAuthors();
             authors.forEach(paperAuthors::append);
