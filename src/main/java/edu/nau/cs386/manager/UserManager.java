@@ -17,6 +17,7 @@ public class UserManager {
     private DatabaseDriverJDBC databaseDriver;
 
     private UserManager() {
+
     }
 
 
@@ -64,6 +65,7 @@ public class UserManager {
 
         return wkgUser;
     }
+
 
     public User getUserByEmail(String email) {
         ArrayList<User> users = new ArrayList<>(activeUsers.values());
