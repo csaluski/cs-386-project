@@ -34,15 +34,8 @@ public class UserManager {
     }
 
 
-    private UserManager() {
-    };
-
-    public static UserManager getInstance() {
-        return INSTANCE;
-    }
-
     public User createUser(String name, String email) {
-        databaseDriver.insertUser(name, email);
+        //databaseDriver.insertUser(name, email);
         User wkgUser = new User(name, email);
         activeUsers.put(wkgUser.getUuid(), wkgUser);
         return wkgUser;
@@ -50,7 +43,6 @@ public class UserManager {
 
     public User createTestUser() {
         LoremIpsum lorem = LoremIpsum.getInstance();
-
         User wkgUser = createUser("Test User", "email@nau.edu");
         updateBio(wkgUser.getUuid(), lorem.getWords(10));
         testUserUUID = wkgUser.getUuid();
@@ -60,7 +52,6 @@ public class UserManager {
     public User updateBio(UUID uuid, String newBio) {
         User wkgUser = activeUsers.get(uuid);
         wkgUser.setBio(newBio);
-
         return wkgUser;
     }
 

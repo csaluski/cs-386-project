@@ -3,7 +3,7 @@ package edu.nau.cs386.manager;
 import com.thedeanda.lorem.LoremIpsum;
 import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.model.Paper;
-
+import edu.nau.cs386.model.Tag;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,11 +25,6 @@ public class PaperManager {
         return INSTANCE;
     }
 
-    private PaperManager(){};
-
-    public static PaperManager getInstance() {
-        return INSTANCE;
-    }
 
     public Paper createPaper(String title, File file, List<String> authors, UUID owner) {
         Paper wkgPaper = new Paper(title, file, authors, owner);
@@ -84,6 +79,11 @@ public class PaperManager {
     public Paper addOwner(UUID paperUuid, UUID newOwnerUuid) {
         Paper wkgPaper = activePapers.get(paperUuid);
         wkgPaper.addOwner(newOwnerUuid);
+        return wkgPaper;
+    }
+    public Paper addTag(UUID paperUuid, Tag tag) {
+        Paper wkgPaper = activePapers.get(paperUuid);
+        wkgPaper.addTag(tag);
         return wkgPaper;
     }
 
