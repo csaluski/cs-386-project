@@ -1,6 +1,6 @@
 package edu.nau.cs386;
 
-import edu.nau.cs386.database.DatabaseDriver;
+import edu.nau.cs386.model.Author;
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
@@ -20,27 +20,23 @@ import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
 import org.apache.commons.io.FileUtils;
 
-import javax.naming.ldap.PagedResultsResponseControl;
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainVerticle extends AbstractVerticle {
 
-    private Pulp pulp = Pulp.getInstance();
+    private final Pulp pulp = Pulp.getInstance();
     private TemplateEngine engine;
 
     public User getUserfromCookie(RoutingContext ctx, JsonObject data){
         Cookie crumb = ctx.getCookie("user");
         String uuidString = crumb.getValue();
         UUID userUUID = UUID.fromString(uuidString);
-        User user = pulp.userManager.getUser(userUUID);
+        User user = pulp.getUserManager().getUser(userUUID);
         data.put("name", user.getName());
         data.put("email", user.getEmail());
         data.put("bio", user.getBio());
@@ -80,8 +76,8 @@ public class MainVerticle extends AbstractVerticle {
 
                 wkgObject.put("uuid", paper.getUuid());
                 wkgObject.put("title", paper.getTitle());
-                for (String author : paper.getAuthors()) {
-                    authorsString.append(author);
+                for (Author author : paper.getAuthors()) {
+                    authorsString.append(author.toString());
                     authorsString.append(' ');
                 }
                 wkgObject.put("authors", authorsString.toString());
@@ -342,13 +338,12 @@ public class MainVerticle extends AbstractVerticle {
         JsonObject paperJson = new JsonObject();
 
         StringBuilder paperAuthors = new StringBuilder();
-        List<String> authors = paper.getAuthors();
+        List<String> authors = paper.getAuthors().stream().map(Author::toString).collect(Collectors.toList());
         authors.forEach(paperAuthors::append);
 
         StringBuilder paperOwners = new StringBuilder();
-        List<UUID> owners = paper.getOwners();
-        owners.forEach(ownerUuid ->
-            paperOwners.append(pulp.getUserManager().getUser(ownerUuid).getName()));
+        UUID ownerUuid = paper.getOwner();
+        paperOwners.append(pulp.getUserManager().getUser(ownerUuid).getName());
 
         byte[] fileBytes = new byte[0];
         try {
@@ -380,7 +375,7 @@ public class MainVerticle extends AbstractVerticle {
         String title = ctx.request().getFormAttribute("title");
         String doi = ctx.request().getFormAttribute("doi");
         // TODO: parse this as comma delimited list of authors
-        List<String> authors = Collections.singletonList(ctx.request().getFormAttribute("authors"));
+        List<Author> authors = Arrays.stream(ctx.request().getFormAttribute("authors").split(",")).map(Author::new).collect(Collectors.toList());
         String paperAbstract = ctx.request().getFormAttribute("abstract");
         String uploader = ctx.request().getFormAttribute("email");
 
@@ -406,7 +401,7 @@ public class MainVerticle extends AbstractVerticle {
 
         User paperUploader = pulp.getUserManager().getUserByEmail(uploader);
 
-        Paper createdPaper = pulp.getPaperManager().createPaper(title, pdfFile, authors, paperUploader.getUuid());
+        Paper createdPaper = pulp.getPaperManager().createPaper(title, pdfFile, authors, doi, paperUploader.getUuid());
         createdPaper.setDoi(doi);
         createdPaper.setPaperAbstract(paperAbstract);
 

@@ -1,30 +1,16 @@
-FROM gradle:7.1.1-jdk11
-
-ENV APP_HOME=/usr/app/
-RUN mkdir $APP_HOME
-COPY ./*.gradle.kts ./gradlew* ./system.properties ./src ./gradle $APP_HOME
-
-COPY gradle $APP_HOME/gradle
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR $APP_HOME
-
-USER root
-RUN chown -R gradle /home/gradle/src
-
-RUN gradle --no-daemon shadowJar
+FROM openjdk:11-jre
 
 ENV VERTICLE_NAME edu.nau.cs386.MainVerticle
 ENV VERTICLE_FILE CS386-1.0.0-SNAPSHOT-fat.jar
 
 # Set the location of the verticles
 ENV VERTICLE_HOME /usr/verticles/
-RUN mkdir $VERTICLE_HOME
 
 EXPOSE 8888
 
 # Copy your fat jar to the container
-COPY build/libs/$VERTICLE_FILE $VERTICLE_HOME
-COPY $APP_HOME/src/main/psql/tables.psql /usr/psql/tables.psql
+COPY build/libs/$VERTICLE_FILE /$VERTICLE_HOME
+COPY src/main/psql/tables.sql /usr/psql/tables.sql
 
 # Launch the verticle
 WORKDIR $VERTICLE_HOME

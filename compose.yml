@@ -38,6 +38,8 @@ services:
         image: vertx-app:latest
         # build: ./build/libs/
         # command: java -jar CS386-1.0.0-SNAPSHOT-fat.jar
+        depends_on:
+            - postgres
         ports:
             - 8888:8888
         networks:

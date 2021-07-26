@@ -1,6 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.palantir.gradle.docker.DockerComposeUp
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
-import com.palantir.gradle.docker.*
 
 plugins {
     java
@@ -46,6 +46,8 @@ dependencies {
     implementation("com.thedeanda:lorem:2.1")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("commons-io:commons-io:2.11.0")
+    implementation("org.postgresql:postgresql:42.2.23")
+
 
 }
 

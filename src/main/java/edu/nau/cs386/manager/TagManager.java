@@ -1,12 +1,8 @@
 package edu.nau.cs386.manager;
 
-import com.thedeanda.lorem.LoremIpsum;
-import edu.nau.cs386.database.DatabaseDriver;
-import edu.nau.cs386.model.Paper;
+import edu.nau.cs386.database.DatabaseDriverJDBC;
 import edu.nau.cs386.model.Tag;
-import edu.nau.cs386.model.User;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,68 +11,50 @@ import java.util.UUID;
 public class TagManager {
 
     private static final TagManager INSTANCE = new TagManager();
-    private List<Tag> activeTags = new ArrayList<>();
+    private final HashMap<UUID, Tag> activeTags = new HashMap<>();
     private Tag testTag;
-    private DatabaseDriver databaseDriver;
+    private DatabaseDriverJDBC databaseDriver;
 
-    private TagManager()
-    {
-
+    private TagManager() {
+        this.databaseDriver = DatabaseDriverJDBC.getInstance();
     }
-    public static TagManager getInstance()
-    {
+
+    public static TagManager getInstance() {
         return INSTANCE;
     }
-    public DatabaseDriver getDatabaseDriver() {
+
+    public DatabaseDriverJDBC getDatabaseDriver() {
         return databaseDriver;
     }
-    public void setDatabaseDriver( DatabaseDriver driver )
-    {
+
+    public void setDatabaseDriver(DatabaseDriverJDBC driver) {
         this.databaseDriver = driver;
     }
-    public Tag createTag( String name )
-    {
-        Tag wrgTag = new Tag( name );
-        this.activeTags.add( wrgTag );
+
+    public Tag createTag(String name) {
+        UUID uuid = UUID.randomUUID();
+        Tag wrgTag = new Tag(uuid, name);
+        this.activeTags.put(uuid, wrgTag);
         return wrgTag;
     }
-    public Tag createTestTag()
-    {
-        LoremIpsum lorem = LoremIpsum.getInstance();
+
+    public Tag createTestTag() {
         Tag wkgTag = createTag("Pulp");
         return wkgTag;
     }
-    public Tag getTag(String name)
-    {
-        Tag foundTag = null;
-        int loopCounter = 0;
-        while (loopCounter < activeTags.size())
-        {
-            if( activeTags.get(loopCounter).getName().equals(name))
-            {
-                foundTag = activeTags.get(loopCounter);
-            }
-        }
-        if(foundTag == null)
-        {
-            foundTag = new Tag("Pulp");
-        }
-        return foundTag;
+
+    public Tag getTag(UUID uuid) {
+        return activeTags.get(uuid);
     }
-    public List<Tag> getActiveTags()
-    {
-        if (this.activeTags.isEmpty())
-        {
-            return List.of(new Tag("Pulp"));
-        }
-        return this.activeTags;
+
+    public List<Tag> getActiveTags() {
+        return new ArrayList<>(this.activeTags.values());
     }
-    public String activeTagsToString( List<Tag> tags )
-    {
+
+    public String activeTagsToString(List<Tag> tags) {
         String tagString = "";
-        for( int i = 0; i < tags.size(); i++)
-        {
-            tagString += tags.get(i).getName() + " ";
+        for (int i = 0; i < tags.size(); i++) {
+            tagString += tags.get(i).getTag() + " ";
         }
         return tagString;
     }
