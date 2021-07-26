@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: View Tag Associations</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="A listing of all associations of current tag.">
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: View Tag Associations<</h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<main>
+    <h2>Tagged Papers:</h2>
+    <ul>
+        <!-- ToDo: Ensure this list is in alphabetic order
+             ToDo: make all needed handlebars-->
+        {{#each taggedPaper}}
+            <li>
+                <p><a href="view/paper/{{uuid}}">{{title}}</a><br>By: {{authors}}</p>
+            </li>
+        {{/each}}
+    </ul>
+
+    <h2>Tag Owners:</h2>
+    <ul>
+        <!-- ToDo: Ensure this list is in alphabetic order -->
+        {{#each owner}}
+            <li>
+                <p><a href="view/user/{{uuid}}">{{userName}}</a><br></p>
+            </li>
+        {{/each}}
+    </ul>
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
+
+</html>

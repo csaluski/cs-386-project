@@ -1,21 +1,17 @@
-<article>
-<div class="mainFooter">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{browsePapers}}">Papers</a></li>
-        <li><a href="{{browseTags}}">Tags</a></li>
-        {{#if loggedIn}}
-        <li><a href="{{userPage}}">User Page</a></li>
-        {{else}}
-        <li><a href="{{login}}">Login</a></li>
-        {{/if}}
-    </ul>
-        <article>
-            <p>Pulp is a collaboration platform that enables academics to be more effective in their literary research by
-                enabling more effective searching and collaborative annotations.</p>
-            <p>Open source at "https://github.com/Csaluski/cs-386-project" </p>
-            <p>Copyright © 2021 PULP</p>
-        </article>
+<div class="mainFooter" id="foot">
+    <a href="/">Home</a>
+    <a href="/browsePapers">Papers</a>
+    <a href="/browseTags">Tags</a>
+    {{#if loggedIn}}
+        <a href="/uploadPDF">Upload New Paper</a>
+        <a href="/profile"> User Page</a>
+    {{else}}
+        <a href="/create">Create Account</a>
+        <a href="/login">Login</a>
+    {{/if}}
+    <p>Pulp aims to support research by streamlining the literature research process.</p>
+    <p>Open source at "https://github.com/Csaluski/cs-386-project" </p>
+    <p>Copyright © 2021 PULP</p>
 </div>
-</article>
+
 

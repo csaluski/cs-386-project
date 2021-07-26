@@ -11,33 +11,30 @@
 <body>
 
 <header id="mainHeader">
-    <h1>Pulp: Login  </h1>
+    <h1>Pulp: Login</h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
-<div id="fixed">FAQs</div>
-<section id="jumbo">
+<main>
     <div class="container">
 
         <form method="POST">
             <div>
-                <label>Please login into your Pulp Account</label><br><br>
-                <label for="email">EMAIL:</label>
+                <h1>Please login into your Pulp Account</h1><br><br>
+                <label for="email">Email:</label>
                 <input id="email" name="email" type="text">
-                <!--        <label for="name">Name:</label>-->
-                <!--        <input type="text" id="name" name="name"><br><br>-->
-                <!--        <label for="email">Email:</label>-->
-                <!--        <input type="text" id="email" name="email"><br><br>-->
                 <input type="submit" value="Submit">
             </div>
-
         </form>
     </div>
-</section>
+</main>
 
-{{> footer}}
+{{> ../snipits/footer}}
 
 </body>
 
 </html>
+
+<!--<div id="fixed">FAQs</div>
+</div> -->

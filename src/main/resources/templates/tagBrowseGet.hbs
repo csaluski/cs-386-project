@@ -14,26 +14,21 @@
     <h1>Pulp: Browse Tags </h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
-<article>
+<main>
+    <h2>All Existing Tags</h2>
+    <ul>
+        <!-- ToDo: Ensure this list is in alphabetic order -->
+        {{#each tag}}
+            <li>
+                <p><a href="view/tag/{{uuid}}">{{tagName}}</a><br>By: {{owners}}</p>
+            </li>
+        {{/each}}
+    </ul>
+</main>
 
-    <div id="allTags">
-        <h2>All Existing Tags</h2>
-        <ul>
-            <!-- ToDo: Ensure this list is in alphabetic order -->
-            {{#each tag}}
-                <li>
-                    <h2><a href="view/paper/{{taguuid}}">{{tagtitle}}</a></h2>
-                    <p>By: {{owners}}</p>
-                </li>
-            {{/each}}
-        </ul>
-    </div>
-
-</article>
-
-{{> footer}}
+{{> ../snipits/footer}}
 
 </body>
 

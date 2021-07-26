@@ -14,82 +14,61 @@
     <h1>Pulp: Edit Paper </h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
-<article>
+<main>
     <h1> Edit {{title}} </h1><br><br>
-    <h2>Edit {{title}} Details </h2>
-    <!-- ToDo: complete forms' action
-         ToDo: Autofill existing paper details -->
 
-    <form action="" method="get">
-        <p><label for="title">Title:</label>
-            <input type="text" id="title" name="title"></p>
+    <!--ToDo: Autofill existing paper details -->
+
+    <form method="post" action="paperEditPost.hbs">
+        <br><label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+
+        <br><label for="abstract">Abstract:</label><br>
+        <input type="text" id="abstract" name="abstract"><br>
+
+        <br><label for="doi">DOI:</label>
+        <input type="text" id="doi" name="doi"><br>
+
+        <br><label for="addAuthor">Add Author:</label>
+        <input type="text" id="addAuthor" name="addAuthor"><br>
+
+        <!-- ToDo: make a search for existing tags -->
+        <br><label for="addTag">Add Tag:</label>
+        <input type="text" id="addTag" name="addTag"><br>
+
+        <br><label for="addOwner">Add Owner:</label>
+        <input type="text" id="addOwner" name="addOwner"><br>
+
         <input type="submit" value="Submit">
     </form>
 
-    <form action="" method="get">
-        <p><label for="abstract">Abstract:</label>
-            <input type="text" id="abstract" name="abstract"></p>
-        <input type="submit" value="Submit">
-    </form>
+    <!--
+<p><label for="removeAuthor">Remove Author:</label>
+Ordered list of current authors assigned to Paper, each with a check box
+<ol> <li>item in list</li> </ol> </p>
 
-    <form action="" method="get">
-        <p><label for="doi">DOI:</label>
-            <input type="text" id="doi" name="doi"></p>
-        <input type="submit" value="Submit">
-    </form>
+<p><label for="removeTag">Remove Tag:</label>
+<input type="text" id="removeTag" name="addTag"></p>
 
-    <form action="" method="get">
-        <p><label for="addAuthor">Add Author:</label>
-            <input type="text" id="addAuthor" name="addAuthor"></p>
-        <input type="submit" value="Submit">
-    </form>
+<label for="removeOwner">Remove Owner:</label>
+Unordered list of current owners assigned to Paper, each with a check box
+<ul> <li>item in list</li> </ul>
 
-    <!--    <form>
-            <p><label for="removeAuthor">Remove Author:</label>
-            Ordered list of current authors assigned to Paper, each with a check box
-            <ol> <li>item in list</li> </ol> </p>
-            <input type="submit" value="Submit">
-        </form> -->
+<section class="delete-paper">
+<h2> Remove Paper</h2>
+<button onclick="/deletePaper" class="Paper">
+Delete Paper
+</button>
+</section>
+    -->
 
-    <form action="" method="get">
-        <p><label for="addTag">Add Tag:</label>
-            <input type="text" id="addTag" name="addTag"></p>
-        <input type="submit" value="Submit">
-    </form>
+    <p><input type="button" value="View Paper" onclick="location.href='/view/paper/:{{paperUuid}}'"></p>
 
-    <!--   <form action="" method="get">
-        <p><label for="removeTag">Remove Tag:</label>
-            <input type="text" id="removeTag" name="addTag"></p>
-        <input type="submit" value="Submit">
-    </form> -->
+</main>
 
-    <form action="" method="get">
-        <label for="addOwner">Add Owner:</label>
-        <input type="submit" value="Submit">
-    </form>
-
-    <!--    <form>
-            <label for="removeOwner">Remove Owner:</label>
-                Unordered list of current authors assigned to Paper, each with a check box
-                <ul> <li>item in list</li> </ul>
-            <input type="submit" value="Submit">
-        </form> -->
-
-    <section class="delete-paper">
-        <h2> Remove Paper</h2>
-        <button onclick="<!--delete-->" class="Paper">
-            Delete Paper
-        </button>
-    </section>
-
-    <button onclick="<!--return to view paper-->" class="<!--PaperView Class-->">
-        Return to View Paper
-    </button>
-</article>
-
-{{> footer}}
+{{> ../snipits/footer}}
 
 </body>
 

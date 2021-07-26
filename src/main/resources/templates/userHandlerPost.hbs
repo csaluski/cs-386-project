@@ -12,14 +12,16 @@
     <h1>Pulp</h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
-<article>
-    <p>Hello {{name}} At {{email}}, your UUID is {{uuid}}!</p>
-    <p><a href="login">Login</a></p>
-</article>
+<main>
+    <h1>Hello {{name}} at {{email}}. <br>Your UUID is {{uuid}}</h1>
 
-{{> footer}}
+    <p><input type="button" value="Login" onclick="location.href='/login'"></p>
+
+</main>
+
+{{> ../snipits/footer}}
 
 </body>
 

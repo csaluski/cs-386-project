@@ -5,17 +5,22 @@
     <title>Hello Page</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
+
 <body>
 
 <header id="mainHeader">
     <h1>Pulp</h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
-<p>Hello {{name}} At {{email}}!</p>
+<main>
 
-{{> footer}}
+    <h1>Hello {{name}} At {{email}}!</h1>
+
+</main>
+
+{{> ../snipits/footer}}
 
 </body>
 </html>

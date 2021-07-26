@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: Edit Tag Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="The page where users can edit the data related to an existing tag.">
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: Edit Tag </h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<main>
+    <h1> Edit {{tagName}} </h1><br><br>
+
+    <!-- ToDo: Autofill existing paper details -->
+
+    <form method="post" action="tagEditPost.hbs">
+
+        <br><label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+
+        <!-- ToDO: Make a way to confirm existing owners and papers-->
+
+        <br><label for="attachPaper">Add Paper:</label>
+        <input type="text" id="attachPaper" name="attachPaper"><br>
+
+        <br><label for="addOwner">Add Owner:</label>
+        <input type="text" id="addOwner" name="addOwner"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <!--
+<label for="removeOwner">Remove Owner:</label>
+Unordered list of current owner assigned to Paper, each with a check box
+<ul> <li>item in list</li> </ul>
+<input type="submit" value="Submit">
+
+<label for="removePaper">Remove Paper:</label>
+Unordered list of current owner assigned to Paper, each with a check box
+<ul> <li>item in list</li> </ul>
+<input type="submit" value="Submit">
+
+<section class="deleteTag">
+<h2> Remove Tag</h2>
+<button onclick="/deleteTag" class="Paper">
+Delete Tag
+</button>
+</section>
+    -->
+
+    <p><input type="button" value="View Tag" onclick="location.href='/view/tag/:{{tagUuid}}'"></p>
+
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
+</html>

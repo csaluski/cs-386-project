@@ -34,7 +34,7 @@ public class MainVerticle extends AbstractVerticle {
     private Pulp pulp = Pulp.getInstance();
     private TemplateEngine engine;
 
-    public User getUserfromCookie(RoutingContext ctx, JsonObject data){
+    public User getUserfromCookie(RoutingContext ctx, JsonObject data) {
         Cookie crumb = ctx.getCookie("user");
         String uuidString = crumb.getValue();
         UUID userUUID = UUID.fromString(uuidString);
@@ -44,12 +44,14 @@ public class MainVerticle extends AbstractVerticle {
         data.put("bio", user.getBio());
         return user;
     }
-    public void logout(RoutingContext ctx, JsonObject data){
+
+    public void logout(RoutingContext ctx, JsonObject data) {
         data.remove("name");
         data.remove("email");
         data.remove("bio");
         ctx.removeCookie("user", true);
     }
+
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         // create the template engine
@@ -96,34 +98,39 @@ public class MainVerticle extends AbstractVerticle {
                     ctx.fail(res.cause());
                 }
             });
-
-
         });
 
-        router.get("/userCreatePost.hbs").handler(this::getCreateUser);
+        router.get("/browsePaper").handler(this::getBrowsePapers);
 
         router.get("/login").handler(this::getLogin);
+
         router.get("/logout").handler(this::getLogout);
-        router.get("/edit").handler(this::getEdit);
-        router.get("/create").handler(this::getCreate);
+
+        router.get("/edit").handler(this::getEditUser);
+
+        router.get("/createPaper").handler(this::getRegisterUser);
 
         router.get("/profile").handler(this::getProfile);
 
-        router.route("/view/paper/:paperUuid").handler(this::viewPaperRoute);
+        router.get("/uploadPDF").handler(this::getUploadPDF);
+
+        router.get("/editPDF").handler(this::getEditPDF);
+
+        router.get("/create").handler(this::getCreateUser);
 
         router.post("/create").handler(this::postCreateUser);
 
         router.post("/login").handler(this::postLogin);
-        router.post("/logout").handler(this::postLogout);
 
-        router.get("/uploadPDF").handler(this::getUploadPDF);
-        router.get("/editPDF").handler(this::getEditPDF);
+        router.post("/logout").handler(this::postLogout);
 
         router.post("/uploadPDF").handler(this::PostUploadPDF);
 
         router.post("/profile").handler(this::postProfile);
 
         router.post("/edit").handler(this::EditPost);
+
+        router.route("/view/paper/:paperUuid").handler(this::viewPaperRoute);
 
 //        DatabaseDriver databaseDriver = new DatabaseDriver();
 //
@@ -153,7 +160,7 @@ public class MainVerticle extends AbstractVerticle {
 
     private void getUploadPDF(RoutingContext ctx) {
         JsonObject data = new JsonObject();
-        engine.render(data, "templates/paperCreate", res -> {
+        engine.render(data, "templates/paperCreatePost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -162,7 +169,7 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 
-    private void getCreate(RoutingContext ctx) {
+    private void getRegisterUser(RoutingContext ctx) {
         JsonObject data = new JsonObject();
 
         engine.render(data, "templates/userCreatePost.hbs", res -> {
@@ -174,11 +181,11 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 
-    private void getEdit(RoutingContext ctx) {
+    private void getEditUser(RoutingContext ctx) {
         JsonObject data = new JsonObject();
         User user = getUserfromCookie(ctx, data);
 
-        engine.render(data, "templates/userEditPost.hbs", res -> {
+        engine.render(data, "templates/userProfileEditPost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -236,7 +243,7 @@ public class MainVerticle extends AbstractVerticle {
         JsonObject data = new JsonObject();
         User user = getUserfromCookie(ctx, data);
 
-        engine.render(data, "templates/profileGet.hbs", res -> {
+        engine.render(data, "templates/userProfileGet.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -249,7 +256,7 @@ public class MainVerticle extends AbstractVerticle {
         JsonObject data = new JsonObject();
         User user = getUserfromCookie(ctx, data);
 
-        engine.render(data, "templates/profileGet.hbs", res -> {
+        engine.render(data, "templates/userProfileGet.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -263,12 +270,10 @@ public class MainVerticle extends AbstractVerticle {
         User user = getUserfromCookie(ctx, data);
         String logStatus = ctx.request().getFormAttribute("log");
         // logStatus = logStatus.toLowerCase(Locale.ROOT);
-        if( logStatus.equalsIgnoreCase("Yes") )
-        {
+        if (logStatus.equalsIgnoreCase("Yes")) {
             logout(ctx, data);
             ctx.reroute("/");
-        }
-        else{
+        } else {
             ctx.reroute("/profile");
         }
 
@@ -297,7 +302,7 @@ public class MainVerticle extends AbstractVerticle {
             ctx.reroute("/login");
         }
 
-        engine.render(data, "templates/profileGet.hbs", res -> {
+        engine.render(data, "templates/userProfileGet.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -332,8 +337,35 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 
-    private void browsePaperRoute(RoutingContext ctx){
+    private void getBrowsePapers(RoutingContext ctx) {
+        List<Paper> papers = pulp.getPaperManager().getAllPapers();
+        JsonObject data = new JsonObject();
+        JsonObject wkgObject;
+        JsonArray papersArray = new JsonArray();
 
+        for (Paper paper : papers) {
+            wkgObject = new JsonObject();
+            StringBuilder authorsString = new StringBuilder();
+
+            wkgObject.put("uuid", paper.getUuid());
+            wkgObject.put("title", paper.getTitle());
+            for (String author : paper.getAuthors()) {
+                authorsString.append(author);
+                authorsString.append(' ');
+            }
+            wkgObject.put("authors", authorsString.toString());
+            papersArray.add(wkgObject);
+        }
+
+        data.put("papers", papersArray);
+
+        engine.render(data, "templates/paperBrowseGet.hbs", res -> {
+            if (res.succeeded()) {
+                ctx.response().end(res.result());
+            } else {
+                ctx.fail(res.cause());
+            }
+        });
     }
 
     private void viewPaperRoute(RoutingContext ctx) {
@@ -431,10 +463,10 @@ public class MainVerticle extends AbstractVerticle {
         original.setName(name);
         original.setEmail(email);
         original.setBio(bio);
-        data.put("name",name);
-        data.put("email",email);
+        data.put("name", name);
+        data.put("email", email);
         data.put("bio", bio);
-        engine.render(data, "templates/userEditPost.hbs", res -> {
+        engine.render(data, "templates/userProfileEditPost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {

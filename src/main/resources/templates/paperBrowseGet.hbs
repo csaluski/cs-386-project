@@ -14,23 +14,21 @@
     <h1>Pulp: Browse Papers</h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
-<div id="allPapers">
+<main>
     <h2>All Posted Papers</h2>
     <ul>
         <!-- ToDo: Ensure this list is in alphabetic order -->
-
         {{#each papers}}
             <li>
-                <h2><a href="view/paper/{{uuid}}">{{title}}</a></h2>
-                <p>By: {{authors}}</p>
+                <p><a href="view/paper/{{uuid}}">{{title}}</a><br>By: {{authors}}</p>
             </li>
         {{/each}}
     </ul>
-</div>
+</main>
 
-{{> footer}}
+{{> ../snipits/footer}}
 
 </body>
 

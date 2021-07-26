@@ -17,38 +17,45 @@
     <h1>Pulp: Home Page</h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
 <section id="jumbo">
+    <h1></h1>
+</section>
+
+<main>
     <div class="container">
         <p> A collaboration platform that enables academics to be more effective in their literary research by
             enabling more effective searching and collaborative annotations.</p>
     </div>
-</section>
-
-<div id="fixed">FAQs</div>
+    <div id="fixed">FAQs</div>
 
 
-<div id="recentPapers">
-    <h2>Recently posted papers:</h2>
+    <h3>Recently Posted Papers:</h3>
     <ul>
-        <!-- ToDo: Limit list to most recent (5?) created papers -->
+        <!-- ToDo: Limit lists to most recent (5?) created papers -->
         {{#each papers}}
             <li>
-                <h2><a href="view/paper/{{uuid}}">{{title}}</a></h2>
-                <p>By: {{authors}}</p>
+                <p><a href="view/paper/{{uuid}}">{{title}}</a><br>By: {{authors}}</p>
             </li>
         {{/each}}
     </ul>
-</div>
 
-
+    <h3>Recently Created Tags:</h3>
+    <ul>
+        {{#each tag}}
+            <li>
+                <p><a href="view/tag/{{uuid}}">{{tagName}}</a><br>By: {{owners}}</p>
+            </li>
+        {{/each}}
+    </ul>
+</main>
+    <!--
 <article>
-
     <div id="recentTags">
-        <h2>All Existing Tags</h2>
+        <h3>All Existing Tags</h3>
         <ul>
-            <!-- ToDo: Limit list to most recent (5?) created tags -->
+            ToDo: Limit list to most recent (5?) created tags
             {{#each tag}}
                 <li>
                     <h2><a href="view/paper/{{taguuid}}">{{tagtitle}}</a></h2>
@@ -59,7 +66,10 @@
     </div>
 
 </article>
-{{> footer}}
+-->
+</main>
+
+{{> ../snipits/footer}}
 
 </body>
 

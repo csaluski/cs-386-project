@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Hello Page</title>
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: Profile </h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<main>
+    <div class="sidebar">
+        <h2>{{name}} Bio:</h2>
+        <p>{{bio}}</p>
+    </div>
+
+    <h2>Hello {{name}}.<br>You are registered under: {{email}}</h2>
+
+    <p><input type="button" value="Edit Your Profile" onclick="location.href='/edit'"></p>
+    <p><input type="button" value="Upload New Paper" onclick="location.href='/uploadPDF'"></p>
+    <p><input type="button" value="Return to Home" onclick="location.href='/'"></p>
+    <p><input type="button" value="Log Out" onclick="location.href='/logout'"></p>
+
+    <!-- ToDo: Display paper that user owns
+         ToDo: Display Tags that user owns -->
+
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
+</html>

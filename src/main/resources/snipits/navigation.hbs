@@ -1,14 +1,13 @@
-<div class="mainNav">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{browsePapers}}">Papers</a></li>
-        <li><a href="{{browseTags}}">Tags</a></li>
-        <li>{% if <!--user logged in-->}
-            <a href="{{profile}}">User Page</a>
-            {% else %}
-            <a href="{{login}}">Login</a>
-            {% endif %}
-        </li>
-    </ul>
+<div class="mainNav" id="nav">
+    <a href="/">Home</a>
+    <a href="/browsePaper">Papers</a>
+    <a href="/browseTags">Tags</a>
+    {{#if loggedIn}}
+        <a href="/uploadPDF">Upload New Paper</a>
+        <a href="/profile">User Page</a>
+    {{else}}
+        <a href="/create">Create Account</a>
+        <a href="/login">Login</a>
+    {{/if}}
 </div>
 

@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello Page</title>
+    <title>Pulp: Logout Page</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
 <body>
 
 <header id="mainHeader">
-    <h1>Pulp: Log Out </h1>
+    <h1>Pulp: Log Out</h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
+<main>
 
-<form method="get" >
-    <div>
-        <p>Hello {{name}}, are you sure you would like to logout?</p>
-    </div>
-</form>
+    <h1>Hello {{name}}, are you sure you would like to logout?</h1>
 
-<form method="post">
-    <div>
-        <input type="radio" id="Yes" name="log" value="Yes">
-        <label for="Yes">Yes</label><br>
-        <input type="radio" id="No" name="log" value="No">
-        <label for="No">No</label><br><br>
-        <input type="submit" value="Submit">
-    </div>
-</form>
+    <form method="post">
+        <div>
+            <input type="radio" id="Yes" name="log" value="Yes">
+            <label for="Yes">Yes</label><br>
 
-{{> footer}}
+            <input type="radio" id="No" name="log" value="No">
+            <label for="No">No</label><br><br>
+
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</main>
+
+{{> ../snipits/footer}}
 
 </body>
 

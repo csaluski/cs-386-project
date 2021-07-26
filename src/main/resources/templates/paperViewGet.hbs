@@ -14,55 +14,39 @@
     <h1>Pulp: View {{title}} </h1>
 </header>
 
-{{> navigation}}
+{{> ../snipits/navigation}}
 
-<div class="container">
+<main>
+    <div class="sidebar">
+        <div class="container">
+            <ul>
+                <li>Title: {{title}}</li>
+                <li>Doi: {{doi}}</li>
+                <li>Authors: {{authors}}</li>
+                <li>Owners: {{owners}}</li>
+                <li>Tags: {{tags}}</li>
+            </ul>
+
+            <p><input type="button" value="Edit This Paper" onclick="location.href='/editPDF'"></p>
+            <p><input type="button" value="Create New Tag" onclick="location.href='/createTag'"></p>
+
+        </div>
+
+    </div>
+
     <article>
-        <h2>Abstract:</h2>
-        <p>
-            {{abstract}}
-        </p>
+        <h2>{{title}}</h2>
+        <h3>Abstract:</h3>
+        <p>{{abstract}}</p>
     </article>
 
-    <iframe src="data:application/pdf;base64,{{paperFile}}" title="" width="" height="" allowfullscreen loading="eager">
+    <iframe src="data:application/pdf;base64,{{paperFile}}" name="paperView" allowfullscreen="allowfullscreen"
+            loading="eager"></iframe>
+    <input type="button" id="fullscreen" name="paperView" value="Full Screen" onclick="requestFullscreen()">
 
-    </iframe>
-    <input type="button" id="fullscreen" name="fullscreen" onclick="requestFullscreen()">
+</main>
 
-</div>
-
-<div class="sidebar">
-
-    <div class="container">
-        <ul>
-            <li>Title: {{title}}</li>
-            <li>Doi: {{doi}}</li>
-            <li>Authors: {{authors}}</li>
-            <li>Owners: {{owners}}</li>
-            <li>Tags: {{tags}}</li>
-        </ul>
-    </div>
-
-    <div class="container">
-
-        <p><a href="editPDF">Edit This paper</a>
-        <input type="button" id="redirect" name="editPaper"></p>
-
-        <p><a href="/">Back to Home</a>
-        <input type="button" id="redirect" name="index"></p>
-
-        <p><a href="profile">Open User Profile</a>
-        <input type="button" id="redirect" name="getUser"></p>
-
-        <p><a href="uploadPDF">Upload New Paper</a>
-        <input type="button" id="redirect" name="createPaper"></p>
-
-    </div>
-
-</div>
-
-{{> footer}}
+{{> ../snipits/footer}}
 
 </body>
-
 </html>
