@@ -2,6 +2,7 @@ package edu.nau.cs386.manager;
 
 import com.thedeanda.lorem.LoremIpsum;
 import edu.nau.cs386.database.DatabaseDriver;
+import edu.nau.cs386.database.DatabaseDriverJDBC;
 import edu.nau.cs386.model.Paper;
 
 import java.io.File;
@@ -14,7 +15,7 @@ public class PaperManager {
 
     private static final PaperManager INSTANCE = new PaperManager();
     private final HashMap<UUID, Paper> activePapers = new HashMap<>();
-    private DatabaseDriver databaseDriver;
+    private DatabaseDriverJDBC databaseDriver;
     public UUID testPaperUUID;
 
     private PaperManager() {
@@ -82,7 +83,7 @@ public class PaperManager {
         return wkgPaper;
     }
 
-    public void setDatabaseDriver(DatabaseDriver databaseDriver) {
+    public void setDatabaseDriver(DatabaseDriverJDBC databaseDriver) {
         this.databaseDriver = databaseDriver;
     }
 }

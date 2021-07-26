@@ -3,6 +3,7 @@ package edu.nau.cs386.manager;
 import com.thedeanda.lorem.LoremIpsum;
 import edu.nau.cs386.database.DatabaseDriverJDBC;
 import edu.nau.cs386.model.User;
+import io.vertx.core.json.JsonObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,14 +41,32 @@ public class UserManager {
 
         try {
             wkgUser = databaseDriver.insertUser(wkgUser);
+            if (wkgUser == null) {
+                return null;
+            }
             activeUsers.put(wkgUser.getUuid(), wkgUser);
-            System.out.println("WOrked!");
+            System.out.println("Worked!");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             System.out.println("Rip!");
 
         }
         return wkgUser;
+    }
+    public User editUser(UUID userUuid, String name, String email, String bio, JsonObject data)
+    {
+        User oldUser = getUser(userUuid);
+        User newUser = databaseDriver.updateUser(userUuid, name, email, bio);
+        newUser.setName(name);
+        newUser.setEmail(email);
+        newUser.setBio(bio);
+        data.remove("name");
+        data.remove("email");
+        data.remove("bio");
+        data.put("name", name);
+        data.put("email", email);
+        data.put("bio", bio);
+        return newUser;
     }
 
     public User createTestUser() {
@@ -61,8 +80,8 @@ public class UserManager {
 
     public User updateBio(UUID uuid, String newBio) {
         User wkgUser = activeUsers.get(uuid);
+        wkgUser = databaseDriver.updateUser(uuid, wkgUser.getName(), wkgUser.getEmail(), newBio);
         wkgUser.setBio(newBio);
-
         return wkgUser;
     }
 

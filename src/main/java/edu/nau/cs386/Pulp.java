@@ -7,12 +7,15 @@ import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
 import io.vertx.core.Vertx;
 
+import java.util.concurrent.TimeUnit;
+
 public class Pulp {
+    private static final Pulp INSTANCE = new Pulp();
     private final UserManager userManager;
     private final PaperManager paperManager;
     private DatabaseDriverJDBC databaseDriver;
 
-    public Pulp(Vertx vertx) {
+    public Pulp( ) {
         this.userManager = UserManager.getInstance();
         this.paperManager = PaperManager.getInstance();
         this.databaseDriver = new DatabaseDriverJDBC();
@@ -20,9 +23,15 @@ public class Pulp {
         userManager.setDatabaseDriver(databaseDriver);
         paperManager.setDatabaseDriver(databaseDriver);
 
+        try {
+            TimeUnit.SECONDS.sleep(15);
+        } catch (InterruptedException e) {
+            ;
+        }
 
-        User testUser = userManager.createTestUser();
-        Paper testPaper = paperManager.createTestPaper(testUser.getUuid());
+
+        //User testUser = userManager.createTestUser();
+        //Paper testPaper = paperManager.createTestPaper(testUser.getUuid());
 //        vertx.deployVerticle(new DatabaseDriver(), ar -> {
 //            if (ar.succeeded()) {
 //                System.out.println("We're trying to run the data creation shit");
@@ -35,7 +44,7 @@ public class Pulp {
 //        });
     }
 
-
+    public static Pulp getInstance() {return INSTANCE;}
     public UserManager getUserManager() {
         return userManager;
     }

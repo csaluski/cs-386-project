@@ -418,18 +418,9 @@ public class MainVerticle extends AbstractVerticle {
         User original = getUserfromCookie(ctx, data);
         String name = ctx.request().getFormAttribute("name");
         String email = ctx.request().getFormAttribute("email");
-        System.out.println(email);
-        data.put("email", email);
-        //Getting the bio into update variable
         String bio = ctx.request().getFormAttribute("bio");
-        System.out.println(bio);
-        data.put("bio", bio);
-        original.setName(name);
-        original.setEmail(email);
-        original.setBio(bio);
-        data.put("name",name);
-        data.put("email",email);
-        data.put("bio", bio);
+        original = pulp.getUserManager().editUser(original.getUuid(), name, email, bio, data );
+
         engine.render(data, "templates/editUser.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());

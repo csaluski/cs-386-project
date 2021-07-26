@@ -40,6 +40,8 @@ services:
         # command: java -jar CS386-1.0.0-SNAPSHOT-fat.jar
         ports:
             - 8888:8888
+        depends_on:
+            -   postgres
         networks:
             - postgres
 networks:
