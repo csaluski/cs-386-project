@@ -1,6 +1,7 @@
 package edu.nau.cs386;
 
 import edu.nau.cs386.model.Paper;
+import edu.nau.cs386.model.Tag;
 import edu.nau.cs386.model.User;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -45,13 +46,27 @@ public class MainVerticle extends AbstractVerticle {
         return user;
     }
 
-    public void logout(RoutingContext ctx, JsonObject data) {
+    public Paper getPaperCookie(RoutingContext ctx, JsonObject data){
+        Cookie crumb = ctx.getCookie("paper");
+        String uuidString = crumb.getValue();
+        UUID paperUUID = UUID.fromString(uuidString);
+        Paper paper = pulp.getPaperManager().getPaper(paperUUID);
+        data.put("title", paper.getTitle());
+        data.put("pdf", paper.getPdf());
+        data.put("abstract", paper.getPaperAbstract());
+        data.put("doi", paper.getDoi());
+        data.put("authors", paper.getAuthors());
+        data.put("owners", paper.getOwners());
+        data.put("tags", paper.getTags());
+        return paper;
+    }
+
+    public void logout(RoutingContext ctx, JsonObject data){
         data.remove("name");
         data.remove("email");
         data.remove("bio");
         ctx.removeCookie("user", true);
     }
-
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         // create the template engine
@@ -100,38 +115,35 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
 
-        router.get("/browsePaper").handler(this::getBrowsePapers);
+        router.get("/createUser.hbs").handler(this::getCreateUser);
 
         router.get("/login").handler(this::getLogin);
-
         router.get("/logout").handler(this::getLogout);
-
-        router.get("/edit").handler(this::getEditUser);
-
-        router.get("/createPaper").handler(this::getRegisterUser);
-
+        router.get("/edit").handler(this::getEdit);
+        router.get("/create").handler(this::getCreate);
+        router.get("/tag").handler(this::getTag);
+        router.get("/removeTag").handler(this::getRemoveTag);
         router.get("/profile").handler(this::getProfile);
+        router.get("/browsePaper").handler(this::getBrowsePapers);
 
-        router.get("/uploadPDF").handler(this::getUploadPDF);
-
-        router.get("/editPDF").handler(this::getEditPDF);
-
-        router.get("/create").handler(this::getCreateUser);
+        router.route("/view/paper/:paperUuid").handler(this::viewPaperRoute);
 
         router.post("/create").handler(this::postCreateUser);
 
         router.post("/login").handler(this::postLogin);
-
         router.post("/logout").handler(this::postLogout);
+
+
+        router.get("/uploadPDF").handler(this::getUploadPDF);
+        router.get("/editPDF").handler(this::getEditPDF);
 
         router.post("/uploadPDF").handler(this::PostUploadPDF);
 
         router.post("/profile").handler(this::postProfile);
 
         router.post("/edit").handler(this::EditPost);
-
-        router.route("/view/paper/:paperUuid").handler(this::viewPaperRoute);
-
+        router.post("/tag").handler(this::postTag);
+        router.post("/removeTag").handler(this::postRemoveTag);
 //        DatabaseDriver databaseDriver = new DatabaseDriver();
 //
 //        pulp.setDatabaseDriver(databaseDriver);
@@ -147,6 +159,66 @@ public class MainVerticle extends AbstractVerticle {
             });
     }
 
+    private void postRemoveTag(RoutingContext ctx) {
+        JsonObject data = new JsonObject();
+        Paper paper = getPaperCookie(ctx, data);
+        String tagName = ctx.request().getFormAttribute("tagName");
+        paper.removeTag(paper.getTags(), tagName);
+        data.put("tags", paper.getTags());
+        ctx.reroute("/view/paper/" + paper.getUuid());
+        engine.render(data, "templates/removeTag.hbs", res -> {
+            if (res.succeeded()) {
+                ctx.response().end(res.result());
+            } else {
+                ctx.fail(res.cause());
+            }
+        });
+    }
+
+    private void postTag(RoutingContext ctx) {
+        JsonObject data = new JsonObject();
+        Paper paper = getPaperCookie(ctx, data);
+        String tagString = ctx.request().getFormAttribute("tags");
+        Tag tag = pulp.getTagManager().createTag( tagString );
+        paper.addTag(tag);
+        data.put("tags", tag);
+        ctx.reroute("/view/paper/" + paper.getUuid());
+        engine.render(data, "templates/paperViewGet.hbs", res -> {
+            if (res.succeeded()) {
+                ctx.response().end(res.result());
+            } else {
+                ctx.fail(res.cause());
+            }
+        });
+    }
+
+    private void getRemoveTag(RoutingContext ctx) {
+        JsonObject data = new JsonObject();
+        Paper paper = getPaperCookie(ctx, data);
+
+        engine.render(data, "templates/removeTag.hbs", res -> {
+            if (res.succeeded()) {
+                ctx.response().end(res.result());
+            } else {
+                ctx.fail(res.cause());
+            }
+        });
+    }
+
+    private void getTag(RoutingContext ctx) {
+        JsonObject data = new JsonObject();
+        Paper paper = getPaperCookie(ctx, data);
+        User user = getUserfromCookie(ctx, data);
+
+        engine.render(data, "templates/tagGetTag.hbs", res -> {
+            if (res.succeeded()) {
+                ctx.response().end(res.result());
+            } else {
+                ctx.fail(res.cause());
+            }
+        });
+    }
+
     private void getEditPDF(RoutingContext ctx) {
         JsonObject data = new JsonObject();
         engine.render(data, "templates/paperEditPost.hbs", res -> {
@@ -156,6 +228,7 @@ public class MainVerticle extends AbstractVerticle {
                 ctx.fail(res.cause());
             }
         });
+
     }
 
     private void getUploadPDF(RoutingContext ctx) {
@@ -169,7 +242,8 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 
-    private void getRegisterUser(RoutingContext ctx) {
+
+    private void getCreate(RoutingContext ctx) {
         JsonObject data = new JsonObject();
 
         engine.render(data, "templates/userCreatePost.hbs", res -> {
@@ -181,11 +255,11 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 
-    private void getEditUser(RoutingContext ctx) {
+    private void getEdit(RoutingContext ctx) {
         JsonObject data = new JsonObject();
         User user = getUserfromCookie(ctx, data);
 
-        engine.render(data, "templates/userProfileEditPost.hbs", res -> {
+        engine.render(data, "templates/userProfilEditPost.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -270,10 +344,12 @@ public class MainVerticle extends AbstractVerticle {
         User user = getUserfromCookie(ctx, data);
         String logStatus = ctx.request().getFormAttribute("log");
         // logStatus = logStatus.toLowerCase(Locale.ROOT);
-        if (logStatus.equalsIgnoreCase("Yes")) {
+        if( logStatus.equalsIgnoreCase("Yes") )
+        {
             logout(ctx, data);
             ctx.reroute("/");
-        } else {
+        }
+        else{
             ctx.reroute("/profile");
         }
 
@@ -337,37 +413,6 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 
-    private void getBrowsePapers(RoutingContext ctx) {
-        List<Paper> papers = pulp.getPaperManager().getAllPapers();
-        JsonObject data = new JsonObject();
-        JsonObject wkgObject;
-        JsonArray papersArray = new JsonArray();
-
-        for (Paper paper : papers) {
-            wkgObject = new JsonObject();
-            StringBuilder authorsString = new StringBuilder();
-
-            wkgObject.put("uuid", paper.getUuid());
-            wkgObject.put("title", paper.getTitle());
-            for (String author : paper.getAuthors()) {
-                authorsString.append(author);
-                authorsString.append(' ');
-            }
-            wkgObject.put("authors", authorsString.toString());
-            papersArray.add(wkgObject);
-        }
-
-        data.put("papers", papersArray);
-
-        engine.render(data, "templates/paperBrowseGet.hbs", res -> {
-            if (res.succeeded()) {
-                ctx.response().end(res.result());
-            } else {
-                ctx.fail(res.cause());
-            }
-        });
-    }
-
     private void viewPaperRoute(RoutingContext ctx) {
         UUID uuid = UUID.fromString(ctx.pathParam("paperUuid"));
 
@@ -378,6 +423,10 @@ public class MainVerticle extends AbstractVerticle {
         StringBuilder paperAuthors = new StringBuilder();
         List<String> authors = paper.getAuthors();
         authors.forEach(paperAuthors::append);
+
+        StringBuilder paperTags = new StringBuilder();
+        List<Tag> tags = paper.getTags();
+        tags.forEach(paperTags::append);
 
         StringBuilder paperOwners = new StringBuilder();
         List<UUID> owners = paper.getOwners();
@@ -392,6 +441,7 @@ public class MainVerticle extends AbstractVerticle {
         }
 
         String pdfBase64 = Base64.getEncoder().encodeToString(fileBytes);
+        String tagString = pulp.getTagManager().activeTagsToString(paper.getTags());
 
         paperJson.put("title", paper.getTitle());
         paperJson.put("paperAbstract", paper.getPaperAbstract());
@@ -399,6 +449,7 @@ public class MainVerticle extends AbstractVerticle {
         paperJson.put("authors", paperAuthors.toString());
         paperJson.put("owners", paperOwners.toString());
         paperJson.put("paperFile", pdfBase64);
+        paperJson.put("tags", tagString);
 
         engine.render(paperJson, "templates/paperViewGet.hbs", res -> {
             if (res.succeeded()) {
@@ -431,19 +482,16 @@ public class MainVerticle extends AbstractVerticle {
             // Uploaded File Name
             String fileName = URLDecoder.decode(file.fileName(), StandardCharsets.UTF_8);
             System.out.println(fileName);
-
             vertx.fileSystem().writeFileBlocking(fileName, uploadedFile);
 
             pdfFile = new File(fileName);
         }
-
-
         User paperUploader = pulp.getUserManager().getUserByEmail(uploader);
-
         Paper createdPaper = pulp.getPaperManager().createPaper(title, pdfFile, authors, paperUploader.getUuid());
         createdPaper.setDoi(doi);
         createdPaper.setPaperAbstract(paperAbstract);
-
+        Cookie paperCookie = Cookie.cookie("paper", createdPaper.getUuid().toString());
+        ctx.addCookie(paperCookie);
         System.out.println("Reached the reroute");
         System.out.println(createdPaper.getUuid());
         ctx.reroute("/view/paper/" + createdPaper.getUuid());
@@ -463,10 +511,41 @@ public class MainVerticle extends AbstractVerticle {
         original.setName(name);
         original.setEmail(email);
         original.setBio(bio);
-        data.put("name", name);
-        data.put("email", email);
+        data.put("name",name);
+        data.put("email",email);
         data.put("bio", bio);
-        engine.render(data, "templates/userProfileEditPost.hbs", res -> {
+        engine.render(data, "templates/editUser.hbs", res -> {
+            if (res.succeeded()) {
+                ctx.response().end(res.result());
+            } else {
+                ctx.fail(res.cause());
+            }
+        });
+    }
+
+    private void getBrowsePapers(RoutingContext ctx) {
+        List<Paper> papers = pulp.getPaperManager().getAllPapers();
+        JsonObject data = new JsonObject();
+        JsonObject wkgObject;
+        JsonArray papersArray = new JsonArray();
+
+        for (Paper paper : papers) {
+            wkgObject = new JsonObject();
+            StringBuilder authorsString = new StringBuilder();
+
+            wkgObject.put("uuid", paper.getUuid());
+            wkgObject.put("title", paper.getTitle());
+            for (String author : paper.getAuthors()) {
+                authorsString.append(author);
+                authorsString.append(' ');
+            }
+            wkgObject.put("authors", authorsString.toString());
+            papersArray.add(wkgObject);
+        }
+
+        data.put("papers", papersArray);
+
+        engine.render(data, "templates/paperBrowseGet.hbs", res -> {
             if (res.succeeded()) {
                 ctx.response().end(res.result());
             } else {
@@ -475,4 +554,3 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 }
-
