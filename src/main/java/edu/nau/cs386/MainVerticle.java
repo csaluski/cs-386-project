@@ -485,13 +485,12 @@ public class MainVerticle extends AbstractVerticle {
 
             pdfFile = new File(fileName);
         }
-
         User paperUploader = pulp.getUserManager().getUserByEmail(uploader);
-
         Paper createdPaper = pulp.getPaperManager().createPaper(title, pdfFile, authors, paperUploader.getUuid());
         createdPaper.setDoi(doi);
         createdPaper.setPaperAbstract(paperAbstract);
-
+        Cookie paperCookie = Cookie.cookie("paper", createdPaper.getUuid().toString());
+        ctx.addCookie(paperCookie);
         System.out.println("Reached the reroute");
         System.out.println(createdPaper.getUuid());
         ctx.reroute("/view/paper/" + createdPaper.getUuid());
