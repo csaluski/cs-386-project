@@ -113,6 +113,20 @@ public class Paper {
         }
         return this.tags;
     }
+    public void removeTag( List<Tag> tags, String tagName ) {
+        int loopIterator = 0;
+        if( tags.size() != 0 )
+        {
+        while (loopIterator < tags.size())
+          {
+            if (tags.get(loopIterator).getName().equals(tagName))
+            {
+                tags.remove(loopIterator);
+            }
+            loopIterator = loopIterator + 1;
+          }
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

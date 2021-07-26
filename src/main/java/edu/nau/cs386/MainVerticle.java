@@ -218,6 +218,18 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
         });
+        router.get("/removeTag").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            Paper paper = getPaperCookie(ctx, data);
+
+            engine.render(data, "templates/removeTag.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
 
         router.route("/view/paper/:paperUuid").handler(ctx -> {
 
@@ -414,6 +426,21 @@ public class MainVerticle extends AbstractVerticle {
             data.put("tags", tag);
             ctx.reroute("/view/paper/" + paper.getUuid());
             engine.render(data, "templates/paperViewGet.hbs", res -> {
+                if (res.succeeded()) {
+                    ctx.response().end(res.result());
+                } else {
+                    ctx.fail(res.cause());
+                }
+            });
+        });
+        router.post("/removeTag").handler(ctx -> {
+            JsonObject data = new JsonObject();
+            Paper paper = getPaperCookie(ctx, data);
+            String tagName = ctx.request().getFormAttribute("tagName");
+            paper.removeTag(paper.getTags(), tagName);
+            data.put("tags", paper.getTags());
+            ctx.reroute("/view/paper/" + paper.getUuid());
+            engine.render(data, "templates/removeTag.hbs", res -> {
                 if (res.succeeded()) {
                     ctx.response().end(res.result());
                 } else {
