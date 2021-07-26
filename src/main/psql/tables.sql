@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users
     user_uuid uuid UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
     email     VARCHAR(255) UNIQUE NOT NULL,
     name      VARCHAR(50)         NOT NULL,
-    bio       TEXT
+    bio TEXT DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS papers
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS papers
     paper_uuid uuid UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
     title      VARCHAR(255) NOT NULL,
     abstract   TEXT,
-    file       BYTEA,
+    file       TEXT,
     doi        VARCHAR(255)
 );
 

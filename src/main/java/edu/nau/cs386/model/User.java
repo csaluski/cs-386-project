@@ -1,12 +1,7 @@
 package edu.nau.cs386.model;
 
-import edu.nau.cs386.manager.UserManager;
-
 import java.util.Objects;
 import java.util.UUID;
-import java.util.Scanner;
-import edu.nau.cs386.manager.UserManager;
-import edu.nau.cs386.model.Paper;
 
 public class User {
 
@@ -28,6 +23,7 @@ public class User {
         this.bio = bio;
         this.uuid = UUID.randomUUID();
     }
+
     public User(String name, String email, String bio, UUID uuid) {
         this.name = name;
         this.email = email;
@@ -40,7 +36,7 @@ public class User {
     }
 
     public String getBio() {
-        return bio;
+        return (bio != null) ? bio : "";
     }
 
     public void setBio(String bio) {
@@ -66,8 +62,10 @@ public class User {
     public UUID getUuid() {
         return uuid;
     }
-    public void setUuid(UUID uuid ) {this.uuid = uuid;}
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
 
     @Override

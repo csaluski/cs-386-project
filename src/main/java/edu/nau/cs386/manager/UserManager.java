@@ -1,23 +1,22 @@
 package edu.nau.cs386.manager;
 
 import com.thedeanda.lorem.LoremIpsum;
-import edu.nau.cs386.database.DatabaseDriver;
+import edu.nau.cs386.database.DatabaseDriverJDBC;
 import edu.nau.cs386.model.User;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.*;
 
 public class UserManager {
 
     private static final UserManager INSTANCE = new UserManager();
     private final HashMap<UUID, User> activeUsers = new HashMap<>();
     public UUID testUserUUID;
-    private DatabaseDriver databaseDriver;
+    private DatabaseDriverJDBC databaseDriver;
 
     private UserManager() {
-
     }
 
 
@@ -25,26 +24,28 @@ public class UserManager {
         return INSTANCE;
     }
 
-    public DatabaseDriver getDatabaseDriver() {
+    public DatabaseDriverJDBC getDatabaseDriver() {
         return databaseDriver;
     }
 
-    public void setDatabaseDriver(DatabaseDriver databaseDriver) {
+    public void setDatabaseDriver(DatabaseDriverJDBC databaseDriver) {
         this.databaseDriver = databaseDriver;
     }
 
 
-    private UserManager() {
-    };
-
-    public static UserManager getInstance() {
-        return INSTANCE;
-    }
-
     public User createUser(String name, String email) {
-        databaseDriver.insertUser(name, email);
         User wkgUser = new User(name, email);
-        activeUsers.put(wkgUser.getUuid(), wkgUser);
+        System.out.println("Trying to use database driver");
+
+        try {
+            wkgUser = databaseDriver.insertUser(wkgUser);
+            activeUsers.put(wkgUser.getUuid(), wkgUser);
+            System.out.println("WOrked!");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("Rip!");
+
+        }
         return wkgUser;
     }
 
@@ -63,7 +64,6 @@ public class UserManager {
 
         return wkgUser;
     }
-
 
     public User getUserByEmail(String email) {
         ArrayList<User> users = new ArrayList<>(activeUsers.values());

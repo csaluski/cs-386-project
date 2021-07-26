@@ -1,30 +1,40 @@
 package edu.nau.cs386;
 
-import edu.nau.cs386.database.DatabaseDriver;
+import edu.nau.cs386.database.DatabaseDriverJDBC;
 import edu.nau.cs386.manager.PaperManager;
 import edu.nau.cs386.manager.UserManager;
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
+import io.vertx.core.Vertx;
 
 public class Pulp {
-    private static final Pulp INSTANCE = new Pulp();
-
-
     private final UserManager userManager;
     private final PaperManager paperManager;
-    private DatabaseDriver databaseDriver;
+    private DatabaseDriverJDBC databaseDriver;
 
-    private Pulp() {
+    public Pulp(Vertx vertx) {
         this.userManager = UserManager.getInstance();
         this.paperManager = PaperManager.getInstance();
+        this.databaseDriver = new DatabaseDriverJDBC();
+
+        userManager.setDatabaseDriver(databaseDriver);
+        paperManager.setDatabaseDriver(databaseDriver);
+
 
         User testUser = userManager.createTestUser();
         Paper testPaper = paperManager.createTestPaper(testUser.getUuid());
+//        vertx.deployVerticle(new DatabaseDriver(), ar -> {
+//            if (ar.succeeded()) {
+//                System.out.println("We're trying to run the data creation shit");
+//
+//            }
+//            else {
+//                System.out.println("Oh no");
+//                throw new RuntimeException();
+//            }
+//        });
     }
 
-    public static Pulp getInstance() {
-        return INSTANCE;
-    }
 
     public UserManager getUserManager() {
         return userManager;
@@ -42,11 +52,11 @@ public class Pulp {
         return paperManager.getPaper(paperManager.testPaperUUID);
     }
 
-    public DatabaseDriver getDatabaseDriver() {
+    public DatabaseDriverJDBC getDatabaseDriver() {
         return databaseDriver;
     }
 
-    public void setDatabaseDriver(DatabaseDriver databaseDriver) {
+    public void setDatabaseDriver(DatabaseDriverJDBC databaseDriver) {
         this.databaseDriver = databaseDriver;
 
         userManager.setDatabaseDriver(databaseDriver);
