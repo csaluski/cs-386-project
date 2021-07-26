@@ -36,6 +36,7 @@ public class UserManager {
 
 
     public User createUser(String name, String email) {
+
         User wkgUser = new User(name, email);
         System.out.println("Trying to use database driver");
 
@@ -71,7 +72,6 @@ public class UserManager {
 
     public User createTestUser() {
         LoremIpsum lorem = LoremIpsum.getInstance();
-
         User wkgUser = createUser("Test User", "email@nau.edu");
         updateBio(wkgUser.getUuid(), lorem.getWords(10));
         testUserUUID = wkgUser.getUuid();

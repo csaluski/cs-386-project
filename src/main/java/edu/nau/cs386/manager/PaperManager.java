@@ -4,7 +4,7 @@ import com.thedeanda.lorem.LoremIpsum;
 import edu.nau.cs386.database.DatabaseDriver;
 import edu.nau.cs386.database.DatabaseDriverJDBC;
 import edu.nau.cs386.model.Paper;
-
+import edu.nau.cs386.model.Tag;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,6 +80,11 @@ public class PaperManager {
     public Paper addOwner(UUID paperUuid, UUID newOwnerUuid) {
         Paper wkgPaper = activePapers.get(paperUuid);
         wkgPaper.addOwner(newOwnerUuid);
+        return wkgPaper;
+    }
+    public Paper addTag(UUID paperUuid, Tag tag) {
+        Paper wkgPaper = activePapers.get(paperUuid);
+        wkgPaper.addTag(tag);
         return wkgPaper;
     }
 

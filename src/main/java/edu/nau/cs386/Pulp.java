@@ -3,31 +3,48 @@ package edu.nau.cs386;
 import edu.nau.cs386.database.DatabaseDriverJDBC;
 import edu.nau.cs386.manager.PaperManager;
 import edu.nau.cs386.manager.UserManager;
+import edu.nau.cs386.manager.TagManager;
 import edu.nau.cs386.model.Paper;
 import edu.nau.cs386.model.User;
+
 import io.vertx.core.Vertx;
 
 import java.util.concurrent.TimeUnit;
+
+import edu.nau.cs386.model.Tag;
+
 
 public class Pulp {
     private static final Pulp INSTANCE = new Pulp();
     private final UserManager userManager;
     private final PaperManager paperManager;
     private DatabaseDriverJDBC databaseDriver;
+    private final TagManager tagManager;
+
+
 
     public Pulp( ) {
         this.userManager = UserManager.getInstance();
         this.paperManager = PaperManager.getInstance();
+        this.tagManager = TagManager.getInstance();
         this.databaseDriver = new DatabaseDriverJDBC();
 
         userManager.setDatabaseDriver(databaseDriver);
         paperManager.setDatabaseDriver(databaseDriver);
 
-        try {
-            TimeUnit.SECONDS.sleep(15);
-        } catch (InterruptedException e) {
-            ;
-        }
+
+
+        User testUser = userManager.createTestUser();
+        Paper testPaper = paperManager.createTestPaper(testUser.getUuid());
+        Tag testTag = tagManager.createTestTag();
+    }
+
+
+//        try {
+//            TimeUnit.SECONDS.sleep(15);
+//        } catch (InterruptedException e) {
+//            ;
+//        }
 
 
         //User testUser = userManager.createTestUser();
@@ -42,7 +59,7 @@ public class Pulp {
 //                throw new RuntimeException();
 //            }
 //        });
-    }
+  // }
 
     public static Pulp getInstance() {return INSTANCE;}
     public UserManager getUserManager() {
@@ -53,6 +70,8 @@ public class Pulp {
         return paperManager;
     }
 
+    public TagManager getTagManager() {return tagManager;}
+
     public User getTestUser() {
         return userManager.getUser(userManager.testUserUUID);
     }
@@ -61,8 +80,9 @@ public class Pulp {
         return paperManager.getPaper(paperManager.testPaperUUID);
     }
 
+    public Tag getTestTag() {return tagManager.createTestTag();}
     public DatabaseDriverJDBC getDatabaseDriver() {
-        return databaseDriver;
+            return databaseDriver;
     }
 
     public void setDatabaseDriver(DatabaseDriverJDBC databaseDriver) {
@@ -70,6 +90,7 @@ public class Pulp {
 
         userManager.setDatabaseDriver(databaseDriver);
         paperManager.setDatabaseDriver(databaseDriver);
+        //tagManager.setDatabaseDriver(databaseDriver);
     }
 
 
