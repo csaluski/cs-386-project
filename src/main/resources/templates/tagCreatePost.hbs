@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: Create Tag Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="Create a tag and add it to database.">
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: Create Tag </h1>
+</header>
+
+{{> ../snipits/navigation}}
+<main>
+    <h2>Create New Tag</h2><br><br>
+
+    <form method="post">
+        <div class="container">
+
+            <label for="paper">Attached Papers:</label>
+            <!-- ToDo: Prepopulate page that user was on before this page -->
+            <input type="text" id="paper" name="paper"><br><br>
+
+            <label for="owner">Tag Owners:</label>
+            <!-- ToDo: Prepopulate this user -->
+            <input type="text" id="owner" name="owner"><br><br>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+
+            <input type="submit" value="Submit">
+
+        </div>
+    </form>
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
+</html>

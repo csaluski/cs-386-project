@@ -3,51 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Pulp: View Paper</title>
-
-    <link rel="stylesheet" href="/static/css/mainStyle.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <meta name="author" content="Hannah Larreau">
     <meta name="description" content="The page where users can view the PDF of an uploaded paper.">
 </head>
-<!--<nav>
-    <ul>
-        <li><a href="#">Index</a></li>
-        <li><a href="#">Edit Paper</a></li>
-        <li><a href="#">Log In</a></li>
-    </ul>
-</nav>-->
+
 <body>
-<h1> View {{title}} </h1>
 
-<div class="paper"> <!-- style paper in css or change class-->
+<header id="mainHeader">
+    <h1>Pulp: View {{title}} </h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<main>
+    <div class="sidebar">
+        <div class="container">
+            <ul>
+                <li>Title: {{title}}</li>
+                <li>Doi: {{doi}}</li>
+                <li>Authors: {{authors}}</li>
+                <li>Owners: {{owners}}</li>
+                <li>Tags: {{tags}}</li>
+            </ul>
+
+            <p><input type="button" value="Edit This Paper" onclick="location.href='/editPDF'"></p>
+            <p><input type="button" value="Create New Tag" onclick="location.href='/createTag'"></p>
+
+        </div>
+
+    </div>
+
     <article>
-        <h2>Abstract:</h2>
-        <p>
-            {{paperAbstract}}
-        </p>
+        <h2>{{title}}</h2>
+        <h3>Abstract:</h3>
+        <p>{{abstract}}</p>
     </article>
 
-    <iframe src="data:application/pdf;base64,{{paperFile}}" title="" width="" height="" allowfullscreen="true" loading="eager"></iframe>
-    <input type="button" id="fullscreen" name="fullscreen" onclick="requestFullscreen()">
+    <iframe src="data:application/pdf;base64,{{paperFile}}" name="paperView" allowfullscreen="allowfullscreen"
+            loading="eager"></iframe>
+    <input type="button" id="fullscreen" name="paperView" value="Full Screen" onclick="requestFullscreen()">
 
-</div>
+</main>
 
-<div class="sidebar"> <!-- style sidebar in css or change class-->
-    <article>
-        <ul>
-            <li>Title: {{title}}</li>
-            <li>Doi: {{doi}}</li>
-            <li>Authors: {{authors}}</li>
-            <li>Owners: {{owners}}</li>
-            <li>Tags: {{tags}}</li>
-        </ul>
-    </article>
-    <input type="button" id="redirect" name="goToEditPage"> <!-- onclick="go to Edit Paper Page" -->
-    <p><a href="/" >Back to Home</a></p>
-    <p><a href="profile" >Open Profile</a></p>
-    <p><a href="uploadPDF" >Upload a Paper</a></p>
-    <p><a href="editPDF" >Edit a paper</a></p>
-    <p><a href="/tag" >Add tag</a></p>
-    <p><a href="/removeTag" >Remove tag</a></p>
-</div>
+{{> ../snipits/footer}}
+
 </body>
 </html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pulp: Home Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Jonathon Boal and Christopher Murphy">
+    <meta name="description" content="Home page of the Pulp website.">
+
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: Home Page</h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<section id="jumbo">
+    <h1></h1>
+</section>
+
+<main>
+    <div class="container">
+        <p> A collaboration platform that enables academics to be more effective in their literary research by
+            enabling more effective searching and collaborative annotations.</p>
+    </div>
+    <div id="fixed">FAQs</div>
+
+
+    <h3>Recently Posted Papers:</h3>
+    <ul>
+        <!-- ToDo: Limit lists to most recent (5?) created papers -->
+        {{#each papers}}
+            <li>
+                <p><a href="view/paper/{{uuid}}">{{title}}</a><br>By: {{authors}}</p>
+            </li>
+        {{/each}}
+    </ul>
+
+    <h3>Recently Created Tags:</h3>
+    <ul>
+        {{#each tag}}
+            <li>
+                <p><a href="view/tag/{{uuid}}">{{tagName}}</a><br>By: {{owners}}</p>
+            </li>
+        {{/each}}
+    </ul>
+</main>
+    <!--
+<article>
+    <div id="recentTags">
+        <h3>All Existing Tags</h3>
+        <ul>
+            ToDo: Limit list to most recent (5?) created tags
+            {{#each tag}}
+                <li>
+                    <h2><a href="view/paper/{{taguuid}}">{{tagtitle}}</a></h2>
+                    <p>By: {{owners}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+</article>
+-->
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
+</html>

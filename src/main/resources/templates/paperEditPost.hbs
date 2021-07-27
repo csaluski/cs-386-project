@@ -1,79 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Pulp: Edit Paper Page</title>
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: Edit Paper Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="The page where users can edit the data related to a previously uploaded PDF.">
+</head>
 
-        <link rel="stylesheet" href="/static/css/mainStyle.css">
-        <meta name="author" content="Hannah Larreau">
-        <meta name="description" content="The page where users can edit the data related to a previously uploaded PDF.">
-    </head>
-    <!--<nav>
-        <ul>
-            <li><a href="#">Index</a></li>
-            <li><a href="#">View Paper</a></li>
-            <li><a href="#">Log In</a></li>
-        </ul>
-    </nav>-->
-    <body>
-        <article>
-        <h1> Edit {{title}} </h1>
-            <h2>Edit {{title}} Details </h2>
-            <form action="" method="get">
-                <p><label for="title">Title:</label>
-                    <input type="text" id="title" name="title"></p>
-                    <input type="submit" value="Submit">
-            </form>
+<body>
 
-            <form action="" action="get">
-                <p><label for="abstract">Abstract:</label>
-                    <input type="text" id="abstract" name="abstract"></p>
-                <input type="submit" value="Submit">
-            </form>
+<header id="mainHeader">
+    <h1>Pulp: Edit Paper </h1>
+</header>
 
-            <form action="" action="get">
-                <p><label for="doi">DOI:</label>
-                    <input type="text" id="doi" name="doi"></p>
-                <input type="submit" value="Submit">
-            </form>
+{{> ../snipits/navigation}}
 
-            <form action="" action="get">
-                <p><label for="addAuthor">Add Author:</label>
-                    <input type="text" id="addAuthor" name="addAuthor"></p>
-                    <input type="submit" value="Submit">
-            </form>
+<main>
+    <h1> Edit {{title}} </h1><br><br>
 
-        <!--    <form>
-                <p><label for="removeAuthor">Remove Author:</label>
-                Ordered list of current authors assigned to Paper, each with a check box
-                <ol> <li>item in list</li> </ol> </p>
-                <input type="submit" value="Submit">
-            </form> -->
+    <!--ToDo: Autofill existing paper details -->
 
-            <h2>Edit Owners </h2>
-            <form action="" action="get">
-                <label for="addOwner">Add Owner:</label>
-                <input type="submit" value="Submit">
-            </form>
+    <form method="post" action="paperEditPost.hbs">
+        <br><label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
 
-        <!--    <form>
-                <label for="removeOwner">Remove Owner:</label>
-                    Unordered list of current authors assigned to Paper, each with a check box
-                    <ul> <li>item in list</li> </ul>
-                <input type="submit" value="Submit">
-            </form> -->
+        <br><label for="abstract">Abstract:</label><br>
+        <input type="text" id="abstract" name="abstract"><br>
 
-            <section class="delete-paper">
-                <h2> Remove Paper</h2>
-                <button onclick="<!--delete-->" class="Paper">
-                    Delete Paper</button>
-            </section>
+        <br><label for="doi">DOI:</label>
+        <input type="text" id="doi" name="doi"><br>
 
-        <button onclick="<!--return to view paper-->" class="<!--PaperView Class-->">
-            Return to View Paper</button>
-        </article>
-    </body>
-    <!--<footer>
+        <br><label for="addAuthor">Add Author:</label>
+        <input type="text" id="addAuthor" name="addAuthor"><br>
 
-    </footer> -->
+        <!-- ToDo: make a search for existing tags -->
+        <br><label for="addTag">Add Tag:</label>
+        <input type="text" id="addTag" name="addTag"><br>
+
+        <br><label for="addOwner">Add Owner:</label>
+        <input type="text" id="addOwner" name="addOwner"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <!--
+<p><label for="removeAuthor">Remove Author:</label>
+Ordered list of current authors assigned to Paper, each with a check box
+<ol> <li>item in list</li> </ol> </p>
+
+<p><label for="removeTag">Remove Tag:</label>
+<input type="text" id="removeTag" name="addTag"></p>
+
+<label for="removeOwner">Remove Owner:</label>
+Unordered list of current owners assigned to Paper, each with a check box
+<ul> <li>item in list</li> </ul>
+
+<section class="delete-paper">
+<h2> Remove Paper</h2>
+<button onclick="/deletePaper" class="Paper">
+Delete Paper
+</button>
+</section>
+    -->
+
+    <p><input type="button" value="View Paper" onclick="location.href='/view/paper/:{{paperUuid}}'"></p>
+
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
 </html>

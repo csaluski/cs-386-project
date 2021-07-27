@@ -25,7 +25,6 @@ public class PaperManager {
         return INSTANCE;
     }
 
-
     public Paper createPaper(String title, File file, List<String> authors, UUID owner) {
         Paper wkgPaper = new Paper(title, file, authors, owner);
         activePapers.put(wkgPaper.getUuid(), wkgPaper);
@@ -36,7 +35,7 @@ public class PaperManager {
         LoremIpsum lorem = LoremIpsum.getInstance();
 
         Paper wkgPaper = createPaper("testPaper", new File("/null"), List.of("testAuthor1", "testAuthor2"), owner);
-        editPaperAbstract(wkgPaper.getUuid(), lorem.getWords(100,150));
+        editPaperAbstract(wkgPaper.getUuid(), lorem.getWords(100, 150));
         testPaperUUID = wkgPaper.getUuid();
 
         return wkgPaper;

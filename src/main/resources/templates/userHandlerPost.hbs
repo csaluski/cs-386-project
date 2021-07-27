@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp</h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<main>
+    <h1>Hello {{name}} at {{email}}. <br>Your UUID is {{uuid}}</h1>
+
+    <p><input type="button" value="Login" onclick="location.href='/login'"></p>
+
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
+</html>

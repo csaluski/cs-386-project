@@ -1,0 +1,13 @@
+<div class="mainNav" id="nav">
+    <a href="/">Home</a>
+    <a href="/browsePaper">Papers</a>
+    <a href="/browseTags">Tags</a>
+    {{#if loggedIn}}
+        <a href="/uploadPDF">Upload New Paper</a>
+        <a href="/profile">User Page</a>
+    {{else}}
+        <a href="/create">Create Account</a>
+        <a href="/login">Login</a>
+    {{/if}}
+</div>
+

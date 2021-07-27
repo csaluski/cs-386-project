@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CS386 Project</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: Create Profile </h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<main>
+
+    <h2>Please input your user name and personal email:</h2>
+
+    <form method="post">
+
+        <article>
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name"><br><br>
+
+            <label for="email">Email:</label><br>
+            <input type="text" id="email" name="email"><br><br>
+
+            <input type="submit" value="Submit">
+
+        </article>
+
+    </form>
+</main>
+
+{{> ../snipits/footer}}
+
+</body>
+
+</html>
+

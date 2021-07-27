@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+
+<header id="mainHeader">
+    <h1>Pulp: Edit Profile </h1>
+</header>
+
+{{> ../snipits/navigation}}
+<main>
+    <form method="POST">
+
+        <p><label for="name">Change Name: {{name}}</label><br>
+        <input type="text" id="name" name="name"></p>
+
+        <p><label for="email">Change Email: {{email}}</label><br>
+        <input type="text" id="email" name="email"></p>
+
+        <p><label for="bio"> about you {{bio}}</label><br>
+        <input type="text" id="bio" name="bio"></p>
+
+        <input type="submit" value="Submit"><br><br>
+
+        <!--p><a href="hand" >check</a></p>
+        <button  type="button"onclick="submit;location.href='hand';">Edit </button-->
+
+        <p><input type="button" value="Return to Profile" onclick="location.href='/profile'"></p>
+
+</form>
+</main>
+{{> ../snipits/footer}}
+
+</body>
+
+</html>

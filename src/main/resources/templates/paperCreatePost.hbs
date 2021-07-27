@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: Create Paper Page</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="The page where users upload PDF and set paper details.">
+</head>
+
+<body>
+<header id="mainHeader">
+    <h1>Pulp: Create Paper</h1>
+</header>
+
+{{> ../snipits/navigation}}
+
+<main>
+    <form action="uploadPDF" enctype="multipart/form-data" method="POST">
+
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+
+        <label for="doi">DOI:</label><br>
+        <input type="text" id="doi" name="doi"><br>
+
+        <label for="authors">Authors, comma delimited</label><br>
+        <input type="text" id="authors" name="authors"><br>
+
+        <label for="abstract">Paper abstract: </label><br>
+        <input type="text" id="abstract" name="abstract"><br>
+
+        <!-- TODO: replace this with authentication-->
+        <label for="email">Uploader email:</label><br>
+        <input type="text" id="email" name="email"><br>
+
+        <label for="paper">Select a PDF to Upload:</label><br>
+        <input type="file" id="paper" name="paper" accept=".pdf, .PDF, .Pdf"><br><br>
+
+        <input type="submit" value="Upload" onclick="location.href='/view/paper/:{{uuid}}">
+
+    </form>
+
+</main>
+
+<div class="sidebar">
+    <p><a href="view/paper/:paperUuid">View a Paper</a></p>
+    <p><a href="editPDF">Edit a paper</a></p>
+    <p><a href="profile">Go to profile</a></p>
+    <p><a href="/">Go home</a></p>
+</div>
+
+
+{{> ../snipits/footer}}
+
+</body>
+
+</html>
