@@ -17,6 +17,8 @@ sorting of their papers. User may view a tag to review all associated papers, th
 search for information they previously reviewed. In case of any mistakes or if a user changes their mind on how they
 want to note something, user profiles, paper details, and tag information are all able to be edited.
 
+Pulp is open source at https://github.com/Csaluski/cs-386-project
+
 ## 2. Implemented requirements
 
 Requirement: As a paper writer, I want to be able to log in and out of my account at will. Also I want to be able to
