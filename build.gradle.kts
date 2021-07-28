@@ -15,6 +15,7 @@ version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 val vertxVersion = "4.1.1"
@@ -46,7 +47,7 @@ dependencies {
     implementation("com.thedeanda:lorem:2.1")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("commons-io:commons-io:2.11.0")
-
+    testImplementation("org.mockito:mockito-core:3.+")
 }
 
 java {
