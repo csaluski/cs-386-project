@@ -1,0 +1,122 @@
+{
+  "id": "a8b439ad-bc4c-48f5-bad5-466ceaa13ab4",
+  "version": "2.0",
+  "name": "Pulp-papers",
+  "url": "localhost:8888",
+  "tests": [{
+    "id": "f8b1b026-e710-4a8c-afc8-e2b37cabdf7f",
+    "name": "Login",
+    "commands": [{
+      "id": "68e45a99-1cd8-4d8b-a082-f5aba494c650",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8888/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "da7b16ea-b960-4e49-bd90-f03e546668e4",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "508x514",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e4522e7d-6ca7-4dc2-9eda-ba0a63a65ddb",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Login",
+      "targets": [
+        ["linkText=Login", "linkText"],
+        ["css=#nav > a:nth-child(5)", "css:finder"],
+        ["xpath=//a[contains(text(),'Login')]", "xpath:link"],
+        ["xpath=//div[@id='nav']/a[5]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/login')]", "xpath:href"],
+        ["xpath=//a[5]", "xpath:position"],
+        ["xpath=//a[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1db05f52-e292-4a38-aad7-5e0c8cbba6e5",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c66117c2-ecf0-48e4-b7b8-64d5853d9f71",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "email@nau.edu"
+    }, {
+      "id": "491885ac-9b2c-4bcb-aa04-808b9576778d",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(6)",
+      "targets": [
+        ["css=input:nth-child(6)", "css:finder"],
+        ["xpath=//input[@value='Submit']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ebadbf8-1a12-469d-977a-357eec139bb1",
+      "comment": "",
+      "command": "click",
+      "target": "css=p:nth-child(6) > input",
+      "targets": [
+        ["css=p:nth-child(6) > input", "css:finder"],
+        ["xpath=//input[@value='Log Out']", "xpath:attributes"],
+        ["xpath=//p[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cffcf101-b4e9-40d4-8808-f9d42b6511ff",
+      "comment": "",
+      "command": "click",
+      "target": "id=Yes",
+      "targets": [
+        ["id=Yes", "id"],
+        ["name=log", "name"],
+        ["css=#Yes", "css:finder"],
+        ["xpath=//input[@id='Yes']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "267ea156-21ab-49f1-8c63-e90133e81572",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(8)",
+      "targets": [
+        ["css=input:nth-child(8)", "css:finder"],
+        ["xpath=//input[@value='Submit']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "027c5a11-fd9e-47ac-98b4-ee19f4eb8569",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["localhost:8888"],
+  "plugins": []
+}
