@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class SystemManager{
+OpenConnection()
+}
+Program -> SystemManager
+SystemManager <-- system0ne
+SystemManager <-- systemThree
+SystemManager <-- systemFour
+SystemManager <-- systemFive
+SystemManager <-- systemSix
+
+@enduml

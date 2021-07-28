@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pulp: Edit Paper Page</title>
+
+
+    <link rel="stylesheet" href="static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="The page where users upload PDF and set paper details.">
+</head>
+
+<body>
+
+<form action="uploadPDF" enctype="multipart/form-data" method="POST">
+
+    <input type="text" id="title" name="title" placeholder="Title">
+    <br>
+    <input type="text" id="doi" name="doi" placeholder="DOI">
+    <br>
+
+    <input type="text" id="authors" name="authors" placeholder="Authors">
+    <label for="authorsnote">(comma delimited)</label>
+    <br>
+
+    <input type="text" id="abstract" name="abstract" placeholder="Paper abstract">
+    <br>
+    <!-- TODO: replace this with authentication-->
+
+    <input type="text" id="email" name="email" placeholder="Uploader email">
+    <br>
+    <label for="paper">Select a PDF to Upload:</label>
+    <input type="file" id="paper" name="paper" accept=".pdf, .PDF, .Pdf">
+    <br>
+    <input type="submit" value="Upload">
+    <p><a href="view/paper/:paperUuid" >View a Paper</a></p>
+    <p><a href="editPDF" >Edit a paper</a></p>
+    <p><a href="profile" >Go to profile</a></p>
+    <p><a href="/" >Go home</a></p>
+    <p><a href="tag" >Add tags</a></p>
+</form>
+
+
+</body>
+</html>

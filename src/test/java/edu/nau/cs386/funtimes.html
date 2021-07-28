@@ -2,18 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello Page</title>
-    <link rel="stylesheet" href="/static/css/mainStyle.css">
+    <title>Pulp: Edit Paper Page</title>
+
+
+    <link rel="stylesheet" href="static/css/styles.css">
+    <meta name="author" content="Hannah Larreau">
+    <meta name="description" content="The page where users upload PDF and set paper details.">
 </head>
+
 <body>
-<form method="POST">
-    <p>Hello {{name}}</p>
-    <input type="text" id = "newName" name="New name:" value = {{name}}><br><br>
-    <p> at {{email}}</p>
-    <input type="text" id = "newEmail" name="New email" value= {{email}}><br><br>
-    <p>about you {{bio}}</p>
-    <input type="text" id = "newBio" name="New bio:" value = {{bio}}><br><br>
-    <input type="submit" value="Edit">
+
+<form action="uploadPDF" enctype="multipart/form-data" method="POST">
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title">
+
+    <label for="doi">DOI:</label>
+    <input type="text" id="doi" name="doi">
+
+    <label for="authors">Authors, comma delimited</label>
+    <input type="text" id="authors" name="authors">
+
+    <label for="abstract">Paper abstract: </label>
+    <input type="text" id="abstract" name="abstract">
+    <!-- TODO: replace this with authentication-->
+    <label for="uploader" >Uploader email</label>
+    <input type="text" id="email" name="email">
+
+    <label for="paper">Select a PDF to Upload:</label>
+    <input type="file" id="paper" name="paper" accept=".pdf, .PDF, .Pdf">
+
+    <input type="submit" value="Upload">
+    <p><a href="view/paper/:paperUuid" >View a Paper</a></p>
+    <p><a href="editPDF" >Edit a paper</a></p>
+    <p><a href="profile" >Go to profile</a></p>
+    <p><a href="/" >Go home</a></p>
+    <p><a href="tag" >Add tags</a></p>
 </form>
+
+
 </body>
 </html>

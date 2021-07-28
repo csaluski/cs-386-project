@@ -1,15 +1,61 @@
 @startuml
 title Request Account Creation
 
-user -> "web router": Request page
-"web router" -> user: Send account creation page
+actor User
+participant MainVerticle
+participant Router
+participant TemplateEngine
+participant UserManager
+participant DatabaseDriver
+database PostgreSQL
+
+
+User -> MainVerticle: Send GET "/create"
+MainVerticle -> Router: Route to "/create" GET handler
+activate Router
+Router -> TemplateEngine: render(create.hbs)
+TemplateEngine --> User: Send rendered page
+deactivate Router
 ...
-user -> "web router": Sends filled out account creation information
-"web router" -> "account verifier": Send data to verify valid format
-"account verifier" -> "database driver": Send verified account details
-"database driver" -> database: Add account to database
-database -> "web router": Sends back success or failure and reason
-"web router" -> "template renderer": Request template
-"template renderer" -> "web router": send rendered web page to router
-"web router" -> user: send account created page
+User -> MainVerticle: Send POST "/create"
+MainVerticle -> Router: Route to "/createPost" POST handler
+activate Router
+
+Router -> UserManager: createUser(name, email)
+activate UserManager
+
+alt Valid name and email
+
+    UserManager -> DatabaseDriver: createUser(name, email)
+    DatabaseDriver -> PostgreSQL: INSERT user record
+    activate DatabaseDriver
+
+    alt Success inserting new user row
+        PostgreSQL -> DatabaseDriver: Return results of inserting row
+        DatabaseDriver -> UserManager: Return results of inserting row
+        UserManager -> Router: Return User object
+        Router -> TemplateEngine: render(createUser.hbs, User)
+        TemplateEngine -> User: Send rendered account creation success
+
+    else Duplicate user row
+        PostgreSQL -> DatabaseDriver: Return row already exists exception
+        deactivate DatabaseDriver
+
+        DatabaseDriver -> UserManager: Return exception
+        deactivate UserManager
+        UserManager -> Router: Return exception
+        Router -> TemplateEngine: render(createUserFailed.hbs)
+        TemplateEngine -> User: Send rendered createUserFailed page
+
+    end
+
+else Invalid name or email
+
+    Router -> TemplateEngine: render(createUserFailed.hbs)
+    TemplateEngine -> User: Send rendered createUserFailed page
+
+end
+
+
+
 @enduml

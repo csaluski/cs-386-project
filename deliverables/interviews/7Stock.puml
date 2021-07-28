@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Stock{
+value
++update()
+}
+class MobileStockDisplay
+class WebStockDealer implements Stock
+class AutoStockDealer implements Stock
+
+
+MobileStockDisplay<- Stock
+
+
+@enduml

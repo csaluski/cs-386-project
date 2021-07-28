@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Structure
+
+class building{
+doors
+windows
+walls
+rooms
+floors
+
+}
+Structure -> building
+
+class building implements Structure
+class component implements Structure
+class component {
+
+
+}
+
+
+
+
+@enduml

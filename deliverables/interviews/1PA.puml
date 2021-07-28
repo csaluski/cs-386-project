@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+class SalesData{
+drawGraph()
+}
+
+class PieGraph implements  SalesData
+class BarGraph implements  SalesData
+'---------------'
+class  SystemCode{
+openFile
+(String,filename)
+}
+
+
+@enduml

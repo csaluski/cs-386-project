@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/class-diagram
+class data
+class product implements data
+class consumer implements data
+interface Store
+class DatabaseStore implements Store
+class XMLStore implements Store
+class CloudStore implements Store
+data "1"-* Store
+
+
+@enduml

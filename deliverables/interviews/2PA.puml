@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class JavaCode implements SystemCode
+class ScalaCode implements SystemCode
+class plaintxt implements SystemCode
+
+class JavaCode {
+filetype
+}
+class ScalaCode{
+               filetype
+               }
+class Plaintxt {
+               text
+               }
+/'
+class SystemCode
+Pulls in a data type, references the file name to the tab.
+checks the code libraries, ( if it JavaCode, ScalaCode, plaintxt)
+
+class SystemCode {
+    ScalaCode scala = new ScalaCode("src.sc")
+    JavaCode java = new JavaCode("src.java")
+    Plaintxt text = new Plaintxt("src.txt")
+    java.formatCode();
+    scala.formatCode();
+    java.generateClass("User");
+    scala.generateClass("User");
+
+
+'/
+@enduml
