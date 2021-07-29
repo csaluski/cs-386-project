@@ -86,8 +86,47 @@ name: project
 name: design
 # Design
 
-* Java, Vertx, MVC
-*
+--
+
+## Serverside
+
+* Java Web Server using Vert.x
+
+<!-- We decided on using Java for our main programming language for the
+    Web Server. We used a serverside framework called Vert.x to
+    deliver the HTML, JavaScript, and CSS to the browser. -->
+
+--
+
+* Simple data objects
+
+<!-- To manage all of the different types of data we have, we used very
+    simple objects made from only a few fields. These classes consisted of
+    useful -->
+
+--
+
+* Manager classes for the data
+
+<!-- To manage these simple objects, we used separate manager classes. These
+    classes are responsible for creating, removing, and uploading objects to
+    and from the database. -->
+
+--
+
+* JDBC Wrapper for Database Connection
+
+<!-- We used the Java Connectivity Database API, or JDBC, to connect to the database. -->
+
+--
+
+## Clientside
+
+* Handlebars Templates
+
+<!-- We used a templating language called Handlebars to transfer data from the
+    web server to the client. This data is embedded into the HTML when the browser
+    requests a page. -->
 
 ---
 name: design
