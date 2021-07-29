@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+        @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+        @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+        body {
+            font-family: 'Droid Serif';
+        }
+
+        h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: normal;
+        }
+
+        .remark-code, .remark-inline-code {
+            font-family: 'Ubuntu Mono';
+        }
+
+    </style>
+</head>
+<body>
+<textarea id="source">
+
+class: center, middle
+
+# Pulp
+<img style="width:25%"  src="deliverable8//NAU.png">
+
+    Contributors:
+
+    Jonathan Boal, Jadon Fowler, Hannah Larreau, Christopher Murphy, Charles Saluski
+
+---
+
+# Agenda
+
+1. Team
+2. Project
+3. Design
+4. Demo
+5. Evaluation
+6. Conclusion
+
+---
+name: team
+# Introduction
+
+* Jonathan Boal
+ - Bachelor's of Science in Computer Science; Emphasis of Security
+
+* Jadon Fowler
+ - Bachelor's of Science in Computer Science
+
+* Hannah Larreau
+ - Bachelor's of Science in Chemistry
+ - Computer Science Minor
+ - Math Minor
+
+* Christopher Murphy
+ - Bachelor's of Mathematics; Emphasis of Statistics
+ - Computer Science Minor
+
+* Charles Saluski
+ - Bachelor's of Science in Computer Science
+
+---
+name: project
+# Project
+ ## Why Pulp?
+* Why: Organizing literary research is hard
+* Goal: Help organize research papers and facilitate more discovery
+### Value Statement
+    We are a collaboration platform that enables academics to be more effective in their literary research by enabling more effective searching and collaborative annotations.
+####Pages Implemented:
+    1. User creation
+    2. Login/Logout
+    3. Profile viewing and editing
+    4. Paper creation and viewing
+    5. Tags
+---
+name: design
+# Design
+
+--
+
+## Serverside
+
+* Java Web Server using Vert.x
+
+<!-- We decided on using Java for our main programming language for the
+    Web Server. We used a serverside framework called Vert.x to
+    deliver the HTML, JavaScript, and CSS to the browser. -->
+
+--
+
+* Simple data objects
+
+<!-- To manage all of the different types of data we have, we used very
+    simple objects made from only a few fields. These classes consisted of
+    useful -->
+
+--
+
+* Manager classes for the data
+
+<!-- To manage these simple objects, we used separate manager classes. These
+    classes are responsible for creating, removing, and uploading objects to
+    and from the database. -->
+
+--
+
+* JDBC Wrapper for Database Connection
+
+<!-- We used the Java Connectivity Database API, or JDBC, to connect to the database. -->
+
+--
+
+## Clientside
+
+* Handlebars Templates
+
+<!-- We used a templating language called Handlebars to transfer data from the
+    web server to the client. This data is embedded into the HTML when the browser
+    requests a page. -->
+
+---
+name: design
+### Architecture
+<img style="width:100%"  src="deliverable8/Architecture.png">
+
+
+---
+name: demo
+# Demo
+
+[Demo Video](https://www.youtube.com/watch?v=T7nLQfr48Gc)
+
+
+---
+name: evaluation
+# User Evaluation
+
+--
+
+
+3 Follow Up Interviews Performed:
+
+
+
+        * D. Karp
+
+             -Research Assistant Head
+
+        * M. Mahmoudi
+
+             -PHd Candidate
+
+        * C. Weber
+
+             -Peer Review Researcher
+
+
+---
+name: evaluation
+# User Evaluation : Opinions
+--
+
+    Research Assistant Head:
+--
+        * Liked:
+            - Community Sharing Feature
+            - Quick PDF Access
+            - Tags to Sort Papers into Groups
+--
+        * Disliked:
+            - Display Needs Improvement
+--
+
+
+    PHd Candidate:
+--
+        * Liked:
+            - Sorting Papers by Tags
+            - The Project Concept
+--
+        * Disliked:
+            - The Current Product is too Simple to use
+            - Community Sharing (Only Wants an Executable File)
+            - Tags Going to Whole Paper Instead of Specific Paper Sections
+--
+
+
+    Peer Review Researcher:
+--
+        * Liked:
+            - The Project Concept
+--
+        * Disliked:
+            - Competing with Mendella
+            - Further User Testing is Necessary (1000+)
+---
+name: evaluation
+# User Evaluation : Interview Results
+--
+
+    Would Use Pulp as is:
+--
+
+
+        * 2 Would Not
+
+
+        * 1 Would
+
+
+--
+
+     Would Use Pulp if Further Developed:
+--
+
+
+
+        * All 3 Would
+--
+
+
+
+    However, each interviewee had their own desired features...
+---
+name: evaluation
+# User Evaluation : Future Refinement
+--
+
+    If Modified to Meet All Client Needs:
+
+--
+        Add Features:
+--
+
+            * Annotations / Tagging Specific PDF sections
+
+            * Commenting and Threads
+
+            * Secure Group Sharing
+
+            * Task Assignment
+--
+
+
+        Expand Platform:
+--
+
+            * Offline Access and Functionality
+
+            * Database on User's Device
+
+---
+name: conclusion
+# Conclusion
+
+--
+
+* Trajectory
+
+--
+
+  - It was rough
+
+--
+
+* Learned
+
+--
+
+  - Everything
+
+  - Have a lot to learn
+
+--
+
+  - Vert.X framework
+
+  - Back end web development
+
+  - Group work is difficult!
+
+  - Everyone has a different experience level coming in
+
+  - Brushing up on Java
+
+---
+# Conclusion
+### Hindsight
+
+* Better onboarding
+  - Tuesday we found a great Udemy course on Vert.x, should've looked earlier and assigned it week 1.
+* More popular and documented framework
+  - Vert.x 4 released December 2020, resources not updated
+* Familiar programming paradigm
+  - Vert.x is an async framework, we should've gone for imperative
+
+--
+
+### Lessons
+* Communicate capabilities!
+* Learn early
+* Don't incorporate unfamiliar technologies
+* If possible, start with a full stack already setup
+  - Docker compose, with database and example site, and working automated deployment.
+
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js">
+</script>
+<script>
+    var slideshow = remark.create();
+
+</script>
+</body>
+</html>
